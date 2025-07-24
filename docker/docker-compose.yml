@@ -84,9 +84,9 @@ services:
     restart: on-failure
     volumes:
       - mongo-data:/data/db
-    #uncomment if you want to expose the mongodb server
-    #ports:
-    #  - "${MONGO_PORT:-27017}:27017"
+    # expose the mongodb server on port 27018 to avoid conflicts with local MongoDB
+    ports:
+      - "${MONGO_PORT:-27018}:27017"
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/test --quiet
       interval: 5s

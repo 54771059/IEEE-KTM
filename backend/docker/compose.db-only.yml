@@ -15,7 +15,7 @@ services:
     image: mongo:5.0.13
     restart: on-failure
     ports:
-      - "${DOCKER_DB_PORT:-27017}:27017"
+      - "${DOCKER_DB_PORT:-27018}:27017"
     volumes:
       - mongo-data:/data/db
 

@@ -1,0 +1,19 @@
+{
+  "configuration": {
+    "results": {
+      "savingEnabled": true
+    },
+    "users": {
+      "signUp": true,
+      "profiles": {
+        "enabled": true
+      }
+    },
+    "dailyLeaderboards": {
+      "enabled": false
+    },
+    "leaderboards": {
+      "minTimeTyping": 0
+    }
+  }
+}
