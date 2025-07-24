@@ -4,6 +4,7 @@ import * as TestInput from "./test-input";
 import * as SlowTimer from "../states/slow-timer";
 import * as TestState from "../test/test-state";
 import * as TestWords from "./test-words";
+import * as ActivePage from "../states/active-page";
 import { prefersReducedMotion } from "../utils/misc";
 import { convertRemToPixels } from "../utils/numbers";
 import { splitIntoCharacters } from "../utils/strings";
@@ -38,7 +39,11 @@ export function hide(): void {
 
 function getSpaceWidth(wordElement?: HTMLElement): number {
   if (!wordElement) {
-    const el = document.querySelector<HTMLElement>("#words .word");
+    const el = document.querySelector<HTMLElement>(
+      ActivePage.get() === "contest"
+        ? ".pageContest #words .word"
+        : ".pageTest #words .word"
+    );
     if (el) {
       wordElement = el;
     } else {
@@ -101,7 +106,13 @@ function getTargetPositionLeft(
     result = activeWordElement.offsetLeft + positionOffsetToWord;
   } else {
     const wordsWrapperWidth =
-      $(document.querySelector("#wordsWrapper") as HTMLElement).width() ?? 0;
+      $(
+        document.querySelector(
+          ActivePage.get() === "contest"
+            ? ".pageContest #wordsWrapper"
+            : ".pageTest #wordsWrapper"
+        ) as HTMLElement
+      ).width() ?? 0;
     const tapeMargin =
       wordsWrapperWidth *
       (isLanguageRightToLeft
@@ -166,10 +177,11 @@ export async function updatePosition(noAnim = false): Promise<void> {
   let wordLen = splitIntoCharacters(TestWords.words.getCurrent()).length;
   const inputLen = splitIntoCharacters(TestInput.input.current).length;
   if (Config.mode === "zen") wordLen = inputLen;
-  const activeWordEl =
-    document.querySelectorAll<HTMLElement>("#words .word")[
-      TestState.activeWordIndex - TestState.removedUIWordCount
-    ];
+  const activeWordEl = document.querySelectorAll<HTMLElement>(
+    ActivePage.get() === "contest"
+      ? ".pageContest #words .word"
+      : ".pageTest #words .word"
+  )[TestState.activeWordIndex - TestState.removedUIWordCount];
   if (!activeWordEl) return;
 
   const currentWordNodeList =

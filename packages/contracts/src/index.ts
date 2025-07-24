@@ -12,6 +12,7 @@ import { devContract } from "./dev";
 import { usersContract } from "./users";
 import { quotesContract } from "./quotes";
 import { webhooksContract } from "./webhooks";
+import { contestsContract } from "./contests";
 
 const c = initContract();
 
@@ -29,6 +30,7 @@ export const contract = c.router({
   users: usersContract,
   quotes: quotesContract,
   webhooks: webhooksContract,
+  contests: contestsContract,
 });
 
 /**

@@ -123,5 +123,13 @@ export const ConfigurationSchema = z.object({
       xpRewardBrackets: z.array(RewardBracketSchema),
     }),
   }),
+  contests: z.object({
+    enabled: z.boolean(),
+    isActive: z.boolean(),
+    name: z.string(),
+    description: z.string(),
+    startTime: z.number(),
+    endTime: z.number(),
+  }),
 });
 export type Configuration = z.infer<typeof ConfigurationSchema>;

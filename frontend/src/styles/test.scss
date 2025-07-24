@@ -1405,3 +1405,37 @@ body.fb-arrows {
     }
   }
 }
+
+// Contest name styling
+#contestName {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--main-color);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  padding: 1rem;
+
+  i {
+    color: var(--sub-color);
+    font-size: 1.8rem;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+// Contest mode layout adjustments
+.pageTest:has(#testConfig.hidden) {
+  // When testConfig is hidden (contest mode), center the content properly
+  grid-template-rows: 1fr;
+  place-items: center;
+
+  #typingTest {
+    align-self: center;
+  }
+}

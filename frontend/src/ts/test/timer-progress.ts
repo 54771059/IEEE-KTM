@@ -6,16 +6,44 @@ import * as TestInput from "./test-input";
 import * as Time from "../states/time";
 import * as SlowTimer from "../states/slow-timer";
 import * as TestState from "./test-state";
+import * as ActivePage from "../states/active-page";
 import * as ConfigEvent from "../observables/config-event";
 
-const barEl = $("#barTimerProgress .bar");
-const barOpacityEl = $("#barTimerProgress .opacityWrapper");
-const textEl = $("#liveStatsTextTop .timerProgress");
-const miniEl = $("#liveStatsMini .time");
+function getBarEl(): JQuery<HTMLElement> {
+  return $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #barTimerProgress .bar"
+      : ".pageTest #barTimerProgress .bar"
+  );
+}
+
+function getBarOpacityEl(): JQuery<HTMLElement> {
+  return $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #barTimerProgress .opacityWrapper"
+      : ".pageTest #barTimerProgress .opacityWrapper"
+  );
+}
+
+function getTextEl(): JQuery<HTMLElement> {
+  return $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #liveStatsTextTop .timerProgress"
+      : ".pageTest #liveStatsTextTop .timerProgress"
+  );
+}
+
+function getMiniEl(): JQuery<HTMLElement> {
+  return $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #liveStatsMini .time"
+      : ".pageTest #liveStatsMini .time"
+  );
+}
 
 export function show(): void {
   if (Config.mode !== "zen" && Config.timerStyle === "bar") {
-    barOpacityEl
+    getBarOpacityEl()
       .stop(true, true)
       .removeClass("hidden")
       .css("opacity", 0)
@@ -26,19 +54,27 @@ export function show(): void {
         125
       );
   } else if (Config.timerStyle === "text") {
-    textEl.stop(true, true).removeClass("hidden").css("opacity", 0).animate(
-      {
-        opacity: 1,
-      },
-      125
-    );
+    getTextEl()
+      .stop(true, true)
+      .removeClass("hidden")
+      .css("opacity", 0)
+      .animate(
+        {
+          opacity: 1,
+        },
+        125
+      );
   } else if (Config.mode === "zen" || Config.timerStyle === "mini") {
-    miniEl.stop(true, true).removeClass("hidden").css("opacity", 0).animate(
-      {
-        opacity: 1,
-      },
-      125
-    );
+    getMiniEl()
+      .stop(true, true)
+      .removeClass("hidden")
+      .css("opacity", 0)
+      .animate(
+        {
+          opacity: 1,
+        },
+        125
+      );
   }
 }
 
@@ -50,33 +86,35 @@ export function reset(): void {
   ) {
     width = "100vw";
   }
-  barEl.stop(true, true).animate(
+  getBarEl().stop(true, true).animate(
     {
       width,
     },
     0
   );
-  miniEl.text("0");
-  textEl.text("0");
+  getMiniEl().text("0");
+  getTextEl().text("0");
 }
 
 export function hide(): void {
-  barOpacityEl.stop(true, true).animate(
+  getBarOpacityEl().stop(true, true).animate(
     {
       opacity: 0,
     },
     125
   );
-  miniEl.stop(true, true).animate(
-    {
-      opacity: 0,
-    },
-    125,
-    () => {
-      miniEl.addClass("hidden");
-    }
-  );
-  textEl.stop(true, true).animate(
+  getMiniEl()
+    .stop(true, true)
+    .animate(
+      {
+        opacity: 0,
+      },
+      125,
+      () => {
+        getMiniEl().addClass("hidden");
+      }
+    );
+  getTextEl().stop(true, true).animate(
     {
       opacity: 0,
     },
@@ -84,8 +122,13 @@ export function hide(): void {
   );
 }
 
-const timerNumberElement = textEl[0] as HTMLElement;
-const miniTimerNumberElement = miniEl[0] as HTMLElement;
+function getTimerNumberElement(): HTMLElement {
+  return getTextEl()[0] as HTMLElement;
+}
+
+function getMiniTimerNumberElement(): HTMLElement {
+  return getMiniEl()[0] as HTMLElement;
+}
 
 function getCurrentCount(): number {
   if (Config.mode === "custom" && CustomText.getLimitMode() === "section") {
@@ -110,28 +153,30 @@ export function update(): void {
     }
     if (Config.timerStyle === "bar") {
       const percent = 100 - ((time + 1) / maxtime) * 100;
-      barEl.stop(true, true).animate(
-        {
-          width: percent + "vw",
-        },
-        SlowTimer.get() ? 0 : 1000,
-        "linear"
-      );
+      getBarEl()
+        .stop(true, true)
+        .animate(
+          {
+            width: percent + "vw",
+          },
+          SlowTimer.get() ? 0 : 1000,
+          "linear"
+        );
     } else if (Config.timerStyle === "text") {
       let displayTime = DateTime.secondsToString(maxtime - time);
       if (maxtime === 0) {
         displayTime = DateTime.secondsToString(time);
       }
-      if (timerNumberElement !== null) {
-        timerNumberElement.innerHTML = "<div>" + displayTime + "</div>";
+      if (getTimerNumberElement() !== null) {
+        getTimerNumberElement().innerHTML = "<div>" + displayTime + "</div>";
       }
     } else if (Config.timerStyle === "mini") {
       let displayTime = DateTime.secondsToString(maxtime - time);
       if (maxtime === 0) {
         displayTime = DateTime.secondsToString(time);
       }
-      if (miniTimerNumberElement !== null) {
-        miniTimerNumberElement.innerHTML = displayTime;
+      if (getMiniTimerNumberElement() !== null) {
+        getMiniTimerNumberElement().innerHTML = displayTime;
       }
     }
   } else if (
@@ -153,47 +198,49 @@ export function update(): void {
       const percent = Math.floor(
         ((TestState.activeWordIndex + 1) / outof) * 100
       );
-      barEl.stop(true, true).animate(
-        {
-          width: percent + "vw",
-        },
-        SlowTimer.get() ? 0 : 250
-      );
+      getBarEl()
+        .stop(true, true)
+        .animate(
+          {
+            width: percent + "vw",
+          },
+          SlowTimer.get() ? 0 : 250
+        );
     } else if (Config.timerStyle === "text") {
       if (outof === 0) {
-        if (timerNumberElement !== null) {
-          timerNumberElement.innerHTML = `<div>${
+        if (getTimerNumberElement() !== null) {
+          getTimerNumberElement().innerHTML = `<div>${
             TestInput.input.getHistory().length
           }</div>`;
         }
       } else {
-        if (timerNumberElement !== null) {
-          timerNumberElement.innerHTML = `<div>${getCurrentCount()}/${outof}</div>`;
+        if (getTimerNumberElement() !== null) {
+          getTimerNumberElement().innerHTML = `<div>${getCurrentCount()}/${outof}</div>`;
         }
       }
     } else if (Config.timerStyle === "mini") {
       if (outof === 0) {
-        if (miniTimerNumberElement !== null) {
-          miniTimerNumberElement.innerHTML = `${
+        if (getMiniTimerNumberElement() !== null) {
+          getMiniTimerNumberElement().innerHTML = `${
             TestInput.input.getHistory().length
           }`;
         }
       } else {
-        if (miniTimerNumberElement !== null) {
-          miniTimerNumberElement.innerHTML = `${getCurrentCount()}/${outof}`;
+        if (getMiniTimerNumberElement() !== null) {
+          getMiniTimerNumberElement().innerHTML = `${getCurrentCount()}/${outof}`;
         }
       }
     }
   } else if (Config.mode === "zen") {
     if (Config.timerStyle === "text") {
-      if (timerNumberElement !== null) {
-        timerNumberElement.innerHTML = `<div>${
+      if (getTimerNumberElement() !== null) {
+        getTimerNumberElement().innerHTML = `<div>${
           TestInput.input.getHistory().length
         }</div>`;
       }
     } else {
-      if (miniTimerNumberElement !== null) {
-        miniTimerNumberElement.innerHTML = `${
+      if (getMiniTimerNumberElement() !== null) {
+        getMiniTimerNumberElement().innerHTML = `${
           TestInput.input.getHistory().length
         }`;
       }

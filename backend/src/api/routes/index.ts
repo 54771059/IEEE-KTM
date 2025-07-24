@@ -3,6 +3,7 @@ import { contract } from "@monkeytype/contracts/index";
 import psas from "./psas";
 import publicStats from "./public";
 import users from "./users";
+import contests from "./contests";
 import { join } from "path";
 import quotes from "./quotes";
 import results from "./results";
@@ -61,6 +62,7 @@ const router = s.router(contract, {
   users,
   quotes,
   webhooks,
+  contests,
 });
 
 export function addApiRoutes(app: Application): void {

@@ -153,18 +153,28 @@ export function reset(): void {
 }
 
 export function focusWords(): void {
-  $("#wordsInput").trigger("focus");
+  // Get the correct wordsInput element based on active page
+  const pageSelector =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+  $(`${pageSelector} #wordsInput`).trigger("focus");
 }
 
 export function blurWords(): void {
-  $("#wordsInput").trigger("blur");
+  // Get the correct wordsInput element based on active page
+  const pageSelector =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+  $(`${pageSelector} #wordsInput`).trigger("blur");
 }
 
 export function updateActiveElement(
   backspace?: boolean,
   initial = false
 ): void {
-  const active = document.querySelector("#words .active");
+  // Get the correct page context for selectors
+  const pageSelector =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+
+  const active = document.querySelector(`${pageSelector} #words .active`);
   if (!backspace) {
     active?.classList.add("typed");
   }
@@ -173,9 +183,11 @@ export function updateActiveElement(
   } else if (active !== null && !initial) {
     active.classList.remove("active");
   }
-  const newActiveWord = document.querySelectorAll("#words .word")[
-    TestState.activeWordIndex - TestState.removedUIWordCount
-  ] as HTMLElement | undefined;
+  const newActiveWord = document.querySelectorAll(
+    `${pageSelector} #words .word`
+  )[TestState.activeWordIndex - TestState.removedUIWordCount] as
+    | HTMLElement
+    | undefined;
 
   if (newActiveWord === undefined) {
     throw new Error("activeWord is undefined - can't update active element");
@@ -442,7 +454,12 @@ function updateWordWrapperClasses(): void {
 }
 
 export function showWords(): void {
-  $("#words").empty();
+  // Get the correct words element based on active page
+  const pageSelector =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+  const wordsElement = $(`${pageSelector} #words`);
+
+  wordsElement.empty();
 
   if (Config.mode === "zen") {
     appendEmptyWordElement();
@@ -451,7 +468,7 @@ export function showWords(): void {
     for (let i = 0; i < TestWords.words.length; i++) {
       wordsHTML += getWordHTML(TestWords.words.get(i));
     }
-    $("#words").html(wordsHTML);
+    wordsElement.html(wordsHTML);
   }
 
   updateActiveElement(undefined, true);
@@ -462,7 +479,10 @@ export function showWords(): void {
 }
 
 export function appendEmptyWordElement(): void {
-  $("#words").append(
+  // Get the correct words element based on active page
+  const pageSelector =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+  $(`${pageSelector} #words`).append(
     "<div class='word'><letter class='invisible'>_</letter></div>"
   );
 }
@@ -564,11 +584,19 @@ export async function centerActiveLine(): Promise<void> {
 }
 
 export function updateWordsWrapperHeight(force = false): void {
-  if (ActivePage.get() !== "test" || resultVisible) return;
+  if (
+    (ActivePage.get() !== "test" && ActivePage.get() !== "contest") ||
+    resultVisible
+  )
+    return;
   if (!force && Config.mode !== "custom") return;
-  const wrapperEl = document.getElementById("wordsWrapper") as HTMLElement;
+  const pageSelector =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+  const wrapperEl = document.querySelector(
+    `${pageSelector} #wordsWrapper`
+  ) as HTMLElement;
   const outOfFocusEl = document.querySelector(
-    ".outOfFocusWarning"
+    `${pageSelector} .outOfFocusWarning`
   ) as HTMLElement;
   const wordElements = wrapperEl.querySelectorAll<HTMLElement>("#words .word");
   const activeWordEl =
@@ -675,7 +703,10 @@ function updateWordsMargin<T extends unknown[]>(
 }
 
 export function addWord(word: string): void {
-  $("#words").append(getWordHTML(word));
+  // Get the correct words element based on active page
+  const pageSelector =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+  $(`${pageSelector} #words`).append(getWordHTML(word));
 }
 
 export function flipColors(tf: boolean): void {
@@ -1594,16 +1625,44 @@ function updateLiveStatsMargin(): void {
 }
 
 function updateLiveStatsOpacity(value: TimerOpacity): void {
-  $("#barTimerProgress").css("opacity", parseFloat(value as string));
-  $("#liveStatsTextTop").css("opacity", parseFloat(value as string));
-  $("#liveStatsTextBottom").css("opacity", parseFloat(value as string));
-  $("#liveStatsMini").css("opacity", parseFloat(value as string));
+  $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #barTimerProgress"
+      : ".pageTest #barTimerProgress"
+  ).css("opacity", parseFloat(value as string));
+  $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #liveStatsTextTop"
+      : ".pageTest #liveStatsTextTop"
+  ).css("opacity", parseFloat(value as string));
+  $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #liveStatsTextBottom"
+      : ".pageTest #liveStatsTextBottom"
+  ).css("opacity", parseFloat(value as string));
+  $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #liveStatsMini"
+      : ".pageTest #liveStatsMini"
+  ).css("opacity", parseFloat(value as string));
 }
 
 function updateLiveStatsColor(value: TimerColor): void {
-  $("#barTimerProgress").removeClass("timerSub");
-  $("#barTimerProgress").removeClass("timerText");
-  $("#barTimerProgress").removeClass("timerMain");
+  $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #barTimerProgress"
+      : ".pageTest #barTimerProgress"
+  ).removeClass("timerSub");
+  $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #barTimerProgress"
+      : ".pageTest #barTimerProgress"
+  ).removeClass("timerText");
+  $(
+    ActivePage.get() === "contest"
+      ? ".pageContest #barTimerProgress"
+      : ".pageTest #barTimerProgress"
+  ).removeClass("timerMain");
 
   $("#liveStatsTextTop").removeClass("timerSub");
   $("#liveStatsTextTop").removeClass("timerText");
@@ -1715,7 +1774,7 @@ addEventListener("resize", () => {
   ResultWordHighlight.destroy();
 });
 
-$("#wordsInput").on("focus", (e) => {
+$(".pageTest #wordsInput, .pageContest #wordsInput").on("focus", (e) => {
   const wordsFocused = e.target === document.activeElement;
   if (!wordsFocused) return;
   if (!resultVisible && Config.showOutOfFocusWarning) {
@@ -1724,7 +1783,7 @@ $("#wordsInput").on("focus", (e) => {
   Caret.show(true);
 });
 
-$("#wordsInput").on("focusout", () => {
+$(".pageTest #wordsInput, .pageContest #wordsInput").on("focusout", () => {
   if (!resultVisible && Config.showOutOfFocusWarning) {
     OutOfFocus.show();
   }
@@ -1735,7 +1794,7 @@ $(".pageTest").on("click", "#showWordHistoryButton", () => {
   toggleResultWords();
 });
 
-$("#wordsWrapper").on("click", () => {
+$(".pageTest #wordsWrapper, .pageContest #wordsWrapper").on("click", () => {
   focusWords();
 });
 

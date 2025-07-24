@@ -5,6 +5,7 @@ import { Auth, isAuthenticated } from "../firebase";
 import { isFunboxActive } from "../test/funbox/list";
 import * as TestState from "../test/test-state";
 import * as Notifications from "../elements/notifications";
+import * as ContestMode from "../states/contest-mode";
 
 //source: https://www.youtube.com/watch?v=OstALBk-jTc
 // https://www.youtube.com/watch?v=OstALBk-jTc
@@ -45,6 +46,10 @@ type Route = {
 const route404: Route = {
   path: "404",
   load: (): void => {
+    // Exit contest mode when navigating to 404 page
+    if (ContestMode.isContestMode()) {
+      ContestMode.exitContestMode();
+    }
     void PageController.change("404");
   },
 };
@@ -53,30 +58,75 @@ const routes: Route[] = [
   {
     path: "/",
     load: (): void => {
+      // Exit contest mode when navigating to home page manually
+      // (but not when joining a contest)
+      if (ContestMode.isContestMode()) {
+        // Check if this navigation is from a contest join (has activeContest but no URL contest param)
+        const urlParams = new URLSearchParams(window.location.search);
+        const contestParam = urlParams.get("contest");
+
+        // Exit contest mode only if not joining contest
+        if (contestParam !== "true") {
+          ContestMode.exitContestMode();
+        }
+      }
       void PageController.change("test");
     },
   },
   {
     path: "/verify",
     load: (): void => {
+      // Exit contest mode when navigating to verify page
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
       void PageController.change("test");
     },
   },
   {
     path: "/leaderboards",
     load: (): void => {
+      // Exit contest mode when navigating to leaderboards
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
       void PageController.change("leaderboards");
+    },
+  },
+  {
+    path: "/contests",
+    load: (): void => {
+      // Exit contest mode when navigating to contests page
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
+      void PageController.change("contests");
+    },
+  },
+  {
+    path: "/contest",
+    load: (): void => {
+      // Redirect to test page with contest mode enabled
+      navigate("/?contest=true");
     },
   },
   {
     path: "/about",
     load: (): void => {
+      // Exit contest mode when navigating to about
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
       void PageController.change("about");
     },
   },
   {
     path: "/settings",
     load: (): void => {
+      // Exit contest mode when navigating to settings
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
       void PageController.change("settings");
     },
   },
@@ -91,6 +141,10 @@ const routes: Route[] = [
         navigate("/account");
         return;
       }
+      // Exit contest mode when navigating to login
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
       void PageController.change("login");
     },
   },
@@ -100,6 +154,10 @@ const routes: Route[] = [
       if (!Auth) {
         navigate("/");
         return;
+      }
+      // Exit contest mode when navigating to account
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
       }
       void PageController.change("account", {
         data: options.data,
@@ -117,6 +175,10 @@ const routes: Route[] = [
         navigate("/login");
         return;
       }
+      // Exit contest mode when navigating to account settings
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
       void PageController.change("accountSettings", {
         data: options.data,
       });
@@ -125,12 +187,20 @@ const routes: Route[] = [
   {
     path: "/profile",
     load: (_params): void => {
+      // Exit contest mode when navigating to profile search
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
       void PageController.change("profileSearch");
     },
   },
   {
     path: "/profile/:uidOrName",
     load: (params, options): void => {
+      // Exit contest mode when navigating to profile
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
       void PageController.change("profile", {
         force: true,
         params: {

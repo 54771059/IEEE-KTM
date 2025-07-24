@@ -54,6 +54,7 @@ export type CharStats = z.infer<typeof CharStatsSchema>;
 const ResultBaseSchema = z.object({
   wpm: WpmSchema,
   rawWpm: WpmSchema,
+  cpm: z.number().nonnegative().optional(), // Characters per minute (strokes per minute)
   charStats: CharStatsSchema,
   acc: PercentageSchema.min(50),
   mode: ModeSchema,

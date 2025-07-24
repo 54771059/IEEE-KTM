@@ -1,0 +1,102 @@
+<div class="page pageContests hidden" id="pageContests">
+  <div class="content">
+    <div class="bigtitle">
+      <div class="text"><h2>Contest Mode</h2></div>
+      <div class="subtext">
+        <div class="text">Compete with others in typing contests</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Loading state -->
+    <div class="loading hidden">
+      <i class="fas fa-circle-notch fa-spin"></i>
+      <div>Loading contest information...</div>
+    </div>
+
+    <!-- Error state -->
+    <div class="error hidden">
+      <i class="fas fa-times"></i>
+      <div class="message">Failed to load contest</div>
+      <button id="refreshContestButton" class="textButton">
+        <i class="fas fa-refresh"></i>
+        Try again
+      </button>
+    </div>
+
+    <!-- No active contest -->
+    <div class="noActiveContest hidden">
+      <div class="noDataError">
+        <i class="fas fa-calendar-times"></i>
+        <div class="title">No Active Contest</div>
+        <div class="subtitle">
+          There is currently no active typing contest. Check back later!
+        </div>
+        <button id="refreshContestButton" class="textButton">
+          <i class="fas fa-refresh"></i>
+          Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- Active contest -->
+    <div class="activeContest hidden">
+      <div class="contestInfo">
+        <div class="contestHeader">
+          <div class="contestName">-</div>
+          <div class="contestStatus">-</div>
+        </div>
+        <div class="contestDescription">-</div>
+        <div class="timeInfo">-</div>
+      </div>
+
+      <!-- Contest Actions -->
+      <div class="contestActions hidden">
+        <div class="buttonGroup">
+          <button id="joinContestButton" class="textButton">
+            <i class="fas fa-play"></i>
+            Join Contest
+          </button>
+          <button id="viewResultsButton" class="textButton">
+            <i class="fas fa-chart-line"></i>
+            My Results
+          </button>
+          <button id="refreshContestButton" class="textButton">
+            <i class="fas fa-refresh"></i>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="leaderboard hidden">
+        <div class="title"><h2>Leaderboard (PLACEHOLDER!!!)</h2></div>
+        <table>
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Name</td>
+              <td class="stat">WPM</td>
+              <td class="stat">Accuracy</td>
+              <td class="stat">Attempts</td>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Leaderboard entries will be populated here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Navigation Section -->
+    <div class="navigationSection">
+      <div class="title">Navigation</div>
+      <div class="buttonGroup">
+        <button id="goToNormalTestButton" class="textButton">
+          <i class="fas fa-home"></i>
+          Go to Homepage
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

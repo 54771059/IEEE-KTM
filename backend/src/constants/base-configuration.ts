@@ -103,6 +103,14 @@ export const BASE_CONFIGURATION: Configuration = {
       xpRewardBrackets: [],
     },
   },
+  contests: {
+    enabled: true,
+    isActive: false,
+    name: "",
+    description: "",
+    startTime: 0,
+    endTime: 0,
+  },
 };
 
 type BaseSchema = {
@@ -600,6 +608,36 @@ export const CONFIGURATION_FORM_SCHEMA: ObjectSchema<Configuration> = {
               },
             },
           },
+        },
+      },
+    },
+    contests: {
+      type: "object",
+      label: "Contests",
+      fields: {
+        enabled: {
+          type: "boolean",
+          label: "Enabled",
+        },
+        isActive: {
+          type: "boolean",
+          label: "Is Active",
+        },
+        name: {
+          type: "string",
+          label: "Contest Name",
+        },
+        description: {
+          type: "string",
+          label: "Contest Description",
+        },
+        startTime: {
+          type: "number",
+          label: "Start Time (timestamp)",
+        },
+        endTime: {
+          type: "number",
+          label: "End Time (timestamp)",
         },
       },
     },

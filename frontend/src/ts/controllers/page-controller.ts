@@ -1,5 +1,7 @@
 import * as Misc from "../utils/misc";
 import * as Strings from "../utils/strings";
+import * as PageContests from "../pages/contests";
+import * as PageContest from "../pages/contest";
 import * as ActivePage from "../states/active-page";
 import * as Settings from "../pages/settings";
 import * as Account from "../pages/account";
@@ -78,6 +80,8 @@ export async function change(
       404: Page404.page,
       accountSettings: PageAccountSettings.page,
       leaderboards: PageLeaderboards.page,
+      contests: PageContests.page,
+      contest: PageContest.page,
     };
 
     const previousPage = pages[ActivePage.get()];

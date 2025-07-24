@@ -47,6 +47,7 @@ import * as ConfigEvent from "../observables/config-event";
 import * as TimerEvent from "../observables/timer-event";
 import * as Last10Average from "../elements/last-10-average";
 import * as Monkey from "./monkey";
+import * as ContestMode from "../states/contest-mode";
 import objectHash from "object-hash";
 import * as AnalyticsController from "../controllers/analytics-controller";
 import { Auth, isAuthenticated } from "../firebase";
@@ -177,7 +178,7 @@ export function restart(options = {} as RestartOptions): void {
     event?.preventDefault();
     return;
   }
-  if (ActivePage.get() === "test") {
+  if (ActivePage.get() === "test" || ActivePage.get() === "contest") {
     if (!ManualRestart.get()) {
       if (Config.mode !== "zen") event?.preventDefault();
       if (
@@ -332,7 +333,7 @@ export function restart(options = {} as RestartOptions): void {
       }
 
       Focus.set(false);
-      if (ActivePage.get() === "test") {
+      if (ActivePage.get() === "test" || ActivePage.get() === "contest") {
         AdController.updateFooterAndVerticalAds(false);
       }
       TestConfig.show();
@@ -455,7 +456,7 @@ export async function init(): Promise<void | null> {
     return await init();
   }
 
-  if (ActivePage.get() === "test") {
+  if (ActivePage.get() === "test" || ActivePage.get() === "contest") {
     await Funbox.activate();
   }
 
@@ -711,7 +712,7 @@ export async function retrySavingResult(): Promise<void> {
 
   Notifications.add("Retrying to save...");
 
-  await saveResult(completedEvent, true);
+  await saveResult(completedEvent, true, false);
 }
 
 function buildCompletedEvent(
@@ -1169,12 +1170,13 @@ export async function finish(difficultyFailed = false): Promise<void> {
 
   completedEvent.hash = objectHash(completedEvent);
 
-  await saveResult(completedEvent, false);
+  await saveResult(completedEvent, false, dontSave);
 }
 
 async function saveResult(
   completedEvent: CompletedEvent,
-  isRetrying: boolean
+  isRetrying: boolean,
+  dontSave: boolean
 ): Promise<void> {
   if (!TestState.savingEnabled) {
     Notifications.add("Result not saved: disabled by user", -1, {
@@ -1198,6 +1200,13 @@ async function saveResult(
     if (!isRetrying) {
       retrySaving.completedEvent = completedEvent;
     }
+    return;
+  }
+
+  // If in contest mode, only submit to contest, not to user's personal results
+  if (ContestMode.isContestMode() && !dontSave) {
+    AccountButton.loading(false);
+    await ContestMode.submitContestResult(completedEvent);
     return;
   }
 
@@ -1472,15 +1481,29 @@ $(".pageTest").on("click", "#testConfig .numbersMode.textButton", () => {
   }
 });
 
-$("header").on("click", "nav #startTestButton, #logo", () => {
-  if (ActivePage.get() === "test") restart();
+$("header").on("click", "nav #startTestButton, #logo", (e) => {
+  console.log(
+    "Logo/keyboard clicked. Contest mode:",
+    ContestMode.isContestMode()
+  );
+
+  // If in contest mode, exit contest mode and allow navigation to home
+  if (ContestMode.isContestMode()) {
+    console.log("Exiting contest mode from logo/keyboard click");
+    ContestMode.exitContestMode();
+    // Don't prevent default - allow router-link to navigate to home
+    return;
+  }
+
+  // Regular behavior: restart test if on test page
+  if (ActivePage.get() === "test" || ActivePage.get() === "contest") restart();
   // Result.showConfetti();
 });
 
 // ===============================
 
 ConfigEvent.subscribe((eventKey, eventValue, nosave) => {
-  if (ActivePage.get() === "test") {
+  if (ActivePage.get() === "test" || ActivePage.get() === "contest") {
     if (eventKey === "language") {
       //automatically enable lazy mode for arabic
       if (

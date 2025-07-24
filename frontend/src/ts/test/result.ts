@@ -1,6 +1,7 @@
 //TODO: use Format
 import { Chart, type PluginChartOptions } from "chart.js";
 import Config from "../config";
+import * as ActivePage from "../states/active-page";
 import * as AdController from "../controllers/ad-controller";
 import * as ChartController from "../controllers/chart-controller";
 import QuotesController, { Quote } from "../controllers/quotes-controller";
@@ -47,6 +48,13 @@ let result: CompletedEvent;
 let maxChartVal: number;
 
 let useUnsmoothedRaw = false;
+
+// Helper function to get page-aware result selector
+function getResultSelector(selector: string): string {
+  const pagePrefix =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+  return `${pagePrefix} #result${selector}`;
+}
 
 let quoteLang: Language | undefined;
 let quoteId = "";
@@ -902,8 +910,8 @@ export async function update(
   }
 
   if (GlarsesMode.get()) {
-    $("main #result .noStressMessage").remove();
-    $("main #result").prepend(`
+    $(getResultSelector(" .noStressMessage")).remove();
+    $(getResultSelector("")).prepend(`
 
       <div class='noStressMessage' style="
         text-align: center;
@@ -915,28 +923,28 @@ export async function update(
       </div>
 
     `);
-    $("main #result .stats").addClass("hidden");
-    $("main #result .chart").addClass("hidden");
-    $("main #result #resultWordsHistory").addClass("hidden");
-    $("main #result #resultReplay").addClass("hidden");
-    $("main #result .loginTip").addClass("hidden");
-    $("main #result #showWordHistoryButton").addClass("hidden");
-    $("main #result #watchReplayButton").addClass("hidden");
-    $("main #result #saveScreenshotButton").addClass("hidden");
+    $(getResultSelector(" .stats")).addClass("hidden");
+    $(getResultSelector(" .chart")).addClass("hidden");
+    $(getResultSelector(" #resultWordsHistory")).addClass("hidden");
+    $(getResultSelector(" #resultReplay")).addClass("hidden");
+    $(getResultSelector(" .loginTip")).addClass("hidden");
+    $(getResultSelector(" #showWordHistoryButton")).addClass("hidden");
+    $(getResultSelector(" #watchReplayButton")).addClass("hidden");
+    $(getResultSelector(" #saveScreenshotButton")).addClass("hidden");
 
     console.log(
       `Test Completed: ${result.wpm} wpm ${result.acc}% acc ${result.rawWpm} raw ${result.consistency}% consistency`
     );
   } else {
-    $("main #result .stats").removeClass("hidden");
-    $("main #result .chart").removeClass("hidden");
-    // $("main #result #resultWordsHistory").removeClass("hidden");
+    $(getResultSelector(" .stats")).removeClass("hidden");
+    $(getResultSelector(" .chart")).removeClass("hidden");
+    // $(getResultSelector(" #resultWordsHistory")).removeClass("hidden");
     if (!isAuthenticated()) {
-      $("main #result .loginTip").removeClass("hidden");
+      $(getResultSelector(" .loginTip")).removeClass("hidden");
     }
-    $("main #result #showWordHistoryButton").removeClass("hidden");
-    $("main #result #watchReplayButton").removeClass("hidden");
-    $("main #result #saveScreenshotButton").removeClass("hidden");
+    $(getResultSelector(" #showWordHistoryButton")).removeClass("hidden");
+    $(getResultSelector(" #watchReplayButton")).removeClass("hidden");
+    $(getResultSelector(" #saveScreenshotButton")).removeClass("hidden");
   }
 
   if (window.scrollY > 0) {
@@ -948,14 +956,30 @@ export async function update(
   TestConfig.hide();
 
   void Misc.swapElements(
-    $("#typingTest"),
-    $("#result"),
+    $(
+      ActivePage.get() === "contest"
+        ? ".pageContest #typingTest"
+        : ".pageTest #typingTest"
+    ),
+    $(
+      ActivePage.get() === "contest"
+        ? ".pageContest #result"
+        : ".pageTest #result"
+    ),
     250,
     async () => {
-      $("#result").trigger("focus");
+      $(
+        ActivePage.get() === "contest"
+          ? ".pageContest #result"
+          : ".pageTest #result"
+      ).trigger("focus");
       void AdController.renderResult();
       TestUI.setResultCalculating(false);
-      $("#words").empty();
+      $(
+        ActivePage.get() === "contest"
+          ? ".pageContest #words"
+          : ".pageTest #words"
+      ).empty();
       ChartController.result.resize();
 
       window.scrollTo({ top: 0 });

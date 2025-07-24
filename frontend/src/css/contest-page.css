@@ -1,0 +1,19 @@
+/* Contest page specific styles */
+.pageContest .contestName {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* Hide test page input when contest page is active */
+.pageContest.active ~ * .pageTest #wordsInput {
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Ensure contest page input is visible and interactive */
+.pageContest.active #wordsInput {
+  pointer-events: auto;
+  opacity: 1;
+}

@@ -51,7 +51,20 @@ let isBackspace: boolean;
 let incorrectShiftsInARow = 0;
 let awaitingNextWord = false;
 
-const wordsInput = document.getElementById("wordsInput") as HTMLInputElement;
+// Function to get the correct wordsInput element based on active page
+function getWordsInput(): HTMLInputElement {
+  const pageSelector =
+    ActivePage.get() === "contest" ? ".pageContest" : ".pageTest";
+  return document.querySelector(
+    `${pageSelector} #wordsInput`
+  ) as HTMLInputElement;
+}
+
+// Function to get all wordsInput elements for event binding
+function getAllWordsInputs(): JQuery {
+  return $(".pageTest #wordsInput, .pageContest #wordsInput");
+}
+
 const koInputVisual = document.getElementById("koInputVisual") as HTMLElement;
 
 function setWordsInput(value: string): void {
@@ -59,6 +72,7 @@ function setWordsInput(value: string): void {
   // Avoids Safari triggering unneeded events, causing issues with
   // dead keys.
   // console.log("settings words input to " + value);
+  const wordsInput = getWordsInput();
   if (value !== wordsInput.value) {
     wordsInput.value = value;
   }
@@ -876,8 +890,10 @@ async function handleTab(
   }
 }
 
-$("#wordsInput").on("keydown", (event) => {
-  const pageTestActive: boolean = ActivePage.get() === "test";
+// Bind keydown event to both test and contest page inputs
+$(".pageTest #wordsInput, .pageContest #wordsInput").on("keydown", (event) => {
+  const pageTestActive: boolean =
+    ActivePage.get() === "test" || ActivePage.get() === "contest";
   const commandLineVisible = Misc.isPopupVisible("commandLineWrapper");
   const leaderboardsVisible = Misc.isPopupVisible("leaderboardsWrapper");
   const popupVisible: boolean = Misc.isAnyPopupVisible();
@@ -917,7 +933,7 @@ $(document).on("keydown", async (event) => {
   }
 
   //autofocus
-  const wordsFocused: boolean = $("#wordsInput").is(":focus");
+  const wordsFocused: boolean = getAllWordsInputs().is(":focus");
   const pageTestActive: boolean = ActivePage.get() === "test";
   const commandLineVisible = Misc.isPopupVisible("commandLineWrapper");
   const leaderboardsVisible = Misc.isPopupVisible("leaderboardsWrapper");
@@ -1206,7 +1222,7 @@ $(document).on("keydown", async (event) => {
   isBackspace = event.key === "Backspace" || event.key === "delete";
 });
 
-$("#wordsInput").on("keydown", (event) => {
+getAllWordsInputs().on("keydown", (event) => {
   if (event.originalEvent?.repeat) {
     console.log(
       "spacing debug keydown STOPPED - repeat",
@@ -1236,7 +1252,7 @@ $("#wordsInput").on("keydown", (event) => {
   }, 0);
 });
 
-$("#wordsInput").on("keyup", (event) => {
+getAllWordsInputs().on("keyup", (event) => {
   if (event.originalEvent?.repeat) {
     console.log(
       "spacing debug keydown STOPPED - repeat",
@@ -1265,7 +1281,7 @@ $("#wordsInput").on("keyup", (event) => {
   }, 0);
 });
 
-$("#wordsInput").on("keyup", (event) => {
+getAllWordsInputs().on("keyup", (event) => {
   if (!event.originalEvent?.isTrusted || TestUI.testRestarting) {
     event.preventDefault();
     return;
@@ -1278,14 +1294,14 @@ $("#wordsInput").on("keyup", (event) => {
   if (TestUI.resultVisible) return;
 });
 
-$("#wordsInput").on("beforeinput", (event) => {
+getAllWordsInputs().on("beforeinput", (event) => {
   if (!event.originalEvent?.isTrusted) return;
   if ((event.target as HTMLInputElement).value === "") {
     (event.target as HTMLInputElement).value = " ";
   }
 });
 
-$("#wordsInput").on("input", async (event) => {
+getAllWordsInputs().on("input", async (event) => {
   if (!event.originalEvent?.isTrusted || TestUI.testRestarting) {
     (event.target as HTMLInputElement).value = " ";
     return;
@@ -1455,41 +1471,46 @@ $("#wordsInput").on("input", async (event) => {
   }, 0);
 });
 
-document.querySelector("#wordsInput")?.addEventListener("focus", (event) => {
+// Add focus event listener to both inputs
+document
+  .querySelectorAll(".pageTest #wordsInput, .pageContest #wordsInput")
+  .forEach((input) => {
+    input.addEventListener("focus", (event) => {
+      const target = event.target as HTMLInputElement;
+      const value = target.value;
+      target.setSelectionRange(value.length, value.length);
+    });
+  });
+
+getAllWordsInputs().on("copy paste", (event) => {
+  event.preventDefault();
+});
+
+getAllWordsInputs().on("select selectstart", (event) => {
+  event.preventDefault();
+});
+
+getAllWordsInputs().on("selectionchange", (event) => {
+  event.preventDefault();
   const target = event.target as HTMLInputElement;
   const value = target.value;
   target.setSelectionRange(value.length, value.length);
 });
 
-$("#wordsInput").on("copy paste", (event) => {
-  event.preventDefault();
-});
-
-$("#wordsInput").on("select selectstart", (event) => {
-  event.preventDefault();
-});
-
-$("#wordsInput").on("selectionchange", (event) => {
-  event.preventDefault();
-  const target = event.target as HTMLInputElement;
-  const value = target.value;
-  target.setSelectionRange(value.length, value.length);
-});
-
-$("#wordsInput").on("keydown", (event) => {
+getAllWordsInputs().on("keydown", (event) => {
   if (event.key.startsWith("Arrow")) {
     event.preventDefault();
   }
 });
 
 // Composing events
-$("#wordsInput").on("compositionstart", () => {
+getAllWordsInputs().on("compositionstart", () => {
   if (Config.layout !== "default") return;
   CompositionState.setComposing(true);
   CompositionState.setStartPos(TestInput.input.current.length);
 });
 
-$("#wordsInput").on("compositionend", () => {
+getAllWordsInputs().on("compositionend", () => {
   if (Config.layout !== "default") return;
   CompositionState.setComposing(false);
 });
