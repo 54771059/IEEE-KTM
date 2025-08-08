@@ -17,7 +17,8 @@ export type PageName =
   | "accountSettings"
   | "leaderboards"
   | "contests"
-  | "contest";
+  | "contest"
+  | "admin";
 
 type Options<T> = {
   params?: Record<string, string>;

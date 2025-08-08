@@ -210,6 +210,16 @@ const routes: Route[] = [
       });
     },
   },
+  {
+    path: "/admin",
+    load: (): void => {
+      // Exit contest mode when navigating to admin
+      if (ContestMode.isContestMode()) {
+        ContestMode.exitContestMode();
+      }
+      void PageController.change("admin");
+    },
+  },
 ];
 
 export function navigate(

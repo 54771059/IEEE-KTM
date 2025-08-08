@@ -1,0 +1,23 @@
+.page.pageAdmin {
+  .admin {
+    .section {
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--sub-color);
+      }
+
+      .content {
+        background: var(--sub-alt-color);
+        border-radius: var(--roundness);
+        padding: 2rem;
+
+        p {
+          color: var(--text-color);
+          font-size: 1rem;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
