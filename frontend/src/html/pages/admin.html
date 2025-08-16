@@ -1,13 +1,187 @@
 <div id="adminPage" class="page pageAdmin hidden">
-  <div class="container">
+  <div class="content">
     <div class="admin">
-      <div class="section">
-        <h2>Admin Panel</h2>
-        <div class="content">
-          <!-- Admin content goes here -->
-          <p>Admin Panel</p>
+      <div class="header">
+        <h1>
+          <i class="fas fa-shield-alt"></i>
+          Contest Admin Panel
+        </h1>
+        <p>Manage typing contests and competitions</p>
+        <div class="adminTools">
+          <div class="searchContainer">
+            <input
+              type="text"
+              id="contestSearch"
+              placeholder="Search contests..."
+            />
+            <i class="fas fa-search searchIcon"></i>
+          </div>
+          <div class="filterContainer">
+            <select id="statusFilter">
+              <option value="all">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="ended">Ended</option>
+            </select>
+          </div>
+          <button class="newContestBtn">
+            <i class="fas fa-plus"></i>
+            New Contest
+          </button>
         </div>
       </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="contests">
+          <i class="fas fa-trophy"></i>
+          Contests
+        </button>
+        <button class="tab" data-tab="participants">
+          <i class="fas fa-users"></i>
+          Participants
+        </button>
+        <button class="tab" data-tab="leaderboard">
+          <i class="fas fa-medal"></i>
+          Leaderboard
+        </button>
+        <button class="tab" data-tab="stats">
+          <i class="fas fa-chart-bar"></i>
+          Statistics
+        </button>
+      </div>
+
+      <div class="tabContent" data-tab="contests">
+        <div class="section">
+          <h2>Contest Management</h2>
+          <div class="actionBar">
+            <button class="createContest">
+              <i class="fas fa-plus"></i>
+              Create New Contest
+            </button>
+          </div>
+          <div class="contestsList">
+            <div class="loading">Loading contests...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabContent hidden" data-tab="participants">
+        <div class="section">
+          <h2>Participant Management</h2>
+          <div class="contestFilter">
+            <label>Filter by Contest:</label>
+            <select class="contestSelector">
+              <option value="">All Contests</option>
+            </select>
+          </div>
+          <div class="participantsList">
+            <div class="loading">Loading participants...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabContent hidden" data-tab="leaderboard">
+        <div class="section">
+          <h2>Leaderboard Control</h2>
+          <div class="leaderboardControls">
+            <div class="contestFilter">
+              <label>Select Contest:</label>
+              <select class="leaderboardContestSelector">
+                <option value="">Select a contest</option>
+              </select>
+            </div>
+            <div class="actionBar">
+              <button class="updateLeaderboard">
+                <i class="fas fa-sync"></i>
+                Update Leaderboard
+              </button>
+              <button class="exportLeaderboard">
+                <i class="fas fa-download"></i>
+                Export Results
+              </button>
+            </div>
+          </div>
+          <div class="leaderboardData">
+            <div class="loading">Select a contest to view leaderboard...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabContent hidden" data-tab="stats">
+        <div class="section">
+          <h2>Overall Statistics</h2>
+          <div class="statsContainer">
+            <div class="loading">Loading statistics...</div>
+          </div>
+
+          <h2>Contest-wise Statistics</h2>
+          <div class="contestStatsFilter">
+            <select class="contestStatsSelector">
+              <option value="">Select a contest</option>
+            </select>
+          </div>
+          <div class="contestStatsContainer">
+            <div class="noSelection">
+              Select a contest to view detailed statistics
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal contestModal hidden">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h3>Create New Contest</h3>
+        <button class="closeModal">&times;</button>
+      </div>
+      <form class="contestForm">
+        <div class="formGroup">
+          <label for="contestName">Contest Name:</label>
+          <input type="text" id="contestName" required />
+        </div>
+        <div class="formGroup">
+          <label for="contestDescription">Description:</label>
+          <textarea id="contestDescription" rows="3"></textarea>
+        </div>
+        <div class="formRow">
+          <div class="formGroup">
+            <label for="startTime">Start Time:</label>
+            <input type="datetime-local" id="startTime" required />
+          </div>
+          <div class="formGroup">
+            <label for="endTime">End Time:</label>
+            <input type="datetime-local" id="endTime" required />
+          </div>
+        </div>
+        <div class="formRow">
+          <div class="formGroup">
+            <label for="testDuration">Test Duration (seconds):</label>
+            <input
+              type="number"
+              id="testDuration"
+              value="60"
+              min="15"
+              max="300"
+            />
+          </div>
+          <div class="formGroup">
+            <label for="maxParticipants">Max Participants:</label>
+            <div class="participantOptions">
+              <input type="number" id="maxParticipants" value="100" min="1" />
+              <label class="checkboxContainer">
+                <input type="checkbox" id="unlimitedParticipants" />
+                <span>Unlimited</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="formActions">
+          <button type="button" class="cancelBtn">Cancel</button>
+          <button type="submit" class="saveBtn">Create Contest</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

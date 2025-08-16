@@ -31,14 +31,30 @@ This document explains how to manage contests in the IEEE-KTM Monkeytype fork.
 
 ## Creating a Contest
 
-### Option 1: Using the Sample Script
+### Option 1: Using the Admin Panel (Recommended)
+
+Access the admin panel at `/admin` (requires authentication) to:
+- Create new contests with a user-friendly interface
+- Edit existing contests with form validation
+- Set unlimited participants or specify a maximum number
+- View contest statistics and participant data
+- Manage contest status and timing
+
+The admin panel provides:
+- **Contest Management**: Full CRUD operations with intuitive forms
+- **Participant Limits**: Toggle between limited and unlimited participants
+- **Statistics Dashboard**: View overall and contest-specific analytics
+- **Search & Filter**: Find contests by name, description, or status
+- **Real-time Validation**: Prevent invalid configurations and conflicts
+
+### Option 2: Using the Sample Script
 
 ```bash
 cd backend
 npx ts-node scripts/create-sample-contest.ts
 ```
 
-### Option 2: Manual MongoDB Insert
+### Option 3: Manual MongoDB Insert
 
 ```javascript
 db.contests.insertOne({
@@ -56,7 +72,7 @@ db.contests.insertOne({
 });
 ```
 
-### Option 3: Simple Always-Active Contest
+### Option 4: Simple Always-Active Contest
 
 ```javascript
 db.contests.insertOne({
@@ -66,6 +82,39 @@ db.contests.insertOne({
   // No startTime/endTime = always active when isActive is true
 });
 ```
+
+## Admin Panel Features
+
+The admin panel (`/admin`) provides a comprehensive interface for contest management:
+
+### Contest Management Tab
+- **Create/Edit Contests**: User-friendly forms with validation
+- **Search & Filter**: Find contests by name, description, or status
+- **Status Management**: View and manage contest active states
+- **Bulk Operations**: Efficient management of multiple contests
+
+### Participants Tab
+- **View Participants**: See all registered participants per contest
+- **Filter by Contest**: Focus on specific contest participants
+- **Participant Details**: Access WPM, accuracy, and ranking data
+
+### Leaderboard Tab
+- **Real-time Rankings**: View current contest standings
+- **Export Functionality**: Download leaderboard data
+- **Contest Selection**: Switch between different contest leaderboards
+
+### Statistics Tab
+- **Overall Analytics**: Platform-wide statistics and metrics
+- **Contest-specific Stats**: Detailed analytics per contest
+- **Performance Metrics**: Average WPM, accuracy, participation rates
+- **Visual Dashboard**: Interactive charts and data visualization
+
+### Key Features
+- **Unlimited Participants**: Toggle between limited and unlimited participant modes
+- **Form Validation**: Prevent invalid configurations and timing conflicts
+- **Real-time Updates**: Live data refresh and instant feedback
+- **Responsive Design**: Works on desktop and mobile devices
+- **Error Handling**: Comprehensive validation and error messaging
 
 ## Contest Activation Logic
 
