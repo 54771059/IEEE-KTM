@@ -509,7 +509,7 @@ list.updateName = new SimpleModal({
       if (snapshot.needsToChangeName) {
         reloadAfter(2);
       }
-      AccountButton.update(snapshot);
+      void AccountButton.update(snapshot);
     }
 
     return {

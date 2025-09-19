@@ -84,16 +84,29 @@ export const page = new Page({
 });
 
 function showContestModeIndicator(): void {
+  console.log("showContestModeIndicator called");
+
   // Hide test config in contest mode (options are pre-defined by contest)
   const testConfig = $("#testConfig");
+  console.log("testConfig element found:", testConfig.length);
   testConfig.addClass("hidden");
 
   // Also hide mobile test config button
   const mobileTestConfigButton = $("#mobileTestConfigButton");
+  console.log(
+    "mobileTestConfigButton element found:",
+    mobileTestConfigButton.length
+  );
   mobileTestConfigButton.addClass("hidden");
 
   // Hide the regular testModesNotice and show contest name instead
   const testModesNotice = $("#testModesNotice");
+  console.log(
+    "testModesNotice element found:",
+    testModesNotice.length,
+    "visibility:",
+    testModesNotice.is(":visible")
+  );
   testModesNotice.addClass("hidden");
 
   // Create contest name element if it doesn't exist
@@ -101,14 +114,43 @@ function showContestModeIndicator(): void {
   if (contestName.length === 0) {
     contestName = $(`<div id="contestName" class="contest-name"></div>`);
     testModesNotice.after(contestName);
+    console.log(
+      "Created contest name element, length after creation:",
+      $("#contestName").length
+    );
+  } else {
+    console.log(
+      "Contest name element already exists, length:",
+      contestName.length
+    );
   }
 
   // Display contest name
   const activeContest = ContestMode.getActiveContest();
+  console.log("Active contest:", activeContest);
+
   if (activeContest) {
-    contestName.html(`
+    console.log("Displaying contest name:", activeContest.name);
+    const htmlContent = `
       <i class="fas fa-trophy"></i>
       ${activeContest.name}
+    `;
+    console.log("Setting HTML content:", htmlContent);
+    contestName.html(htmlContent);
+    contestName.removeClass("hidden");
+
+    // Debug the final state
+    console.log("Final contestName element state:");
+    console.log("- exists:", contestName.length);
+    console.log("- visible:", contestName.is(":visible"));
+    console.log("- html content:", contestName.html());
+    console.log("- has hidden class:", contestName.hasClass("hidden"));
+    console.log("- computed display:", contestName.css("display"));
+  } else {
+    console.log("No active contest found");
+    contestName.html(`
+      <i class="fas fa-trophy"></i>
+      Contest Mode (No Contest Data)
     `);
     contestName.removeClass("hidden");
   }

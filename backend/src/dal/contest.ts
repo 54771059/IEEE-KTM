@@ -381,3 +381,157 @@ export async function getUserAttemptCount(
   }
   return contest.results[uid].length;
 }
+
+// Admin functions
+export async function getAllContests(): Promise<Contest[]> {
+  const contests = await getContestCollection().find({}).toArray();
+  const result: Contest[] = [];
+
+  for (const contest of contests) {
+    const converted = replaceObjectId(contest);
+    if (converted !== null) {
+      result.push(converted);
+    }
+  }
+
+  return result;
+}
+
+export async function getContestStats(contestId?: string): Promise<{
+  participantCount: number;
+  totalAttempts: number;
+  avgWpm: number;
+  avgAccuracy: number;
+  highestWpm: number;
+  bestAccuracy: number;
+}> {
+  const contest =
+    contestId !== undefined
+      ? await getContestById(contestId)
+      : await getActiveContest();
+
+  if (
+    contest === null ||
+    contest.results === null ||
+    contest.results === undefined
+  ) {
+    return {
+      participantCount: 0,
+      totalAttempts: 0,
+      avgWpm: 0,
+      avgAccuracy: 0,
+      highestWpm: 0,
+      bestAccuracy: 0,
+    };
+  }
+
+  const allResults: Array<{ wpm: number; acc: number }> = [];
+  let participantCount = 0;
+
+  for (const [, userResults] of Object.entries(contest.results)) {
+    if (
+      userResults !== null &&
+      userResults !== undefined &&
+      userResults.length > 0
+    ) {
+      participantCount++;
+      allResults.push(...userResults.map((r) => ({ wpm: r.wpm, acc: r.acc })));
+    }
+  }
+
+  if (allResults.length === 0) {
+    return {
+      participantCount: 0,
+      totalAttempts: 0,
+      avgWpm: 0,
+      avgAccuracy: 0,
+      highestWpm: 0,
+      bestAccuracy: 0,
+    };
+  }
+
+  const totalAttempts = allResults.length;
+  const avgWpm = allResults.reduce((sum, r) => sum + r.wpm, 0) / totalAttempts;
+  const avgAccuracy =
+    allResults.reduce((sum, r) => sum + r.acc, 0) / totalAttempts;
+  const highestWpm = Math.max(...allResults.map((r) => r.wpm));
+  const bestAccuracy = Math.max(...allResults.map((r) => r.acc));
+
+  return {
+    participantCount,
+    totalAttempts,
+    avgWpm: Math.round(avgWpm),
+    avgAccuracy: Math.round(avgAccuracy),
+    highestWpm,
+    bestAccuracy,
+  };
+}
+
+// Admin deletion functions
+export async function deleteContestAttempt(
+  contestId: string,
+  uid: string,
+  attemptNumber: number
+): Promise<void> {
+  const contest = await getContestById(contestId);
+  if (!contest) {
+    throw new MonkeyError(404, "Contest not found");
+  }
+
+  if (!contest.results || !contest.results[uid]) {
+    throw new MonkeyError(404, "User has no attempts in this contest");
+  }
+
+  const userAttempts = contest.results[uid];
+  const attemptIndex = userAttempts.findIndex(
+    (attempt) => attempt.attemptNumber === attemptNumber
+  );
+
+  if (attemptIndex === -1) {
+    throw new MonkeyError(404, "Attempt not found");
+  }
+
+  // Remove the specific attempt
+  userAttempts.splice(attemptIndex, 1);
+
+  // Re-index remaining attempts
+  userAttempts.forEach((attempt, index) => {
+    attempt.attemptNumber = index + 1;
+  });
+
+  // If no attempts left, remove user entirely
+  if (userAttempts.length === 0) {
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    delete contest.results[uid];
+  }
+
+  // Update the contest in database
+  await getContestCollection().updateOne(
+    { _id: new ObjectId(contestId) },
+    { $set: { results: contest.results } }
+  );
+}
+
+export async function deleteAllUserContestAttempts(
+  contestId: string,
+  uid: string
+): Promise<void> {
+  const contest = await getContestById(contestId);
+  if (!contest) {
+    throw new MonkeyError(404, "Contest not found");
+  }
+
+  if (!contest.results || !contest.results[uid]) {
+    throw new MonkeyError(404, "User has no attempts in this contest");
+  }
+
+  // Remove all user attempts
+  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+  delete contest.results[uid];
+
+  // Update the contest in database
+  await getContestCollection().updateOne(
+    { _id: new ObjectId(contestId) },
+    { $set: { results: contest.results } }
+  );
+}

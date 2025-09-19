@@ -17,6 +17,9 @@
     },
     "contests": {
       "enabled": true
+    },
+    "admin": {
+      "endpointsEnabled": true
     }
   }
 }

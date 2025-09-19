@@ -127,7 +127,7 @@ async function getDataAndInit(): Promise<boolean> {
   }
   LoadingPage.updateText("Applying settings...");
   const snapshot = DB.getSnapshot() as Snapshot;
-  AccountButton.update(snapshot);
+  void AccountButton.update(snapshot);
   Alerts.setNotificationBubbleVisible(snapshot.inboxUnreadSize > 0);
   showFavoriteQuoteLength();
 
@@ -452,7 +452,7 @@ export function signOut(): void {
       });
       Sentry.clearUser();
       Settings.hideAccountSection();
-      AccountButton.update(undefined);
+      void AccountButton.update(undefined);
       navigate("/login");
       DB.setSnapshot(undefined);
       setTimeout(() => {

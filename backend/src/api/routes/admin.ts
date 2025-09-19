@@ -27,4 +27,27 @@ export default s.router(adminContract, {
     handler: async (r) =>
       callController(AdminController.sendForgotPasswordEmail)(r),
   },
+  getAllContests: {
+    handler: async (r) => callController(AdminController.getAllContests)(r),
+  },
+  createContest: {
+    handler: async (r) => callController(AdminController.createContest)(r),
+  },
+  updateContest: {
+    handler: async (r) => callController(AdminController.updateContest)(r),
+  },
+  deleteContest: {
+    handler: async (r) => callController(AdminController.deleteContest)(r),
+  },
+  getContestStats: {
+    handler: async (r) => callController(AdminController.getContestStats)(r),
+  },
+  deleteContestAttempt: {
+    handler: async (r) =>
+      callController(AdminController.deleteContestAttempt)(r),
+  },
+  deleteAllUserContestAttempts: {
+    handler: async (r) =>
+      callController(AdminController.deleteAllUserContestAttempts)(r),
+  },
 });

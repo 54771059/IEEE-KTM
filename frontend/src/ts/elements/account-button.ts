@@ -6,12 +6,14 @@ import {
 import { isAuthenticated } from "../firebase";
 import * as XpBar from "./xp-bar";
 import { Snapshot } from "../constants/default-snapshot";
+import { isCurrentUserAdmin, clearAdminCache } from "../utils/admin-utils";
 
 let usingAvatar = false;
 
 export function hide(): void {
   $("nav .accountButtonAndMenu").addClass("hidden");
   $("nav .textButton.view-login").addClass("hidden");
+  $("nav .accountButtonAndMenu .menu .items .adminButton").addClass("hidden");
 }
 
 export function loading(state: boolean): void {
@@ -139,7 +141,7 @@ export function updateAvatar(
   }
 }
 
-export function update(snapshot: Snapshot | undefined): void {
+export async function update(snapshot: Snapshot | undefined): Promise<void> {
   if (isAuthenticated()) {
     // this function is called after the snapshot is loaded (awaited), so it should be fine
     const { xp, discordId, discordAvatar, name } = snapshot as Snapshot;
@@ -153,12 +155,34 @@ export function update(snapshot: Snapshot | undefined): void {
       "href",
       `/profile/${name}`
     );
+
+    // Check if user is admin and show/hide admin button accordingly
+    try {
+      const hasAdminAccess = await isCurrentUserAdmin();
+      if (hasAdminAccess) {
+        $("nav .accountButtonAndMenu .menu .items .adminButton").removeClass(
+          "hidden"
+        );
+      } else {
+        $("nav .accountButtonAndMenu .menu .items .adminButton").addClass(
+          "hidden"
+        );
+      }
+    } catch (error) {
+      console.log("Failed to check admin status:", error);
+      $("nav .accountButtonAndMenu .menu .items .adminButton").addClass(
+        "hidden"
+      );
+    }
+
     void Misc.swapElements(
       $("nav .textButton.view-login"),
       $("nav .accountButtonAndMenu"),
       250
     );
   } else {
+    // Clear admin cache when user logs out
+    clearAdminCache();
     void Misc.swapElements(
       $("nav .accountButtonAndMenu"),
       $("nav .textButton.view-login"),
@@ -168,6 +192,9 @@ export function update(snapshot: Snapshot | undefined): void {
         updateFlags({});
         XpBar.setXp(0);
         updateAvatar(undefined, undefined);
+        $("nav .accountButtonAndMenu .menu .items .adminButton").addClass(
+          "hidden"
+        );
       }
     );
   }

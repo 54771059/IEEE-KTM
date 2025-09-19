@@ -6,6 +6,7 @@ import { isFunboxActive } from "../test/funbox/list";
 import * as TestState from "../test/test-state";
 import * as Notifications from "../elements/notifications";
 import * as ContestMode from "../states/contest-mode";
+import { isCurrentUserAdmin } from "../utils/admin-utils";
 
 //source: https://www.youtube.com/watch?v=OstALBk-jTc
 // https://www.youtube.com/watch?v=OstALBk-jTc
@@ -212,7 +213,38 @@ const routes: Route[] = [
   },
   {
     path: "/admin",
-    load: (): void => {
+    load: async (): Promise<void> => {
+      console.log("DEBUG: Admin route load() called");
+
+      // Check if user is authenticated
+      if (!isAuthenticated()) {
+        console.log("DEBUG: User not authenticated, redirecting to login");
+        Notifications.add(
+          "You need to be logged in to access the admin page",
+          -1
+        );
+        navigate("/login");
+        return;
+      }
+
+      // Check if user has admin permissions
+      console.log("DEBUG: Checking admin permissions...");
+      const hasAdminAccess = await isCurrentUserAdmin();
+      console.log("DEBUG: Admin access result:", hasAdminAccess);
+
+      if (!hasAdminAccess) {
+        console.log(
+          "DEBUG: User does not have admin access, redirecting to home"
+        );
+        Notifications.add(
+          "You don't have permission to access the admin page",
+          -1
+        );
+        navigate("/");
+        return;
+      }
+
+      console.log("DEBUG: Admin access granted, changing to admin page");
       // Exit contest mode when navigating to admin
       if (ContestMode.isContestMode()) {
         ContestMode.exitContestMode();
