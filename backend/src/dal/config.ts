@@ -20,7 +20,7 @@ const configLegacyProperties = [
   "maxConfidence",
   "capsLockBackspace",
   "showAvg",
-  "enableAds",
+  // "enableAds",
 ];
 
 type DBConfig = {

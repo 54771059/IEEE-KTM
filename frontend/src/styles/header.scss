@@ -1,0 +1,8 @@
+.image {
+  width: 100%;
+  align-self: center;
+  background-image: url("/images/ktm.png");
+  aspect-ratio: 300/199;
+  background-size: contain;
+  border-radius: var(--roundness);
+}

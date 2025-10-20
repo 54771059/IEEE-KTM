@@ -18,10 +18,10 @@ import { isAuthenticated } from "../firebase";
 import { get as getTypingSpeedUnit } from "../utils/typing-speed-units";
 import SlimSelect from "slim-select";
 import * as Skeleton from "../utils/skeleton";
-import * as CustomBackgroundFilter from "../elements/custom-background-filter";
+// import * as CustomBackgroundFilter from "../elements/custom-background-filter";
 import {
   ConfigValue,
-  CustomBackgroundSchema,
+  // CustomBackgroundSchema,
   ThemeName,
   CustomLayoutFluid,
   FunboxName,
@@ -217,11 +217,11 @@ async function initGroups(): Promise<void> {
     UpdateConfig.setRepeatQuotes,
     "button"
   ) as SettingsGroup<ConfigValue>;
-  groups["ads"] = new SettingsGroup(
-    "ads",
-    UpdateConfig.setAds,
-    "button"
-  ) as SettingsGroup<ConfigValue>;
+  // groups["ads"] = new SettingsGroup(
+  //   "ads",
+  //   UpdateConfig.setAds,
+  //   "button"
+  // ) as SettingsGroup<ConfigValue>;
   groups["alwaysShowWordsHistory"] = new SettingsGroup(
     "alwaysShowWordsHistory",
     UpdateConfig.setAlwaysShowWordsHistory,
@@ -232,11 +232,11 @@ async function initGroups(): Promise<void> {
     UpdateConfig.setBritishEnglish,
     "button"
   ) as SettingsGroup<ConfigValue>;
-  groups["singleListCommandLine"] = new SettingsGroup(
-    "singleListCommandLine",
-    UpdateConfig.setSingleListCommandLine,
-    "button"
-  ) as SettingsGroup<ConfigValue>;
+  // groups["singleListCommandLine"] = new SettingsGroup(
+  //   "singleListCommandLine",
+  //   UpdateConfig.setSingleListCommandLine,
+  //   "button"
+  // ) as SettingsGroup<ConfigValue>;
   groups["capsLockWarning"] = new SettingsGroup(
     "capsLockWarning",
     UpdateConfig.setCapsLockWarning,
@@ -448,11 +448,11 @@ async function initGroups(): Promise<void> {
     UpdateConfig.setTypingSpeedUnit,
     "button"
   ) as SettingsGroup<ConfigValue>;
-  groups["customBackgroundSize"] = new SettingsGroup(
-    "customBackgroundSize",
-    UpdateConfig.setCustomBackgroundSize,
-    "button"
-  ) as SettingsGroup<ConfigValue>;
+  // groups["customBackgroundSize"] = new SettingsGroup(
+  //   "customBackgroundSize",
+  //   UpdateConfig.setCustomBackgroundSize,
+  //   "button"
+  // ) as SettingsGroup<ConfigValue>;
 }
 
 async function fillSettingsPage(): Promise<void> {
@@ -795,16 +795,16 @@ export async function update(): Promise<void> {
     ).addClass("hidden");
   }
 
-  if (Config.customBackground !== "") {
-    $(
-      ".pageSettings .section[data-config-name='customBackgroundFilter']"
-    ).removeClass("hidden");
-  } else {
-    $(
-      ".pageSettings .section[data-config-name='customBackgroundFilter']"
-    ).addClass("hidden");
-  }
-  updateCustomBackgroundRemoveButtonVisibility();
+  // if (Config.customBackground !== "") {
+  //   $(
+  //     ".pageSettings .section[data-config-name='customBackgroundFilter']"
+  //   ).removeClass("hidden");
+  // } else {
+  //   $(
+  //     ".pageSettings .section[data-config-name='customBackgroundFilter']"
+  //   ).addClass("hidden");
+  // }
+  // updateCustomBackgroundRemoveButtonVisibility();
 
   $(".pageSettings .section[data-config-name='fontSize'] input").val(
     Config.fontSize
@@ -822,9 +822,9 @@ export async function update(): Promise<void> {
     Config.tapeMargin
   );
 
-  $(
-    ".pageSettings .section[data-config-name='customBackgroundSize'] input"
-  ).val(Config.customBackground);
+  // $(
+  //   ".pageSettings .section[data-config-name='customBackgroundSize'] input"
+  // ).val(Config.customBackground);
 
   if (isAuthenticated()) {
     showAccountSection();
@@ -832,7 +832,7 @@ export async function update(): Promise<void> {
     hideAccountSection();
   }
 
-  CustomBackgroundFilter.updateUI();
+  // CustomBackgroundFilter.updateUI();
 
   const userAgent = window.navigator.userAgent.toLowerCase();
   const modifierKey =
@@ -885,19 +885,19 @@ function toggleSettingsGroup(groupName: string): void {
   }
 }
 
-function updateCustomBackgroundRemoveButtonVisibility(): void {
-  const button = $(
-    ".pageSettings .section[data-config-name='customBackgroundSize'] button.remove"
-  );
-  if (
-    Config.customBackground !== undefined &&
-    Config.customBackground.length > 0
-  ) {
-    button.removeClass("hidden");
-  } else {
-    button.addClass("hidden");
-  }
-}
+// function updateCustomBackgroundRemoveButtonVisibility(): void {
+//   const button = $(
+//     ".pageSettings .section[data-config-name='customBackgroundSize'] button.remove"
+//   );
+//   if (
+//     Config.customBackground !== undefined &&
+//     Config.customBackground.length > 0
+//   ) {
+//     button.removeClass("hidden");
+//   } else {
+//     button.addClass("hidden");
+//   }
+// }
 
 $(".pageSettings .section[data-config-name='paceCaret']").on(
   "focusout",
@@ -1077,53 +1077,53 @@ $(".pageSettings .sectionGroupTitle").on("click", (e) => {
   toggleSettingsGroup($(e.currentTarget).attr("group") as string);
 });
 
-$(
-  ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton button.save"
-).on("click", () => {
-  const newVal = $(
-    ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton input"
-  ).val() as string;
+// $(
+//   ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton button.save"
+// ).on("click", () => {
+//   const newVal = $(
+//     ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton input"
+//   ).val() as string;
 
-  const parsed = CustomBackgroundSchema.safeParse(newVal);
+//   const parsed = CustomBackgroundSchema.safeParse(newVal);
 
-  if (!parsed.success) {
-    Notifications.add(
-      `Invalid custom background URL (${parsed.error.issues[0]?.message})`,
-      0
-    );
-    return;
-  }
+//   if (!parsed.success) {
+//     Notifications.add(
+//       `Invalid custom background URL (${parsed.error.issues[0]?.message})`,
+//       0
+//     );
+//     return;
+//   }
 
-  UpdateConfig.setCustomBackground(newVal);
-});
+//   UpdateConfig.setCustomBackground(newVal);
+// });
 
-$(
-  ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton button.remove"
-).on("click", () => {
-  UpdateConfig.setCustomBackground("");
-});
+// $(
+//   ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton button.remove"
+// ).on("click", () => {
+//   UpdateConfig.setCustomBackground("");
+// });
 
-$(
-  ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton input"
-).on("keypress", (e) => {
-  if (e.key === "Enter") {
-    const newVal = $(
-      ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton input"
-    ).val() as string;
+// $(
+//   ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton input"
+// ).on("keypress", (e) => {
+//   if (e.key === "Enter") {
+//     const newVal = $(
+//       ".pageSettings .section[data-config-name='customBackgroundSize'] .inputAndButton input"
+//     ).val() as string;
 
-    const parsed = CustomBackgroundSchema.safeParse(newVal);
+//     const parsed = CustomBackgroundSchema.safeParse(newVal);
 
-    if (!parsed.success) {
-      Notifications.add(
-        `Invalid custom background URL (${parsed.error.issues[0]?.message})`,
-        0
-      );
-      return;
-    }
+//     if (!parsed.success) {
+//       Notifications.add(
+//         `Invalid custom background URL (${parsed.error.issues[0]?.message})`,
+//         0
+//       );
+//       return;
+//     }
 
-    UpdateConfig.setCustomBackground(newVal);
-  }
-});
+//     UpdateConfig.setCustomBackground(newVal);
+//   }
+// });
 
 $(
   ".pageSettings .section[data-config-name='fontSize'] .inputAndButton button.save"

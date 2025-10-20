@@ -68,16 +68,16 @@ describe("Config", () => {
     expect(Config.setMinBurst("off")).toBe(true);
     expect(Config.setMinBurst("invalid" as any)).toBe(false);
   });
-  it("setSingleListCommandLine", () => {
-    expect(Config.setSingleListCommandLine("on")).toBe(true);
-    expect(Config.setSingleListCommandLine("manual")).toBe(true);
-    expect(Config.setSingleListCommandLine("invalid" as any)).toBe(false);
-  });
-  it("setAds", () => {
-    expect(Config.setAds("on")).toBe(true);
-    expect(Config.setAds("sellout")).toBe(true);
-    expect(Config.setAds("invalid" as any)).toBe(false);
-  });
+  // it("setSingleListCommandLine", () => {
+  //   expect(Config.setSingleListCommandLine("on")).toBe(true);
+  //   expect(Config.setSingleListCommandLine("manual")).toBe(true);
+  //   expect(Config.setSingleListCommandLine("invalid" as any)).toBe(false);
+  // });
+  // it("setAds", () => {
+  //   expect(Config.setAds("on")).toBe(true);
+  //   expect(Config.setAds("sellout")).toBe(true);
+  //   expect(Config.setAds("invalid" as any)).toBe(false);
+  // });
   it("setRepeatQuotes", () => {
     expect(Config.setRepeatQuotes("off")).toBe(true);
     expect(Config.setRepeatQuotes("typing")).toBe(true);
@@ -207,21 +207,21 @@ describe("Config", () => {
     expect(Config.setKeymapSize(1.24)).toBe(true);
     expect(Config.default.keymapSize).toBe(1.2);
   });
-  it("setCustomBackgroundSize", () => {
-    expect(Config.setCustomBackgroundSize("contain")).toBe(true);
-    expect(Config.setCustomBackgroundSize("cover")).toBe(true);
-    expect(Config.setCustomBackgroundSize("invalid" as any)).toBe(false);
-  });
-  it("setCustomBackgroundFilter", () => {
-    expect(Config.setCustomBackgroundFilter([0, 1, 2, 3])).toBe(true);
-    //gets converted
-    expect(Config.setCustomBackgroundFilter([0, 1, 2, 3, 4] as any)).toBe(true);
-    expect(Config.setCustomBackgroundFilter([] as any)).toBe(false);
-    expect(Config.setCustomBackgroundFilter(["invalid"] as any)).toBe(false);
-    expect(Config.setCustomBackgroundFilter([1, 2, 3, 4, 5, 6] as any)).toBe(
-      false
-    );
-  });
+  // it("setCustomBackgroundSize", () => {
+  //   expect(Config.setCustomBackgroundSize("contain")).toBe(true);
+  //   expect(Config.setCustomBackgroundSize("cover")).toBe(true);
+  //   expect(Config.setCustomBackgroundSize("invalid" as any)).toBe(false);
+  // });
+  // it("setCustomBackgroundFilter", () => {
+  //   expect(Config.setCustomBackgroundFilter([0, 1, 2, 3])).toBe(true);
+  //   //gets converted
+  //   expect(Config.setCustomBackgroundFilter([0, 1, 2, 3, 4] as any)).toBe(true);
+  //   expect(Config.setCustomBackgroundFilter([] as any)).toBe(false);
+  //   expect(Config.setCustomBackgroundFilter(["invalid"] as any)).toBe(false);
+  //   expect(Config.setCustomBackgroundFilter([1, 2, 3, 4, 5, 6] as any)).toBe(
+  //     false
+  //   );
+  // });
   it("setMonkeyPowerLevel", () => {
     expect(Config.setMonkeyPowerLevel("2")).toBe(true);
     expect(Config.setMonkeyPowerLevel("off")).toBe(true);
@@ -458,33 +458,33 @@ describe("Config", () => {
     expect(Config.setMaxLineWidth(10_000)).toBe(true);
     expect(Config.setMaxLineWidth("invalid" as any)).toBe(false);
   });
-  it("setCustomBackground", () => {
-    expect(Config.setCustomBackground("http://example.com/test.png")).toBe(
-      true
-    );
-    expect(Config.setCustomBackground("https://www.example.com/test.gif")).toBe(
-      true
-    );
-    expect(Config.setCustomBackground("https://example.com/test.jpg")).toBe(
-      true
-    );
-    expect(Config.setCustomBackground("http://www.example.com/test.jpeg")).toBe(
-      true
-    );
+  // it("setCustomBackground", () => {
+  //   expect(Config.setCustomBackground("http://example.com/test.png")).toBe(
+  //     true
+  //   );
+  //   expect(Config.setCustomBackground("https://www.example.com/test.gif")).toBe(
+  //     true
+  //   );
+  //   expect(Config.setCustomBackground("https://example.com/test.jpg")).toBe(
+  //     true
+  //   );
+  //   expect(Config.setCustomBackground("http://www.example.com/test.jpeg")).toBe(
+  //     true
+  //   );
 
-    //gets converted
-    expect(
-      Config.setCustomBackground("     http://example.com/test.png   ")
-    ).toBe(true);
+  //   //gets converted
+  //   expect(
+  //     Config.setCustomBackground("     http://example.com/test.png   ")
+  //   ).toBe(true);
 
-    expect(Config.setCustomBackground("http://www.example.com/test.webp")).toBe(
-      false
-    );
-    expect(
-      Config.setCustomBackground("http://www.example.com/test?test=foo&bar=baz")
-    ).toBe(false);
-    expect(Config.setCustomBackground("invalid")).toBe(false);
-  });
+  //   expect(Config.setCustomBackground("http://www.example.com/test.webp")).toBe(
+  //     false
+  //   );
+  //   expect(
+  //     Config.setCustomBackground("http://www.example.com/test?test=foo&bar=baz")
+  //   ).toBe(false);
+  //   expect(Config.setCustomBackground("invalid")).toBe(false);
+  // });
   it("setQuoteLength", () => {
     expect(Config.setQuoteLength(0)).toBe(true);
     expect(Config.setQuoteLength(-3)).toBe(true);

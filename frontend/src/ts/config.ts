@@ -15,10 +15,10 @@ import {
 } from "./test/funbox/funbox-validation";
 import {
   createErrorMessage,
-  isDevEnvironment,
+  // isDevEnvironment,
   isObject,
   promiseWithResolvers,
-  reloadAfter,
+  // reloadAfter,
   typedKeys,
 } from "./utils/misc";
 import * as ConfigSchemas from "@monkeytype/contracts/schemas/configs";
@@ -650,26 +650,26 @@ export function setAlwaysShowWordsHistory(
 }
 
 //single list command line
-export function setSingleListCommandLine(
-  option: ConfigSchemas.SingleListCommandLine,
-  nosave?: boolean
-): boolean {
-  if (
-    !isConfigValueValid(
-      "single list command line",
-      option,
-      ConfigSchemas.SingleListCommandLineSchema
-    )
-  ) {
-    return false;
-  }
+// export function setSingleListCommandLine(
+//   option: ConfigSchemas.SingleListCommandLine,
+//   nosave?: boolean
+// ): boolean {
+//   if (
+//     !isConfigValueValid(
+//       "single list command line",
+//       option,
+//       ConfigSchemas.SingleListCommandLineSchema
+//     )
+//   ) {
+//     return false;
+//   }
 
-  config.singleListCommandLine = option;
-  saveToLocalStorage("singleListCommandLine", nosave);
-  ConfigEvent.dispatch("singleListCommandLine", config.singleListCommandLine);
+//   config.singleListCommandLine = option;
+//   saveToLocalStorage("singleListCommandLine", nosave);
+//   ConfigEvent.dispatch("singleListCommandLine", config.singleListCommandLine);
 
-  return true;
-}
+//   return true;
+// }
 
 //caps lock warning
 export function setCapsLockWarning(val: boolean, nosave?: boolean): boolean {
@@ -707,26 +707,26 @@ export function setQuickEnd(qe: boolean, nosave?: boolean): boolean {
   return true;
 }
 
-export function setAds(val: ConfigSchemas.Ads, nosave?: boolean): boolean {
-  if (!isConfigValueValid("ads", val, ConfigSchemas.AdsSchema)) {
-    return false;
-  }
+// export function setAds(val: ConfigSchemas.Ads, nosave?: boolean): boolean {
+//   if (!isConfigValueValid("ads", val, ConfigSchemas.AdsSchema)) {
+//     return false;
+//   }
 
-  if (isDevEnvironment()) {
-    val = "off";
-    console.debug("Ads are disabled in dev environment");
-  }
+//   if (isDevEnvironment()) {
+//     val = "off";
+//     console.debug("Ads are disabled in dev environment");
+//   }
 
-  config.ads = val;
-  saveToLocalStorage("ads", nosave);
-  if (!nosave && !isDevEnvironment()) {
-    reloadAfter(3);
-    Notifications.add("Ad settings changed. Refreshing...", 0);
-  }
-  ConfigEvent.dispatch("ads", config.ads);
+//   config.ads = val;
+//   saveToLocalStorage("ads", nosave);
+//   if (!nosave && !isDevEnvironment()) {
+//     reloadAfter(3);
+//     Notifications.add("Ad settings changed. Refreshing...", 0);
+//   }
+//   ConfigEvent.dispatch("ads", config.ads);
 
-  return true;
-}
+//   return true;
+// }
 
 export function setRepeatQuotes(
   val: ConfigSchemas.RepeatQuotes,
@@ -1878,26 +1878,26 @@ export function setMaxLineWidth(
   return true;
 }
 
-export function setCustomBackground(
-  value: ConfigSchemas.CustomBackground,
-  nosave?: boolean
-): boolean {
-  value = value.trim();
-  if (
-    !isConfigValueValid(
-      "custom background",
-      value,
-      ConfigSchemas.CustomBackgroundSchema
-    )
-  )
-    return false;
+// export function setCustomBackground(
+//   value: ConfigSchemas.CustomBackground,
+//   nosave?: boolean
+// ): boolean {
+//   value = value.trim();
+//   if (
+//     !isConfigValueValid(
+//       "custom background",
+//       value,
+//       ConfigSchemas.CustomBackgroundSchema
+//     )
+//   )
+//     return false;
 
-  config.customBackground = value;
-  saveToLocalStorage("customBackground", nosave);
-  ConfigEvent.dispatch("customBackground", config.customBackground);
+//   config.customBackground = value;
+//   saveToLocalStorage("customBackground", nosave);
+//   ConfigEvent.dispatch("customBackground", config.customBackground);
 
-  return true;
-}
+//   return true;
+// }
 
 export function setCustomLayoutfluid(
   value: ConfigSchemas.CustomLayoutFluid,
@@ -1948,53 +1948,53 @@ export function setCustomPolyglot(
   return true;
 }
 
-export function setCustomBackgroundSize(
-  value: ConfigSchemas.CustomBackgroundSize,
-  nosave?: boolean
-): boolean {
-  if (
-    !isConfigValueValid(
-      "custom background size",
-      value,
-      ConfigSchemas.CustomBackgroundSizeSchema
-    )
-  ) {
-    return false;
-  }
+// export function setCustomBackgroundSize(
+//   value: ConfigSchemas.CustomBackgroundSize,
+//   nosave?: boolean
+// ): boolean {
+//   if (
+//     !isConfigValueValid(
+//       "custom background size",
+//       value,
+//       ConfigSchemas.CustomBackgroundSizeSchema
+//     )
+//   ) {
+//     return false;
+//   }
 
-  config.customBackgroundSize = value;
-  saveToLocalStorage("customBackgroundSize", nosave);
-  ConfigEvent.dispatch("customBackgroundSize", config.customBackgroundSize);
+//   config.customBackgroundSize = value;
+//   saveToLocalStorage("customBackgroundSize", nosave);
+//   ConfigEvent.dispatch("customBackgroundSize", config.customBackgroundSize);
 
-  return true;
-}
+//   return true;
+// }
 
-export function setCustomBackgroundFilter(
-  array: ConfigSchemas.CustomBackgroundFilter,
-  nosave?: boolean
-): boolean {
-  // @ts-expect-error this used to be 5
-  // need to convert existing configs using five values down to four
-  if (array.length === 5) {
-    array = [array[0], array[1], array[2], array[3]];
-  }
+// export function setCustomBackgroundFilter(
+//   array: ConfigSchemas.CustomBackgroundFilter,
+//   nosave?: boolean
+// ): boolean {
+//   // @ts-expect-error this used to be 5
+//   // need to convert existing configs using five values down to four
+//   if (array.length === 5) {
+//     array = [array[0], array[1], array[2], array[3]];
+//   }
 
-  if (
-    !isConfigValueValid(
-      "custom background filter",
-      array,
-      ConfigSchemas.CustomBackgroundFilterSchema
-    )
-  ) {
-    return false;
-  }
+//   if (
+//     !isConfigValueValid(
+//       "custom background filter",
+//       array,
+//       ConfigSchemas.CustomBackgroundFilterSchema
+//     )
+//   ) {
+//     return false;
+//   }
 
-  config.customBackgroundFilter = array;
-  saveToLocalStorage("customBackgroundFilter", nosave);
-  ConfigEvent.dispatch("customBackgroundFilter", config.customBackgroundFilter);
+//   config.customBackgroundFilter = array;
+//   saveToLocalStorage("customBackgroundFilter", nosave);
+//   ConfigEvent.dispatch("customBackgroundFilter", config.customBackgroundFilter);
 
-  return true;
-}
+//   return true;
+// }
 export function setMonkeyPowerLevel(
   level: ConfigSchemas.MonkeyPowerLevel,
   nosave?: boolean
@@ -2043,7 +2043,7 @@ export async function apply(
     }
   });
   if (configObj !== undefined && configObj !== null) {
-    setAds(configObj.ads, true);
+    // setAds(configObj.ads, true);
     setThemeLight(configObj.themeLight, true);
     setThemeDark(configObj.themeDark, true);
     setThemes(
@@ -2055,9 +2055,9 @@ export async function apply(
     );
     setCustomLayoutfluid(configObj.customLayoutfluid, true);
     setCustomPolyglot(configObj.customPolyglot, true);
-    setCustomBackground(configObj.customBackground, true);
-    setCustomBackgroundSize(configObj.customBackgroundSize, true);
-    setCustomBackgroundFilter(configObj.customBackgroundFilter, true);
+    // setCustomBackground(configObj.customBackground, true);
+    // setCustomBackgroundSize(configObj.customBackgroundSize, true);
+    // setCustomBackgroundFilter(configObj.customBackgroundFilter, true);
     setQuickRestartMode(configObj.quickRestart, true);
     setKeyTips(configObj.showKeyTips, true);
     setTimeConfig(configObj.time, true);
@@ -2095,7 +2095,7 @@ export async function apply(
     setSmoothLineScroll(configObj.smoothLineScroll, true);
     setAlwaysShowDecimalPlaces(configObj.alwaysShowDecimalPlaces, true);
     setAlwaysShowWordsHistory(configObj.alwaysShowWordsHistory, true);
-    setSingleListCommandLine(configObj.singleListCommandLine, true);
+    // setSingleListCommandLine(configObj.singleListCommandLine, true);
     setCapsLockWarning(configObj.capsLockWarning, true);
     setPlaySoundOnError(configObj.playSoundOnError, true);
     setPlaySoundOnClick(configObj.playSoundOnClick, true);

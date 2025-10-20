@@ -4,7 +4,7 @@ import * as Misc from "../utils/misc";
 import * as Arrays from "../utils/arrays";
 import { isColorDark, isColorLight } from "../utils/colors";
 import Config, { setAutoSwitchTheme, setCustomTheme } from "../config";
-import * as BackgroundFilter from "../elements/custom-background-filter";
+// import * as BackgroundFilter from "../elements/custom-background-filter";
 import * as ConfigEvent from "../observables/config-event";
 import * as DB from "../db";
 import * as Notifications from "../elements/notifications";
@@ -362,47 +362,47 @@ async function clearRandom(): Promise<void> {
   }
 }
 
-function applyCustomBackgroundSize(): void {
-  if (Config.customBackgroundSize === "max") {
-    $(".customBackground img").css({
-      // width: "calc(100%)",
-      // height: "calc(100%)",
-      objectFit: "",
-    });
-  } else {
-    $(".customBackground img").css({
-      objectFit: Config.customBackgroundSize,
-    });
-  }
-}
+// function applyCustomBackgroundSize(): void {
+//   if (Config.customBackgroundSize === "max") {
+//     $(".customBackground img").css({
+//       // width: "calc(100%)",
+//       // height: "calc(100%)",
+//       objectFit: "",
+//     });
+//   } else {
+//     $(".customBackground img").css({
+//       objectFit: Config.customBackgroundSize,
+//     });
+//   }
+// }
 
-function applyCustomBackground(): void {
-  // $(".customBackground").css({
-  //   backgroundImage: `url(${Config.customBackground})`,
-  //   backgroundAttachment: "fixed",
-  // });
-  if (Config.customBackground === "") {
-    $("#words").removeClass("noErrorBorder");
-    $("#resultWordsHistory").removeClass("noErrorBorder");
-    $(".customBackground img").remove();
-  } else {
-    $("#words").addClass("noErrorBorder");
-    $("#resultWordsHistory").addClass("noErrorBorder");
+// function applyCustomBackground(): void {
+//   // $(".customBackground").css({
+//   //   backgroundImage: `url(${Config.customBackground})`,
+//   //   backgroundAttachment: "fixed",
+//   // });
+//   if (Config.customBackground === "") {
+//     $("#words").removeClass("noErrorBorder");
+//     $("#resultWordsHistory").removeClass("noErrorBorder");
+//     $(".customBackground img").remove();
+//   } else {
+//     $("#words").addClass("noErrorBorder");
+//     $("#resultWordsHistory").addClass("noErrorBorder");
 
-    //use setAttribute for possible unsafe customBackground value
-    const container = document.querySelector(".customBackground");
-    const img = document.createElement("img");
-    img.setAttribute("src", Config.customBackground);
-    img.setAttribute(
-      "onError",
-      "javascript:this.style.display='none'; window.dispatchEvent(new Event('customBackgroundFailed'))"
-    );
-    container?.replaceChildren(img);
+//     //use setAttribute for possible unsafe customBackground value
+//     const container = document.querySelector(".customBackground");
+//     const img = document.createElement("img");
+//     img.setAttribute("src", Config.customBackground);
+//     img.setAttribute(
+//       "onError",
+//       "javascript:this.style.display='none'; window.dispatchEvent(new Event('customBackgroundFailed'))"
+//     );
+//     container?.replaceChildren(img);
 
-    BackgroundFilter.apply();
-    applyCustomBackgroundSize();
-  }
-}
+//     BackgroundFilter.apply();
+//     applyCustomBackgroundSize();
+//   }
+// }
 
 window
   .matchMedia?.("(prefers-color-scheme: dark)")
@@ -448,8 +448,8 @@ ConfigEvent.subscribe(async (eventKey, eventValue, nosave) => {
     }
   }
   if (eventKey === "randomTheme" && eventValue === "off") await clearRandom();
-  if (eventKey === "customBackground") applyCustomBackground();
-  if (eventKey === "customBackgroundSize") applyCustomBackgroundSize();
+  // if (eventKey === "customBackground") applyCustomBackground();
+  // if (eventKey === "customBackgroundSize") applyCustomBackgroundSize();
   if (eventKey === "autoSwitchTheme") {
     if (eventValue as boolean) {
       if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
@@ -491,10 +491,10 @@ ConfigEvent.subscribe(async (eventKey, eventValue, nosave) => {
   }
 });
 
-window.addEventListener("customBackgroundFailed", () => {
-  Notifications.add(
-    "Custom background link is either temporarily unavailable or expired. Please make sure the URL is correct or change it",
-    0,
-    { duration: 5 }
-  );
-});
+// window.addEventListener("customBackgroundFailed", () => {
+//   Notifications.add(
+//     "Custom background link is either temporarily unavailable or expired. Please make sure the URL is correct or change it",
+//     0,
+//     { duration: 5 }
+//   );
+// });

@@ -801,8 +801,8 @@ async function handleChar(
 }
 
 async function handleTab(
-  event: JQuery.KeyDownEvent,
-  popupVisible: boolean
+  event: JQuery.KeyDownEvent
+  // popupVisible: boolean
 ): Promise<void> {
   if (TestUI.resultCalculating) {
     event.preventDefault();
@@ -818,12 +818,12 @@ async function handleTab(
     shouldInsertTabCharacter = true;
   }
 
-  const modalVisible: boolean =
-    Misc.isPopupVisible("commandLineWrapper") || popupVisible;
+  // const modalVisible: boolean =
+  //   Misc.isPopupVisible("commandLineWrapper") || popupVisible;
 
   if (Config.quickRestart === "esc") {
     // dont do anything special
-    if (modalVisible) return;
+    // if (modalVisible) return;
 
     // dont do anything on login so we can tab/esc between inputs
     if (ActivePage.get() === "login") return;
@@ -837,7 +837,7 @@ async function handleTab(
     }
   } else if (Config.quickRestart === "tab") {
     // dont do anything special
-    if (modalVisible) return;
+    // if (modalVisible) return;
 
     // dont do anything on login so we can tab/esc betweeen inputs
     if (ActivePage.get() === "login") return;
@@ -868,7 +868,7 @@ async function handleTab(
   } else {
     //quick tab off
     // dont do anything special
-    if (modalVisible) return;
+    // if (modalVisible) return;
 
     //only special handlig on the test page
     if (ActivePage.get() !== "test") return;
@@ -894,12 +894,12 @@ async function handleTab(
 $(".pageTest #wordsInput, .pageContest #wordsInput").on("keydown", (event) => {
   const pageTestActive: boolean =
     ActivePage.get() === "test" || ActivePage.get() === "contest";
-  const commandLineVisible = Misc.isPopupVisible("commandLineWrapper");
+  // const commandLineVisible = Misc.isPopupVisible("commandLineWrapper");
   const leaderboardsVisible = Misc.isPopupVisible("leaderboardsWrapper");
   const popupVisible: boolean = Misc.isAnyPopupVisible();
   const allowTyping: boolean =
     pageTestActive &&
-    !commandLineVisible &&
+    // !commandLineVisible &&
     !leaderboardsVisible &&
     !popupVisible &&
     !TestUI.resultVisible &&
@@ -935,14 +935,14 @@ $(document).on("keydown", async (event) => {
   //autofocus
   const wordsFocused: boolean = getAllWordsInputs().is(":focus");
   const pageTestActive: boolean = ActivePage.get() === "test";
-  const commandLineVisible = Misc.isPopupVisible("commandLineWrapper");
+  // const commandLineVisible = Misc.isPopupVisible("commandLineWrapper");
   const leaderboardsVisible = Misc.isPopupVisible("leaderboardsWrapper");
 
   const popupVisible: boolean = Misc.isAnyPopupVisible();
 
   const allowTyping: boolean =
     pageTestActive &&
-    !commandLineVisible &&
+    // !commandLineVisible &&
     !leaderboardsVisible &&
     !popupVisible &&
     !TestUI.resultVisible &&
@@ -955,9 +955,9 @@ $(document).on("keydown", async (event) => {
     !["Enter", " ", "Escape", "Tab", ...ModifierKeys].includes(event.key)
   ) {
     TestUI.focusWords();
-    if (Config.showOutOfFocusWarning && !event.ctrlKey && !event.metaKey) {
-      event.preventDefault();
-    }
+    // if (Config.showOutOfFocusWarning && !event.ctrlKey && !event.metaKey) {
+    //   event.preventDefault();
+    // }
   }
 
   //tab
@@ -967,10 +967,10 @@ $(document).on("keydown", async (event) => {
 
   //esc
   if (event.key === "Escape" && Config.quickRestart === "esc") {
-    const modalVisible: boolean =
-      Misc.isPopupVisible("commandLineWrapper") || popupVisible;
-
-    if (modalVisible) return;
+    // const modalVisible: boolean =
+    //   Misc.isPopupVisible("commandLineWrapper") || popupVisible;
+    // console.log(TestState);
+    // if (modalVisible) return;
 
     // change page if not on test page
     if (ActivePage.get() !== "test") {
@@ -1006,10 +1006,10 @@ $(document).on("keydown", async (event) => {
 
     if (activeElementIsButton) return;
 
-    const modalVisible: boolean =
-      Misc.isPopupVisible("commandLineWrapper") || popupVisible;
+    // const modalVisible: boolean =
+    // Misc.isPopupVisible("commandLineWrapper") || popupVisible;
 
-    if (modalVisible) return;
+    // if (modalVisible) return;
 
     // change page if not on test page
     if (ActivePage.get() !== "test") {
@@ -1117,7 +1117,7 @@ $(document).on("keydown", async (event) => {
           lastBailoutAttempt = Date.now();
           if (delay >= 5000) {
             Notifications.add(
-              "Please double tap shift+enter to confirm bail out",
+              "Please press Shift + Enter to confirm bail out",
               0,
               {
                 important: true,

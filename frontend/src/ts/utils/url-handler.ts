@@ -17,10 +17,10 @@ import {
   ModeSchema,
 } from "@monkeytype/contracts/schemas/shared";
 import {
-  CustomBackgroundFilter,
-  CustomBackgroundFilterSchema,
-  CustomBackgroundSize,
-  CustomBackgroundSizeSchema,
+  // CustomBackgroundFilter,
+  // CustomBackgroundFilterSchema,
+  // CustomBackgroundSize,
+  // CustomBackgroundSizeSchema,
   CustomThemeColors,
   CustomThemeColorsSchema,
   FunboxSchema,
@@ -76,8 +76,8 @@ export async function linkDiscord(hashOverride: string): Promise<void> {
 const customThemeUrlDataSchema = z.object({
   c: CustomThemeColorsSchema,
   i: z.string().optional(),
-  s: CustomBackgroundSizeSchema.optional(),
-  f: CustomBackgroundFilterSchema.optional(),
+  // s: CustomBackgroundSizeSchema.optional(),
+  // f: CustomBackgroundFilterSchema.optional(),
 });
 
 export function loadCustomThemeFromUrl(getOverride?: string): void {
@@ -94,14 +94,14 @@ export function loadCustomThemeFromUrl(getOverride?: string): void {
   }
 
   let colorArray: CustomThemeColors | undefined;
-  let image: string | undefined;
-  let size: CustomBackgroundSize | undefined;
-  let filter: CustomBackgroundFilter | undefined;
+  // let image: string | undefined;
+  // let size: undefined;
+  // let filter: undefined;
   if (Array.isArray(decoded.c) && decoded.c.length === 10) {
     colorArray = decoded.c;
     image = decoded.i;
-    size = decoded.s;
-    filter = decoded.f;
+    // size = decoded.s;
+    // filter = decoded.f;
   } else if (Array.isArray(decoded) && decoded.length === 10) {
     // This is for backward compatibility with old format
     colorArray = decoded as unknown as CustomThemeColors;
@@ -118,11 +118,11 @@ export function loadCustomThemeFromUrl(getOverride?: string): void {
     UpdateConfig.setCustomThemeColors(colorArray);
     Notifications.add("Custom theme applied", 1);
 
-    if (image !== undefined && size !== undefined && filter !== undefined) {
-      UpdateConfig.setCustomBackground(image);
-      UpdateConfig.setCustomBackgroundSize(size);
-      UpdateConfig.setCustomBackgroundFilter(filter);
-    }
+    // if (image !== undefined && size !== undefined && filter !== undefined) {
+    //   UpdateConfig.setCustomBackground(image);
+    //   UpdateConfig.setCustomBackgroundSize(size);
+    //   UpdateConfig.setCustomBackgroundFilter(filter);
+    // }
 
     if (!Config.customTheme) UpdateConfig.setCustomTheme(true);
   } catch (e) {

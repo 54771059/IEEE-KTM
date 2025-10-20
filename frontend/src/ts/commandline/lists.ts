@@ -33,7 +33,7 @@ import LazyModeCommands from "./lists/lazy-mode";
 import ShowAllLinesCommands from "./lists/show-all-lines";
 import ColorfulModeCommands from "./lists/colorful-mode";
 import OutOfFocusWarningCommands from "./lists/out-of-focus-warning";
-import SingleListCommandlineCommands from "./lists/single-list-commandline";
+// import SingleListCommandlineCommands from "./lists/single-list-commandline";
 import CapsLockWarningCommands from "./lists/caps-lock-warning";
 import SoundOnClickCommands from "./lists/sound-on-click";
 import MinWpmCommands from "./lists/min-wpm";
@@ -58,7 +58,7 @@ import KeymapStyleCommands from "./lists/keymap-style";
 import KeymapLegendStyleCommands from "./lists/keymap-legend-style";
 import KeymapShowTopRowCommands from "./lists/keymap-show-top-row";
 import KeymapSizeCommands from "./lists/keymap-size";
-import EnableAdsCommands from "./lists/enable-ads";
+// import EnableAdsCommands from "./lists/enable-ads";
 import MonkeyPowerLevelCommands from "./lists/monkey-power-level";
 import BailOutCommands from "./lists/bail-out";
 import QuoteFavoriteCommands from "./lists/quote-favorites";
@@ -67,8 +67,8 @@ import NavigationCommands from "./lists/navigation";
 import FontSizeCommands from "./lists/font-size";
 import MaxLineWidthCommands from "./lists/max-line-width";
 import ResultScreenCommands from "./lists/result-screen";
-import CustomBackgroundSizeCommands from "./lists/background-size";
-import CustomBackgroundFilterCommands from "./lists/background-filter";
+// import CustomBackgroundSizeCommands from "./lists/background-size";
+// import CustomBackgroundFilterCommands from "./lists/background-filter";
 import AddOrRemoveThemeToFavorite from "./lists/add-or-remove-theme-to-favorites";
 import CodeUnindentOnBackspace from "./lists/code-unindent-on-backspace";
 
@@ -99,7 +99,7 @@ import * as TestStats from "../test/test-stats";
 import * as QuoteSearchModal from "../modals/quote-search";
 import * as FPSCounter from "../elements/fps-counter";
 import {
-  CustomBackgroundSchema,
+  // CustomBackgroundSchema,
   CustomLayoutFluid,
   CustomLayoutFluidSchema,
   CustomPolyglot,
@@ -184,7 +184,7 @@ export const commands: CommandsSubgroup = {
     ...RepeatQuotesCommands,
     ...BlindModeCommands,
     ...ShowWordsHistoryCommands,
-    ...SingleListCommandlineCommands,
+    // ...SingleListCommandlineCommands,
     ...MinWpmCommands,
     ...MinAccCommands,
     ...MinBurstCommands,
@@ -283,28 +283,28 @@ export const commands: CommandsSubgroup = {
     ...FlipTestColorsCommands,
     ...ColorfulModeCommands,
     ...AddOrRemoveThemeToFavorite,
-    {
-      id: "changeCustomBackground",
-      display: "Custom background...",
-      icon: "fa-image",
-      defaultValue: (): string => {
-        return Config.customBackground;
-      },
-      input: true,
-      exec: ({ input }): void => {
-        const parsed = CustomBackgroundSchema.safeParse(input);
-        if (!parsed.success) {
-          Notifications.add(
-            `Invalid custom background URL (${parsed.error.issues[0]?.message})`,
-            0
-          );
-          return;
-        }
-        UpdateConfig.setCustomBackground(input ?? "");
-      },
-    },
-    ...CustomBackgroundSizeCommands,
-    ...CustomBackgroundFilterCommands,
+    // {
+    //   id: "changeCustomBackground",
+    //   display: "Custom background...",
+    //   icon: "fa-image",
+    //   defaultValue: (): string => {
+    //     return Config.customBackground;
+    //   },
+    //   input: true,
+    //   exec: ({ input }): void => {
+    //     const parsed = CustomBackgroundSchema.safeParse(input);
+    //     if (!parsed.success) {
+    //       Notifications.add(
+    //         `Invalid custom background URL (${parsed.error.issues[0]?.message})`,
+    //         0
+    //       );
+    //       return;
+    //     }
+    //     UpdateConfig.setCustomBackground(input ?? "");
+    //   },
+    // },
+    // ...CustomBackgroundSizeCommands,
+    // ...CustomBackgroundFilterCommands,
     ...RandomThemeCommands,
     {
       id: "randomizeTheme",
@@ -333,7 +333,7 @@ export const commands: CommandsSubgroup = {
     },
 
     //danger zone
-    ...EnableAdsCommands,
+    // ...EnableAdsCommands,
 
     //other
     ...LoadChallengeCommands,
@@ -453,7 +453,7 @@ export const commands: CommandsSubgroup = {
 
 const lists = {
   keymapLayouts: KeymapLayoutsCommands[0]?.subgroup,
-  enableAds: EnableAdsCommands[0]?.subgroup,
+  // enableAds: EnableAdsCommands[0]?.subgroup,
   customThemesList: CustomThemesListCommands[0]?.subgroup,
   themes: ThemesCommands[0]?.subgroup,
   loadChallenge: LoadChallengeCommands[0]?.subgroup,

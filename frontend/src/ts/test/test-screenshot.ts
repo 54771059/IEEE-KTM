@@ -36,7 +36,7 @@ function revert(): void {
   $("#result").removeClass("noBalloons");
   $(".wordInputHighlight").removeClass("hidden");
   $(".highlightContainer").removeClass("hidden");
-  if (revertCookie) $("#cookiesModal").removeClass("hidden");
+  // if (revertCookie) $("#cookiesModal").removeClass("hidden");
   if (revealReplay) $("#resultReplay").removeClass("hidden");
   if (!isAuthenticated()) {
     $(".pageTest .loginTip").removeClass("hidden");
@@ -62,12 +62,12 @@ async function generateCanvas(): Promise<HTMLCanvasElement | null> {
     revealReplay = true;
     Replay.pauseReplay();
   }
-  if (
-    Misc.isElementVisible("#cookiesModal") ||
-    document.contains(document.querySelector("#cookiesModal"))
-  ) {
-    revertCookie = true;
-  }
+  // if (
+  //   Misc.isElementVisible("#cookiesModal") ||
+  //   document.contains(document.querySelector("#cookiesModal"))
+  // ) {
+  //   revertCookie = true;
+  // }
 
   // --- UI Preparation ---
   const dateNow = new Date(Date.now());

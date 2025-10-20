@@ -1,5 +1,5 @@
 import * as ShareCustomThemeModal from "../modals/share-custom-theme";
-import * as CookiesModal from "../modals/cookies";
+// import * as CookiesModal from "../modals/cookies";
 import * as EditPresetPopup from "../modals/edit-preset";
 import * as EditTagPopup from "../modals/edit-tag";
 
@@ -13,11 +13,11 @@ settingsPage
     ShareCustomThemeModal.show();
   });
 
-settingsPage
-  ?.querySelector(".section.updateCookiePreferences .buttons button")
-  ?.addEventListener("click", () => {
-    CookiesModal.show(true);
-  });
+// settingsPage
+//   ?.querySelector(".section.updateCookiePreferences .buttons button")
+//   ?.addEventListener("click", () => {
+//     CookiesModal.show(true);
+//   });
 
 settingsPage
   ?.querySelector(".section.presets")

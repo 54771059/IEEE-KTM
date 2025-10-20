@@ -1,7 +1,8 @@
-import * as Commandline from "../commandline/commandline";
+console.log(":)");
+// import * as Commandline from "../commandline/commandline";
 
-$("#keymap").on("click", ".r5 .layoutIndicator", async () => {
-  Commandline.show({
-    subgroupOverride: "keymapLayouts",
-  });
-});
+// $("#keymap").on("click", ".r5 .layoutIndicator", async () => {
+//   Commandline.show({
+//     subgroupOverride: "keymapLayouts",
+//   });
+// });

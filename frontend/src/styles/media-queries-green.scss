@@ -68,15 +68,15 @@
     }
   }
   .pageSettings {
-    .section {
-      grid-template-columns: 1fr 1fr;
+    // .section {
+    //   grid-template-columns: 1fr 1fr;
 
-      &[data-config-name="customBackgroundFilter"] {
-        .groups {
-          grid-template-columns: 1fr;
-        }
-      }
-    }
+    //   &[data-config-name="customBackgroundFilter"] {
+    //     .groups {
+    //       grid-template-columns: 1fr;
+    //     }
+    //   }
+    // }
     .settingsGroup.quickNav {
       justify-content: unset;
       .links {

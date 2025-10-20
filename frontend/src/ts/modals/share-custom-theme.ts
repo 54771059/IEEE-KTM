@@ -1,5 +1,5 @@
 import * as ThemeController from "../controllers/theme-controller";
-import Config from "../config";
+// import Config from "../config";
 import * as Notifications from "../elements/notifications";
 import AnimatedModal from "../utils/animated-modal";
 
@@ -36,11 +36,11 @@ async function generateUrl(): Promise<string> {
     ),
   };
 
-  if (state.includeBackground) {
-    newTheme.i = Config.customBackground;
-    newTheme.s = Config.customBackgroundSize;
-    newTheme.f = Config.customBackgroundFilter;
-  }
+  // if (state.includeBackground) {
+  //   newTheme.i = Config.customBackground;
+  //   newTheme.s = Config.customBackgroundSize;
+  //   newTheme.f = Config.customBackgroundFilter;
+  // }
 
   return (
     window.location.origin + "?customTheme=" + btoa(JSON.stringify(newTheme))

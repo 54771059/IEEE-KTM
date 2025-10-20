@@ -427,7 +427,7 @@ describe("PresetController", () => {
       expect(body).toStrictEqual({
         message: "Invalid request data schema",
         validationErrors: [
-          `"settingGroups.0" Invalid enum value. Expected 'test' | 'behavior' | 'input' | 'sound' | 'caret' | 'appearance' | 'theme' | 'hideElements' | 'ads' | 'hidden', received 'mappers'`,
+          `"settingGroups.0" Invalid enum value. Expected 'test' | 'behavior' | 'input' | 'sound' | 'caret' | 'appearance' | 'theme' | 'hideElements' | 'hidden', received 'mappers'`,
           `"config.autoSwitchTheme" Expected boolean, received string`,
           `"config.confidenceMode" Invalid enum value. Expected 'off' | 'on' | 'max', received 'pretty'`,
           `"config" Unrecognized key(s) in object: 'extra'`,

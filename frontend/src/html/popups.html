@@ -124,7 +124,7 @@
   <form class="modal"></form>
 </dialog>
 
-<dialog id="cookiesModal" class="modalWrapper hidden" data-nosnippet>
+<!-- <dialog id="cookiesModal" class="modalWrapper hidden" data-nosnippet>
   <div class="extensionMessage">
     If you see this text, that means an extension is blocking a cookie consent
     popup. This will cause the website to incorrectly assume its still visible
@@ -198,7 +198,7 @@
       <button class="active acceptSelected">accept selected</button>
     </div>
   </div>
-</dialog>
+</dialog> -->
 
 <dialog id="shareTestSettingsModal" class="modalWrapper hidden">
   <!-- <div id="shareTestSettingsPopup"> -->
@@ -782,15 +782,11 @@
     <input type="number" value="1" min="0" max="10000" />
     <div class="tip">
       You can start an infinite test by inputting 0. Then, to stop the test, use
-      the Bail Out feature (
-      <key>esc</key>
-      or
-      <key>ctrl/cmd</key>
+      (
+      <key>Shift</key>
       +
-      <key>shift</key>
-      +
-      <key>p</key>
-      > Bail Out)
+      <key>Enter</key>
+      ).
     </div>
     <button>ok</button>
   </form>
@@ -805,15 +801,11 @@
       <br />
       <br />
       You can start an infinite test by inputting 0. Then, to stop the test, use
-      the Bail Out feature (
-      <key>esc</key>
-      or
-      <key>ctrl/cmd</key>
+      (
+      <key>Shift</key>
       +
-      <key>shift</key>
-      +
-      <key>p</key>
-      > Bail Out)
+      <key>Enter</key>
+      ).
     </div>
     <button>ok</button>
   </form>
@@ -1274,7 +1266,7 @@
 </dialog>
 <dialog id="commandLine" class="modalWrapper hidden">
   <div class="modal">
-    <div
+    <!-- <div
       style="
         display: grid;
         grid-template-columns: auto 1fr;
@@ -1294,7 +1286,7 @@
         <i class="fas fa-fw fa-exclamation-triangle"></i>
       </div>
       <div class="text">This is some warning text.</div>
-    </div>
+    </div> -->
     <div class="suggestions"></div>
   </div>
 </dialog>

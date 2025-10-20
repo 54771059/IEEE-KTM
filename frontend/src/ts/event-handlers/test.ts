@@ -1,4 +1,4 @@
-import * as Commandline from "../commandline/commandline";
+// import * as Commandline from "../commandline/commandline";
 import * as CustomWordAmount from "../modals/custom-word-amount";
 import Config from "../config";
 import * as DB from "../db";
@@ -15,17 +15,17 @@ import * as PractiseWordsModal from "../modals/practise-words";
 import { navigate } from "../controllers/route-controller";
 import { getMode2 } from "../utils/misc";
 
-$(".pageTest").on("click", "#testModesNotice .textButton", async (event) => {
-  const attr = $(event.currentTarget).attr("commands");
-  if (attr === undefined) return;
-  Commandline.show({ subgroupOverride: attr });
-});
+// $(".pageTest").on("click", "#testModesNotice .textButton", async (event) => {
+//   const attr = $(event.currentTarget).attr("commands");
+//   if (attr === undefined) return;
+//   Commandline.show({ subgroupOverride: attr });
+// });
 
-$(".pageTest").on("click", "#testModesNotice .textButton", async (event) => {
-  const attr = $(event.currentTarget).attr("commandId");
-  if (attr === undefined) return;
-  Commandline.show({ commandOverride: attr });
-});
+// $(".pageTest").on("click", "#testModesNotice .textButton", async (event) => {
+//   const attr = $(event.currentTarget).attr("commandId");
+//   if (attr === undefined) return;
+//   Commandline.show({ commandOverride: attr });
+// });
 
 $(".pageTest").on("click", "#testConfig .wordCount .textButton", (e) => {
   const wrd = $(e.currentTarget).attr("wordCount");

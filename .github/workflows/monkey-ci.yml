@@ -242,7 +242,7 @@ jobs:
               - 'frontend/static/languages/*.json'
             quotes-json:
               - 'frontend/static/quotes/*.json'
-            other-json:
+          other-json:
               - 'frontend/static/funbox/*.json'
               - 'frontend/static/fonts/*.json'
               - 'frontend/static/themes/*.json'

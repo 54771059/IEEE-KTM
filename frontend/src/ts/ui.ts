@@ -40,19 +40,18 @@ export function setMediaQueryDebugLevel(level: number): void {
 
 function updateKeytips(): void {
   const userAgent = window.navigator.userAgent.toLowerCase();
-  const modifierKey =
+  const _modifierKey =
     userAgent.includes("mac") && !userAgent.includes("firefox")
       ? "cmd"
       : "ctrl";
 
-  const commandKey = Config.quickRestart === "esc" ? "tab" : "esc";
+  // const commandKey = Config.quickRestart === "esc" ? "tab" : "esc";
   $("footer .keyTips").html(`
     ${
       Config.quickRestart === "off"
         ? "<key>tab</key> + <key>enter</key>"
         : `<key>${Config.quickRestart}</key>`
-    } - restart test<br>
-    <key>${commandKey}</key> or <key>${modifierKey}</key>+<key>shift</key>+<key>p</key> - command line`);
+    } - restart test`);
 }
 
 if (isDevEnvironment()) {

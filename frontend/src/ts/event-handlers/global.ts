@@ -2,7 +2,7 @@ import * as Misc from "../utils/misc";
 import * as PageTransition from "../states/page-transition";
 import Config from "../config";
 import * as TestWords from "../test/test-words";
-import * as Commandline from "../commandline/commandline";
+// import * as Commandline from "../commandline/commandline";
 import * as Notifications from "../elements/notifications";
 
 document.addEventListener("keydown", async (e) => {
@@ -22,10 +22,10 @@ document.addEventListener("keydown", async (e) => {
     (e.key.toLowerCase() === "p" && (e.metaKey || e.ctrlKey) && e.shiftKey)
   ) {
     e.preventDefault();
-    const popupVisible = Misc.isAnyPopupVisible();
-    if (!popupVisible) {
-      Commandline.show();
-    }
+    // const popupVisible = Misc.isAnyPopupVisible();
+    // if (!popupVisible) {
+    //   Commandline.show();
+    // }
   }
 });
 

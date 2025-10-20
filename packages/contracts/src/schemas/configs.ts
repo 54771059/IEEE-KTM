@@ -184,18 +184,18 @@ export type RepeatQuotes = z.infer<typeof RepeatQuotesSchema>;
 export const OppositeShiftModeSchema = z.enum(["off", "on", "keymap"]);
 export type OppositeShiftMode = z.infer<typeof OppositeShiftModeSchema>;
 
-export const CustomBackgroundSizeSchema = z.enum(["cover", "contain", "max"]);
-export type CustomBackgroundSize = z.infer<typeof CustomBackgroundSizeSchema>;
+// export const CustomBackgroundSizeSchema = z.enum(["cover", "contain", "max"]);
+// export type CustomBackgroundSize = z.infer<typeof CustomBackgroundSizeSchema>;
 
-export const CustomBackgroundFilterSchema = z.tuple([
-  z.number(),
-  z.number(),
-  z.number(),
-  z.number(),
-]);
-export type CustomBackgroundFilter = z.infer<
-  typeof CustomBackgroundFilterSchema
->;
+// export const CustomBackgroundFilterSchema = z.tuple([
+//   z.number(),
+//   z.number(),
+//   z.number(),
+//   z.number(),
+// ]);
+// export type CustomBackgroundFilter = z.infer<
+//   typeof CustomBackgroundFilterSchema
+// >;
 
 export const CustomLayoutFluidSchema = z
   .array(Layouts.LayoutNameSchema)
@@ -334,15 +334,15 @@ export type FontSize = z.infer<typeof FontSizeSchema>;
 export const MaxLineWidthSchema = z.number().min(20).max(1000).or(z.literal(0));
 export type MaxLineWidth = z.infer<typeof MaxLineWidthSchema>;
 
-export const CustomBackgroundSchema = z
-  .string()
-  .url("Needs to be an URI.")
-  .regex(/^(https|http):\/\/.*/, "Unsupported protocol.")
-  .regex(/^[^`'"]*$/, "May not contain quotes.")
-  .regex(/.+(\.png|\.gif|\.jpeg|\.jpg)/gi, "Unsupported image format.")
-  .max(2048, "URL is too long.")
-  .or(z.literal(""));
-export type CustomBackground = z.infer<typeof CustomBackgroundSchema>;
+// export const CustomBackgroundSchema = z
+//   .string()
+//   .url("Needs to be an URI.")
+//   .regex(/^(https|http):\/\/.*/, "Unsupported protocol.")
+//   .regex(/^[^`'"]*$/, "May not contain quotes.")
+//   .regex(/.+(\.png|\.gif|\.jpeg|\.jpg)/gi, "Unsupported image format.")
+//   .max(2048, "URL is too long.")
+//   .or(z.literal(""));
+// export type CustomBackground = z.infer<typeof CustomBackgroundSchema>;
 
 export const ConfigSchema = z
   .object({
@@ -422,9 +422,9 @@ export const ConfigSchema = z
     monkey: z.boolean(),
     repeatQuotes: RepeatQuotesSchema,
     oppositeShiftMode: OppositeShiftModeSchema,
-    customBackground: CustomBackgroundSchema,
-    customBackgroundSize: CustomBackgroundSizeSchema,
-    customBackgroundFilter: CustomBackgroundFilterSchema,
+    // customBackground: CustomBackgroundSchema,
+    // customBackgroundSize: CustomBackgroundSizeSchema,
+    // customBackgroundFilter: CustomBackgroundFilterSchema,
     customLayoutfluid: CustomLayoutFluidSchema,
     monkeyPowerLevel: MonkeyPowerLevelSchema,
     minBurst: MinimumBurstSchema,
@@ -537,9 +537,9 @@ export const ConfigGroupsLiteral = {
   monkey: "hidden",
   repeatQuotes: "behavior",
   oppositeShiftMode: "input",
-  customBackground: "theme",
-  customBackgroundSize: "theme",
-  customBackgroundFilter: "theme",
+  // customBackground: "theme",
+  // customBackgroundSize: "theme",
+  // customBackgroundFilter: "theme",
   customLayoutfluid: "behavior",
   monkeyPowerLevel: "hidden",
   minBurst: "behavior",

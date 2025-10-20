@@ -2,21 +2,21 @@ import Config, * as UpdateConfig from "../config";
 import { isAuthenticated } from "../firebase";
 import * as DB from "../db";
 import * as Notifications from "../elements/notifications";
-import * as Commandline from "../commandline/commandline";
-import * as SupportPopup from "../modals/support";
+// import * as Commandline from "../commandline/commandline";
+// import * as SupportPopup from "../modals/support";
 import * as ContactModal from "../modals/contact";
 import * as VersionHistoryModal from "../modals/version-history";
 import { envConfig } from "../constants/env-config";
 import { COMPATIBILITY_CHECK } from "@monkeytype/contracts";
 import { lastSeenServerCompatibility } from "../ape/adapters/ts-rest-adapter";
 
-document
-  .querySelector("footer #commandLineMobileButton")
-  ?.addEventListener("click", async () => {
-    Commandline.show({
-      singleListOverride: false,
-    });
-  });
+// document
+//   .querySelector("footer #commandLineMobileButton")
+//   ?.addEventListener("click", async () => {
+//     Commandline.show({
+//       singleListOverride: false,
+//     });
+//   });
 
 document
   .querySelector("footer #newVersionIndicator")
@@ -65,18 +65,18 @@ document
       }
       UpdateConfig.setCustomTheme(true);
     } else {
-      const subgroup = Config.customTheme ? "customThemesList" : "themes";
-      Commandline.show({
-        subgroupOverride: subgroup,
-      });
+      const _subgroup = Config.customTheme ? "customThemesList" : "themes";
+      // Commandline.show({
+      //   subgroupOverride: subgroup,
+      // });
     }
   });
 
-document
-  .querySelector("footer #supportMeButton")
-  ?.addEventListener("click", () => {
-    SupportPopup.show();
-  });
+// document
+//   .querySelector("footer #supportMeButton")
+//   ?.addEventListener("click", () => {
+//     SupportPopup.show();
+//   });
 
 document
   .querySelector("footer #contactPopupButton")
