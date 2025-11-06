@@ -99,7 +99,7 @@ export function loadCustomThemeFromUrl(getOverride?: string): void {
   // let filter: undefined;
   if (Array.isArray(decoded.c) && decoded.c.length === 10) {
     colorArray = decoded.c;
-    image = decoded.i;
+    // image = decoded.i;
     // size = decoded.s;
     // filter = decoded.f;
   } else if (Array.isArray(decoded) && decoded.length === 10) {

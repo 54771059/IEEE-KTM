@@ -800,95 +800,95 @@ async function handleChar(
   }
 }
 
-async function handleTab(
-  event: JQuery.KeyDownEvent
-  // popupVisible: boolean
-): Promise<void> {
-  if (TestUI.resultCalculating) {
-    event.preventDefault();
-    return;
-  }
+// async function handleTab(
+// event: JQuery.KeyDownEvent,
+// // popupVisible: boolean  // popupVisible: boolean
+// ): Promise<void> {
+//   if (TestUI.resultCalculating) {
+//     event.preventDefault();
+//     return;
+//   }
 
-  let shouldInsertTabCharacter = false;
+//   let shouldInsertTabCharacter = false;
 
-  if (
-    (Config.mode === "zen" && !event.shiftKey) ||
-    (TestWords.hasTab && !event.shiftKey)
-  ) {
-    shouldInsertTabCharacter = true;
-  }
+//   if (
+//     (Config.mode === "zen" && !event.shiftKey) ||
+//     (TestWords.hasTab && !event.shiftKey)
+//   ) {
+//     shouldInsertTabCharacter = true;
+//   }
 
-  // const modalVisible: boolean =
-  //   Misc.isPopupVisible("commandLineWrapper") || popupVisible;
+//   // const modalVisible: boolean =
+//   //   Misc.isPopupVisible("commandLineWrapper") || popupVisible;
 
-  if (Config.quickRestart === "esc") {
-    // dont do anything special
-    // if (modalVisible) return;
+//   if (Config.quickRestart === "esc") {
+//     // dont do anything special
+//     // if (modalVisible) return;
 
-    // dont do anything on login so we can tab/esc between inputs
-    if (ActivePage.get() === "login") return;
+//     // dont do anything on login so we can tab/esc between inputs
+//     if (ActivePage.get() === "login") return;
 
-    event.preventDefault();
-    // insert tab character if needed (only during the test)
-    if (!TestUI.resultVisible && shouldInsertTabCharacter) {
-      await handleChar("\t", TestInput.input.current.length);
-      setWordsInput(" " + TestInput.input.current);
-      return;
-    }
-  } else if (Config.quickRestart === "tab") {
-    // dont do anything special
-    // if (modalVisible) return;
+//     event.preventDefault();
+//     // insert tab character if needed (only during the test)
+//     if (!TestUI.resultVisible && shouldInsertTabCharacter) {
+//       await handleChar("\t", TestInput.input.current.length);
+//       setWordsInput(" " + TestInput.input.current);
+//       return;
+//     }
+//   } else if (Config.quickRestart === "tab") {
+//     // dont do anything special
+//     // if (modalVisible) return;
 
-    // dont do anything on login so we can tab/esc betweeen inputs
-    if (ActivePage.get() === "login") return;
+//     // dont do anything on login so we can tab/esc betweeen inputs
+//     if (ActivePage.get() === "login") return;
 
-    // change page if not on test page
-    if (ActivePage.get() !== "test") {
-      navigate("/");
-      return;
-    }
+//     // change page if not on test page
+//     if (ActivePage.get() !== "test") {
+//       navigate("/");
+//       return;
+//     }
 
-    // in case we are in a long test, setting manual restart
-    if (event.shiftKey) {
-      ManualRestart.set();
-    } else {
-      ManualRestart.reset();
-    }
+//     // in case we are in a long test, setting manual restart
+//     if (event.shiftKey) {
+//       ManualRestart.set();
+//     } else {
+//       ManualRestart.reset();
+//     }
 
-    // insert tab character if needed (only during the test)
-    if (!TestUI.resultVisible && shouldInsertTabCharacter) {
-      event.preventDefault();
-      await handleChar("\t", TestInput.input.current.length);
-      setWordsInput(" " + TestInput.input.current);
-      return;
-    }
+//     // insert tab character if needed (only during the test)
+//     if (!TestUI.resultVisible && shouldInsertTabCharacter) {
+//       event.preventDefault();
+//       await handleChar("\t", TestInput.input.current.length);
+//       setWordsInput(" " + TestInput.input.current);
+//       return;
+//     }
 
-    //otherwise restart
-    TestLogic.restart({ event });
-  } else {
-    //quick tab off
-    // dont do anything special
-    // if (modalVisible) return;
+//     //otherwise restart
+//     TestLogic.restart({ event });
+//   } else {
+//     //quick tab off
+//     // dont do anything special
+//     // if (modalVisible) return;
 
-    //only special handlig on the test page
-    if (ActivePage.get() !== "test") return;
-    if (TestUI.resultVisible) return;
+//     //only special handlig on the test page
+//     if (ActivePage.get() !== "test") return;
+//     if (TestUI.resultVisible) return;
 
-    // insert tab character if needed
-    if (shouldInsertTabCharacter) {
-      event.preventDefault();
-      await handleChar("\t", TestInput.input.current.length);
-      setWordsInput(" " + TestInput.input.current);
-      return;
-    }
+//     // insert tab character if needed
+//     if (shouldInsertTabCharacter) {
+//       event.preventDefault();
+//       await handleChar("\t", TestInput.input.current.length);
+//       setWordsInput(" " + TestInput.input.current);
+//       return;
+//     }
 
-    setTimeout(() => {
-      if (document.activeElement?.id !== "wordsInput") {
-        Focus.set(false);
-      }
-    }, 0);
-  }
-}
+//     setTimeout(() => {
+//       if (document.activeElement?.id !== "wordsInput") {
+//         Focus.set(false);
+//       }
+//     }, 0);
+//   }
+// }
 
 // Bind keydown event to both test and contest page inputs
 $(".pageTest #wordsInput, .pageContest #wordsInput").on("keydown", (event) => {
@@ -896,12 +896,12 @@ $(".pageTest #wordsInput, .pageContest #wordsInput").on("keydown", (event) => {
     ActivePage.get() === "test" || ActivePage.get() === "contest";
   // const commandLineVisible = Misc.isPopupVisible("commandLineWrapper");
   const leaderboardsVisible = Misc.isPopupVisible("leaderboardsWrapper");
-  const popupVisible: boolean = Misc.isAnyPopupVisible();
+  // const popupVisible: boolean = Misc.isAnyPopupVisible();
   const allowTyping: boolean =
     pageTestActive &&
     // !commandLineVisible &&
     !leaderboardsVisible &&
-    !popupVisible &&
+    // !popupVisible &&
     !TestUI.resultVisible &&
     event.key !== "Enter" &&
     !awaitingNextWord &&
@@ -938,13 +938,13 @@ $(document).on("keydown", async (event) => {
   // const commandLineVisible = Misc.isPopupVisible("commandLineWrapper");
   const leaderboardsVisible = Misc.isPopupVisible("leaderboardsWrapper");
 
-  const popupVisible: boolean = Misc.isAnyPopupVisible();
+  // const popupVisible: boolean = Misc.isAnyPopupVisible();
 
   const allowTyping: boolean =
     pageTestActive &&
     // !commandLineVisible &&
     !leaderboardsVisible &&
-    !popupVisible &&
+    // !popupVisible &&
     !TestUI.resultVisible &&
     (wordsFocused || event.key !== "Enter") &&
     !awaitingNextWord;
@@ -962,7 +962,7 @@ $(document).on("keydown", async (event) => {
 
   //tab
   if (event.key === "Tab") {
-    await handleTab(event, popupVisible);
+    // await handleTab(event, popupVisible);
   }
 
   //esc
@@ -1307,11 +1307,11 @@ getAllWordsInputs().on("input", async (event) => {
     return;
   }
 
-  const popupVisible = Misc.isAnyPopupVisible();
-  if (popupVisible) {
-    event.preventDefault();
-    return;
-  }
+  // const popupVisible = Misc.isAnyPopupVisible();
+  // if (popupVisible) {
+  //   event.preventDefault();
+  //   return;
+  // }
 
   TestInput.setCurrentNotAfk();
 
