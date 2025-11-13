@@ -245,6 +245,7 @@ key {
 }
 
 .devIndicator {
+  display: none;
   position: fixed;
   font-size: 3rem;
   color: var(--sub-color);
