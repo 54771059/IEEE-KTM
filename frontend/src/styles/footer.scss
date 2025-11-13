@@ -57,6 +57,13 @@ footer {
       width: max-content;
       height: max-content;
     }
+    .bottom {
+      text-align: left;
+      display: flex;
+      justify-self: end;
+      width: max-content;
+      height: max-content;
+    }
     .left .textButton,
     .right .textButton {
       display: grid;
