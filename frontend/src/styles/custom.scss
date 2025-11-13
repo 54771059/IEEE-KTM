@@ -1,0 +1,13 @@
+#contactModal {
+  width: full;
+}
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: full;
+}
+
+.inputs {
+  grid-area: buttons;
+}
