@@ -21,6 +21,11 @@ export function show(): void {
           contentLocation: modalEl,
         },
       });
+
+      const cancelButton = modalEl.querySelector(".cancelBtn");
+      cancelButton?.addEventListener("click", () => {
+        void modal.hide();
+      });
     },
   });
 }
