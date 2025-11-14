@@ -1177,7 +1177,12 @@
 <dialog id="contactModal" class="modalWrapper hidden">
   <div class="modal">
     <div class="title">Contact</div>
-    <form id="modal" class="contactForm" action="/send-contact" method="POST">
+    <form
+      id="modalContnet"
+      class="contactForm"
+      action="/send-contact"
+      method="POST"
+    >
       <label for="name">Name</label>
       <input
         type="text"
@@ -1202,13 +1207,7 @@
         </div>
         <div class="text">Choose one of the following types.</div>
         <div class="inputs">
-          <select>
-            <option value="Question">Question</option>
-            <option value="Feedback">Feedback</option>
-            <option value="Bug Report">Bug Report</option>
-            <option value="Suggestion">Suggestion</option>
-            <option value="Other">Other</option>
-          </select>
+          <select name="contactType"></select>
         </div>
       </div>
 
@@ -1223,7 +1222,9 @@
 
       <div class="formActions buttons">
         <button type="submit" class="button saveBtn">Send</button>
-        <button type="button" class="button cancelBtn">Cancel</button>
+        <button type="button" class="button cancelBtn closeModal">
+          Cancel
+        </button>
       </div>
     </form>
   </div>
