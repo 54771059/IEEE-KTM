@@ -13,6 +13,7 @@ import admin from "./admin";
 import docs from "./docs";
 import webhooks from "./webhooks";
 import dev from "./dev";
+import contact from "./contact";
 import configs from "./configs";
 import configuration from "./configuration";
 import { version } from "../../version";
@@ -52,6 +53,7 @@ const router = s.router(contract, {
   admin,
   apeKeys,
   configs,
+  contact,
   presets,
   psas,
   public: publicStats,

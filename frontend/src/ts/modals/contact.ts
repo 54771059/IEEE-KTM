@@ -8,6 +8,7 @@ import { InputIndicator } from "../elements/input-indicator";
 import { z } from "zod";
 import * as Notifications from "../elements/notifications";
 import * as Loader from "../elements/loader";
+import Ape from "../ape";
 
 let select: SlimSelect | undefined = undefined;
 let nameIndicator: InputIndicator | undefined = undefined;
@@ -141,22 +142,17 @@ async function submitContactForm(
 
   Loader.show();
   try {
-    const response = await fetch("/send-contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const response = await Ape.contact.send({
+      body: {
         name,
         email,
         contactType,
         message,
-      }),
+      },
     });
 
-    const data = await response.json();
-
-    if (response.ok && data.message === "Message sent successfully") {
+    if (response.status === 200 && response.body.data?.success) {
       Notifications.add("Message sent successfully!", 1);
       form.reset();
       nameIndicator?.hide();
@@ -165,16 +161,34 @@ async function submitContactForm(
       messageIndicator?.hide();
       void modal.hide();
     } else {
-      Notifications.add(
-        data.message || "Failed to send message. Please try again.",
-        -1
-      );
+      // Handle error responses (non-200 status codes)
+      const errorMessage =
+        (response.body as { message?: string })?.message ||
+        `Failed to send message (status: ${response.status}). Please try again.`;
+      Notifications.add(errorMessage, -1);
     }
   } catch (error) {
-    Notifications.add(
-      "An error occurred while sending your message. Please try again later.",
-      -1
-    );
+    // This catch block handles network errors, timeouts, etc.
+    console.error("Contact form error:", error);
+    let errorMessage =
+      "An error occurred while sending your message. Please try again later.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+      // Check for common error types
+      if (
+        error.message.includes("timed out") ||
+        error.message.includes("timeout")
+      ) {
+        errorMessage = "Request timed out. Please try again.";
+      } else if (
+        error.message.includes("Failed to fetch") ||
+        error.message.includes("NetworkError")
+      ) {
+        errorMessage =
+          "Network error. Please check your connection and try again.";
+      }
+    }
+    Notifications.add(errorMessage, -1);
   } finally {
     Loader.hide();
   }

@@ -77,6 +77,12 @@ export const limits = {
     max: 50,
   },
 
+  // Contact form
+  contactSend: {
+    window: 60 * 1000, // 1 minute
+    max: 3, // Allow 3 contact form submissions per minute
+  },
+
   // Quote favorites
   quoteFavoriteGet: {
     window: 30 * 60 * 1000, // 30 min
