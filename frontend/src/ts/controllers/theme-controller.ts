@@ -116,11 +116,7 @@ export async function loadStyle(name: string): Promise<void> {
       $("#keymap .keymapKey").stop(true, true).removeAttr("style");
       resolve();
     };
-    if (name === "custom") {
-      link.href = `/themes/serika_dark.css`;
-    } else {
-      link.href = `/themes/${name}.css`;
-    }
+    link.href = `/themes/${name}.css`;
 
     if (headScript === null) {
       console.debug("Theme controller appending link to the head", link);

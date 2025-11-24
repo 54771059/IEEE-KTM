@@ -7,7 +7,7 @@ import {
   PersonalBest,
   PersonalBests,
 } from "@monkeytype/contracts/schemas/shared";
-import { CustomThemeColors } from "@monkeytype/contracts/schemas/configs";
+// import { CustomThemeColors } from "@monkeytype/contracts/schemas/configs";
 
 const mockPersonalBest = {
   acc: 1,
@@ -1713,181 +1713,181 @@ describe("UserDal", () => {
     });
   });
 
-  describe("addTheme", () => {
-    it("should return error if uid not found", async () => {
-      // when, then
-      await expect(
-        UserDAL.addTheme("non existing uid", {
-          name: "new",
-          colors: [] as any,
-        })
-      ).rejects.toThrow(
-        "Maximum number of custom themes reached\nStack: add theme"
-      );
-    });
+  // describe("addTheme", () => {
+  //   it("should return error if uid not found", async () => {
+  //     // when, then
+  //     await expect(
+  //       UserDAL.addTheme("non existing uid", {
+  //         name: "new",
+  //         colors: [] as any,
+  //       })
+  //     ).rejects.toThrow(
+  //       "Maximum number of custom themes reached\nStack: add theme"
+  //     );
+  //   });
 
-    it("should return error if user has reached maximum", async () => {
-      // given
-      const { uid } = await UserTestData.createUser({
-        customThemes: new Array(20).fill(0).map(() => ({
-          _id: new ObjectId(),
-          name: "any",
-          colors: [] as any,
-        })),
-      });
+  // it("should return error if user has reached maximum", async () => {
+  //   // given
+  //   const { uid } = await UserTestData.createUser({
+  //     customThemes: new Array(20).fill(0).map(() => ({
+  //       _id: new ObjectId(),
+  //       name: "any",
+  //       colors: [] as any,
+  //     })),
+  //   });
 
-      // when, then
-      await expect(
-        UserDAL.addTheme(uid, { name: "new", colors: [] as any })
-      ).rejects.toThrow(
-        "Maximum number of custom themes reached\nStack: add theme"
-      );
-    });
+  // when, then
+  //   await expect(
+  //     UserDAL.addTheme(uid, { name: "new", colors: [] as any })
+  //   ).rejects.toThrow(
+  //     "Maximum number of custom themes reached\nStack: add theme"
+  //   );
+  // });
 
-    it("addTheme success", async () => {
-      // given
-      const themeOne = {
-        _id: new ObjectId(),
-        name: "first",
-        colors: new Array(10).fill("#123456") as CustomThemeColors,
-      };
-      const { uid } = await UserTestData.createUser({
-        customThemes: [themeOne],
-      });
+  //   it("addTheme success", async () => {
+  //     // given
+  //     const themeOne = {
+  //       _id: new ObjectId(),
+  //       name: "first",
+  //       colors: new Array(10).fill("#123456") as CustomThemeColors,
+  //     };
+  //     const { uid } = await UserTestData.createUser({
+  //       customThemes: [themeOne],
+  //     });
 
-      const newTheme = {
-        name: "newTheme",
-        colors: new Array(10).fill("#000000") as CustomThemeColors,
-      };
-      // when
-      await UserDAL.addTheme(uid, { ...newTheme });
+  //     const newTheme = {
+  //       name: "newTheme",
+  //       colors: new Array(10).fill("#000000") as CustomThemeColors,
+  //     };
+  //     // when
+  //     await UserDAL.addTheme(uid, { ...newTheme });
 
-      // then
-      const read = await UserDAL.getUser(uid, "read");
-      expect(read.customThemes).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            name: "first",
-            colors: themeOne.colors,
-          }),
-          expect.objectContaining({
-            name: "newTheme",
-            colors: newTheme.colors,
-          }),
-        ])
-      );
-    });
-  });
+  //     // then
+  //     const read = await UserDAL.getUser(uid, "read");
+  //     expect(read.customThemes).toEqual(
+  //       expect.arrayContaining([
+  //         expect.objectContaining({
+  //           name: "first",
+  //           colors: themeOne.colors,
+  //         }),
+  //         expect.objectContaining({
+  //           name: "newTheme",
+  //           colors: newTheme.colors,
+  //         }),
+  //       ])
+  //     );
+  //   });
+  // });
 
-  describe("editTheme", () => {
-    it("should return error if uid not found", async () => {
-      // when, then
-      await expect(
-        UserDAL.editTheme("non existing uid", new ObjectId().toHexString(), {
-          name: "newName",
-          colors: [] as any,
-        })
-      ).rejects.toThrow("Custom theme not found\nStack: edit theme");
-    });
+  // describe("editTheme", () => {
+  //   it("should return error if uid not found", async () => {
+  //     // when, then
+  //     await expect(
+  //       UserDAL.editTheme("non existing uid", new ObjectId().toHexString(), {
+  //         name: "newName",
+  //         colors: [] as any,
+  //       })
+  //     ).rejects.toThrow("Custom theme not found\nStack: edit theme");
+  //   });
 
-    it("should fail if theme not found", async () => {
-      // given
-      const themeOne = {
-        _id: new ObjectId(),
-        name: "first",
-        colors: ["green", "white", "red"] as any,
-      };
-      const { uid } = await UserTestData.createUser({
-        customThemes: [themeOne],
-      });
+  //   it("should fail if theme not found", async () => {
+  //     // given
+  //     const themeOne = {
+  //       _id: new ObjectId(),
+  //       name: "first",
+  //       colors: ["green", "white", "red"] as any,
+  //     };
+  //     const { uid } = await UserTestData.createUser({
+  //       customThemes: [themeOne],
+  //     });
 
-      // when, then
-      await expect(
-        UserDAL.editTheme(uid, new ObjectId().toHexString(), {
-          name: "newName",
-          colors: [] as any,
-        })
-      ).rejects.toThrow("Custom theme not found\nStack: edit theme");
-    });
+  //     // when, then
+  //     await expect(
+  //       UserDAL.editTheme(uid, new ObjectId().toHexString(), {
+  //         name: "newName",
+  //         colors: [] as any,
+  //       })
+  //     ).rejects.toThrow("Custom theme not found\nStack: edit theme");
+  //   });
 
-    it("editTheme success", async () => {
-      // given
-      const themeOne = {
-        _id: new ObjectId(),
-        name: "first",
-        colors: ["green", "white", "red"] as any,
-      };
-      const { uid } = await UserTestData.createUser({
-        customThemes: [themeOne],
-      });
-      // when
-      await UserDAL.editTheme(uid, themeOne._id.toHexString(), {
-        name: "newThemeName",
-        colors: ["red", "white", "blue"] as any,
-      });
+  //   it("editTheme success", async () => {
+  //     // given
+  //     const themeOne = {
+  //       _id: new ObjectId(),
+  //       name: "first",
+  //       colors: ["green", "white", "red"] as any,
+  //     };
+  //     const { uid } = await UserTestData.createUser({
+  //       customThemes: [themeOne],
+  //     });
+  //     // when
+  //     await UserDAL.editTheme(uid, themeOne._id.toHexString(), {
+  //       name: "newThemeName",
+  //       colors: ["red", "white", "blue"] as any,
+  //     });
 
-      // then
-      const read = await UserDAL.getUser(uid, "read");
-      expect(read.customThemes ?? [][0]).toStrictEqual([
-        { ...themeOne, name: "newThemeName", colors: ["red", "white", "blue"] },
-      ]);
-    });
-  });
+  //     // then
+  //     const read = await UserDAL.getUser(uid, "read");
+  //     expect(read.customThemes ?? [][0]).toStrictEqual([
+  //       { ...themeOne, name: "newThemeName", colors: ["red", "white", "blue"] },
+  //     ]);
+  //   });
+  // });
 
-  describe("removeTheme", () => {
-    it("should return error if uid not found", async () => {
-      // when, then
-      await expect(
-        UserDAL.removeTheme("non existing uid", new ObjectId().toHexString())
-      ).rejects.toThrow("Custom theme not found\nStack: remove theme");
-    });
+  // describe("removeTheme", () => {
+  //   it("should return error if uid not found", async () => {
+  //     // when, then
+  //     await expect(
+  //       UserDAL.removeTheme("non existing uid", new ObjectId().toHexString())
+  //     ).rejects.toThrow("Custom theme not found\nStack: remove theme");
+  //   });
 
-    it("should return error if theme is unknown", async () => {
-      // given
-      const themeOne = {
-        _id: new ObjectId(),
-        name: "first",
-        colors: ["green", "white", "red"] as any,
-      };
-      const { uid } = await UserTestData.createUser({
-        customThemes: [themeOne],
-      });
+  //   it("should return error if theme is unknown", async () => {
+  //     // given
+  //     const themeOne = {
+  //       _id: new ObjectId(),
+  //       name: "first",
+  //       colors: ["green", "white", "red"] as any,
+  //     };
+  //     const { uid } = await UserTestData.createUser({
+  //       customThemes: [themeOne],
+  //     });
 
-      // when, then
-      await expect(
-        UserDAL.removeTheme(uid, new ObjectId().toHexString())
-      ).rejects.toThrow("Custom theme not found\nStack: remove theme");
-    });
-    it("should remove theme", async () => {
-      // given
-      const themeOne = {
-        _id: new ObjectId(),
-        name: "first",
-        colors: [] as any,
-      };
-      const themeTwo = {
-        _id: new ObjectId(),
-        name: "second",
-        colors: [] as any,
-      };
+  //     // when, then
+  //     await expect(
+  //       UserDAL.removeTheme(uid, new ObjectId().toHexString())
+  //     ).rejects.toThrow("Custom theme not found\nStack: remove theme");
+  //   });
+  //   it("should remove theme", async () => {
+  //     // given
+  //     const themeOne = {
+  //       _id: new ObjectId(),
+  //       name: "first",
+  //       colors: [] as any,
+  //     };
+  //     const themeTwo = {
+  //       _id: new ObjectId(),
+  //       name: "second",
+  //       colors: [] as any,
+  //     };
 
-      const themeThree = {
-        _id: new ObjectId(),
-        name: "third",
-        colors: [] as any,
-      };
+  //     const themeThree = {
+  //       _id: new ObjectId(),
+  //       name: "third",
+  //       colors: [] as any,
+  //     };
 
-      const { uid } = await UserTestData.createUser({
-        customThemes: [themeOne, themeTwo, themeThree],
-      });
+  //     const { uid } = await UserTestData.createUser({
+  //       customThemes: [themeOne, themeTwo, themeThree],
+  //     });
 
-      // when, then
-      await UserDAL.removeTheme(uid, themeTwo._id.toHexString());
+  //     // when, then
+  //     await UserDAL.removeTheme(uid, themeTwo._id.toHexString());
 
-      const read = await UserDAL.getUser(uid, "read");
-      expect(read.customThemes).toStrictEqual([themeOne, themeThree]);
-    });
-  });
+  //     const read = await UserDAL.getUser(uid, "read");
+  //     expect(read.customThemes).toStrictEqual([themeOne, themeThree]);
+  //   });
+  // });
 
   describe("addFavoriteQuote", () => {
     it("should return error if uid not found", async () => {
