@@ -1,27 +1,24 @@
-import {
-  Config,
-  CustomThemeColors,
-} from "@monkeytype/contracts/schemas/configs";
+import { Config } from "@monkeytype/contracts/schemas/configs";
 import { deepClone } from "../utils/misc";
 
 const obj = {
-  theme: "serika_dark",
-  themeLight: "serika",
-  themeDark: "serika_dark",
+  theme: "dark",
+  themeLight: "dark",
+  themeDark: "dark",
   autoSwitchTheme: false,
-  customTheme: false,
-  customThemeColors: [
-    "#323437",
-    "#e2b714",
-    "#e2b714",
-    "#646669",
-    "#2c2e31",
-    "#d1d0c5",
-    "#ca4754",
-    "#7e2a33",
-    "#ca4754",
-    "#7e2a33",
-  ] as CustomThemeColors,
+  // customTheme: false,
+  // customThemeColors: [
+  //   "#323437",
+  //   "#e2b714",
+  //   "#e2b714",
+  //   "#646669",
+  //   "#2c2e31",
+  //   "#d1d0c5",
+  //   "#ca4754",
+  //   "#7e2a33",
+  //   "#ca4754",
+  //   "#7e2a33",
+  // ] as CustomThemeColors,
   favThemes: [],
   showKeyTips: true,
   smoothCaret: "medium",
@@ -51,7 +48,7 @@ const obj = {
   liveAccStyle: "off",
   liveBurstStyle: "off",
   colorfulMode: false,
-  randomTheme: "off",
+  // randomTheme: "off",
   timerColor: "main",
   timerOpacity: "1",
   stopOnError: "off",

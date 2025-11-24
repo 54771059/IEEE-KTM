@@ -300,12 +300,12 @@
           overflow: revert;
           height: auto;
 
-          &.customTheme {
-            grid-template-columns: 1fr;
-            .colorText {
-              color: var(--text-color);
-            }
-          }
+          // &.customTheme {
+          //   grid-template-columns: 1fr;
+          //   .colorText {
+          //     color: var(--text-color);
+          //   }
+          // }
 
           .text {
             align-self: center;

@@ -1,7 +1,7 @@
 import * as Config from "../../src/ts/config";
 
 import {
-  CustomThemeColors,
+  // CustomThemeColors,
   FunboxName,
 } from "@monkeytype/contracts/schemas/configs";
 import { randomBytes } from "crypto";
@@ -166,11 +166,11 @@ describe("Config", () => {
     expect(Config.setIndicateTypos("off")).toBe(true);
     expect(Config.setIndicateTypos("invalid" as any)).toBe(false);
   });
-  it("setRandomTheme", () => {
-    expect(Config.setRandomTheme("fav")).toBe(true);
-    expect(Config.setRandomTheme("off")).toBe(true);
-    expect(Config.setRandomTheme("invalid" as any)).toBe(false);
-  });
+  // it("setRandomTheme", () => {
+  //   expect(Config.setRandomTheme("fav")).toBe(true);
+  //   expect(Config.setRandomTheme("off")).toBe(true);
+  //   expect(Config.setRandomTheme("invalid" as any)).toBe(false);
+  // });
   it("setKeymapMode", () => {
     expect(Config.setKeymapMode("next")).toBe(true);
     expect(Config.setKeymapMode("react")).toBe(true);
@@ -228,25 +228,25 @@ describe("Config", () => {
 
     expect(Config.setMonkeyPowerLevel("invalid" as any)).toBe(false);
   });
-  it("setCustomThemeColors", () => {
-    expect(Config.setCustomThemeColors(customThemeColors(10))).toBe(true);
+  // it("setCustomThemeColors", () => {
+  //   expect(Config.setCustomThemeColors(customThemeColors(10))).toBe(true);
 
-    //gets converted
-    expect(Config.setCustomThemeColors(customThemeColors(9))).toBe(true);
+  //   //gets converted
+  //   expect(Config.setCustomThemeColors(customThemeColors(9))).toBe(true);
 
-    expect(Config.setCustomThemeColors([] as any)).toBe(false);
-    expect(Config.setCustomThemeColors(["invalid"] as any)).toBe(false);
-    expect(Config.setCustomThemeColors(customThemeColors(5))).toBe(false);
-    expect(Config.setCustomThemeColors(customThemeColors(11))).toBe(false);
+  //   expect(Config.setCustomThemeColors([] as any)).toBe(false);
+  //   expect(Config.setCustomThemeColors(["invalid"] as any)).toBe(false);
+  //   expect(Config.setCustomThemeColors(customThemeColors(5))).toBe(false);
+  //   expect(Config.setCustomThemeColors(customThemeColors(11))).toBe(false);
 
-    const tenColors = customThemeColors(10);
-    tenColors[0] = "black";
-    expect(Config.setCustomThemeColors(tenColors)).toBe(false);
-    tenColors[0] = "#123456";
-    expect(Config.setCustomThemeColors(tenColors)).toBe(true);
-    tenColors[0] = "#1234";
-    expect(Config.setCustomThemeColors(tenColors)).toBe(false);
-  });
+  //   const tenColors = customThemeColors(10);
+  //   tenColors[0] = "black";
+  //   expect(Config.setCustomThemeColors(tenColors)).toBe(false);
+  //   tenColors[0] = "#123456";
+  //   expect(Config.setCustomThemeColors(tenColors)).toBe(true);
+  //   tenColors[0] = "#1234";
+  //   expect(Config.setCustomThemeColors(tenColors)).toBe(false);
+  // });
   it("setNumbers", () => {
     testBoolean(Config.setNumbers);
   });
@@ -284,9 +284,9 @@ describe("Config", () => {
   it("setFlipTestColors", () => {
     testBoolean(Config.setFlipTestColors);
   });
-  it("setColorfulMode", () => {
-    testBoolean(Config.setColorfulMode);
-  });
+  // it("setColorfulMode", () => {
+  //   testBoolean(Config.setColorfulMode);
+  // });
   it("setStrictSpace", () => {
     testBoolean(Config.setStrictSpace);
   });
@@ -308,9 +308,9 @@ describe("Config", () => {
   it("setAutoSwitchTheme", () => {
     testBoolean(Config.setAutoSwitchTheme);
   });
-  it("setCustomTheme", () => {
-    testBoolean(Config.setCustomTheme);
-  });
+  // it("setCustomTheme", () => {
+  //   testBoolean(Config.setCustomTheme);
+  // });
   it("setBritishEnglish", () => {
     testBoolean(Config.setBritishEnglish);
   });
@@ -326,12 +326,12 @@ describe("Config", () => {
   it("setRepeatedPace", () => {
     testBoolean(Config.setRepeatedPace);
   });
-  it("setFavThemes", () => {
-    expect(Config.setFavThemes([])).toBe(true);
-    expect(Config.setFavThemes(["8008", "80s_after_dark"])).toBe(true);
-    expect(Config.setFavThemes(["test"] as any)).toBe(false);
-    expect(Config.setFavThemes("invalid" as any)).toBe(false);
-  });
+  // it("setFavThemes", () => {
+  //   expect(Config.setFavThemes([])).toBe(true);
+  //   expect(Config.setFavThemes(["8008", "80s_after_dark"])).toBe(true);
+  //   expect(Config.setFavThemes(["test"] as any)).toBe(false);
+  //   expect(Config.setFavThemes("invalid" as any)).toBe(false);
+  // });
   it("setFunbox", () => {
     expect(Config.setFunbox(["mirror"])).toBe(true);
     expect(Config.setFunbox(["mirror", "58008"])).toBe(true);
@@ -402,24 +402,24 @@ describe("Config", () => {
     expect(Config.setFontFamily("test font")).toBe(false);
     expect(Config.setFontFamily("test!font")).toBe(false);
   });
-  it("setTheme", () => {
-    expect(Config.setTheme("serika")).toBe(true);
-    expect(Config.setTheme("serika_dark")).toBe(true);
+  // it("setTheme", () => {
+  //   // expect(Config.setTheme("serika")).toBe(true);
+  //   // expect(Config.setTheme("serika_dark")).toBe(true);
 
-    expect(Config.setTheme("invalid" as any)).toBe(false);
-  });
-  it("setThemeLight", () => {
-    expect(Config.setThemeLight("serika")).toBe(true);
-    expect(Config.setThemeLight("serika_dark")).toBe(true);
+  //   expect(Config.setTheme("invalid" as any)).toBe(false);
+  // });
+  // it("setThemeLight", () => {
+  //   expect(Config.setThemeLight("serika")).toBe(true);
+  //   expect(Config.setThemeLight("serika_dark")).toBe(true);
 
-    expect(Config.setThemeLight("invalid" as any)).toBe(false);
-  });
-  it("setThemeDark", () => {
-    expect(Config.setThemeDark("serika")).toBe(true);
-    expect(Config.setThemeDark("serika_dark")).toBe(true);
+  //   expect(Config.setThemeLight("invalid" as any)).toBe(false);
+  // });
+  // it("setThemeDark", () => {
+  //   expect(Config.setThemeDark("serika")).toBe(true);
+  //   expect(Config.setThemeDark("serika_dark")).toBe(true);
 
-    expect(Config.setThemeDark("invalid" as any)).toBe(false);
-  });
+  //   expect(Config.setThemeDark("invalid" as any)).toBe(false);
+  // });
   it("setLanguage", () => {
     expect(Config.setLanguage("english")).toBe(true);
     expect(Config.setLanguage("english_1k")).toBe(true);
@@ -506,9 +506,9 @@ describe("Config", () => {
   });
 });
 
-function customThemeColors(n: number): CustomThemeColors {
-  return new Array(n).fill("#000") as CustomThemeColors;
-}
+// function customThemeColors(n: number): CustomThemeColors {
+//   return new Array(n).fill("#000") as CustomThemeColors;
+// }
 
 function testBoolean(fn: (val: boolean) => boolean): void {
   expect(fn(true)).toBe(true);

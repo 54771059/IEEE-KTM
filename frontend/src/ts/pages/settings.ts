@@ -267,11 +267,11 @@ async function initGroups(): Promise<void> {
     UpdateConfig.setAutoSwitchTheme,
     "button"
   ) as SettingsGroup<ConfigValue>;
-  groups["randomTheme"] = new SettingsGroup(
-    "randomTheme",
-    UpdateConfig.setRandomTheme,
-    "button"
-  ) as SettingsGroup<ConfigValue>;
+  // groups["randomTheme"] = new SettingsGroup(
+  //   "randomTheme",
+  //   UpdateConfig.setRandomTheme,
+  //   "button"
+  // ) as SettingsGroup<ConfigValue>;
   groups["stopOnError"] = new SettingsGroup(
     "stopOnError",
     UpdateConfig.setStopOnError,
@@ -758,7 +758,7 @@ export async function update(): Promise<void> {
   setActiveFunboxButton();
   await Misc.sleep(0);
   ThemePicker.updateActiveTab();
-  ThemePicker.setCustomInputs(true);
+  // ThemePicker.setCustomInputs(true);
   // ThemePicker.updateActiveButton();
 
   $(

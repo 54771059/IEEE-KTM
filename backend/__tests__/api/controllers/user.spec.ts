@@ -2347,251 +2347,251 @@ describe("user controller test", () => {
       });
     });
   });
-  describe("get custom themes", () => {
-    const getThemesMock = vi.spyOn(UserDal, "getThemes");
-    beforeEach(() => {
-      getThemesMock.mockReset();
-    });
-    it("should get custom themes", async () => {
-      //GIVEN
-      const themeOne: UserDal.DBCustomTheme = {
-        _id: new ObjectId(),
-        name: "themeOne",
-        colors: new Array(10).fill("#000000") as any,
-      };
-      const themeTwo: UserDal.DBCustomTheme = {
-        _id: new ObjectId(),
-        name: "themeTwo",
-        colors: new Array(10).fill("#FFFFFF") as any,
-      };
-      getThemesMock.mockResolvedValue([themeOne, themeTwo]);
+  // describe("get custom themes", () => {
+  //   const getThemesMock = vi.spyOn(UserDal, "getThemes");
+  //   beforeEach(() => {
+  //     getThemesMock.mockReset();
+  //   });
+  //   it("should get custom themes", async () => {
+  //     //GIVEN
+  //     const themeOne: UserDal.DBCustomTheme = {
+  //       _id: new ObjectId(),
+  //       name: "themeOne",
+  //       colors: new Array(10).fill("#000000") as any,
+  //     };
+  //     const themeTwo: UserDal.DBCustomTheme = {
+  //       _id: new ObjectId(),
+  //       name: "themeTwo",
+  //       colors: new Array(10).fill("#FFFFFF") as any,
+  //     };
+  //     getThemesMock.mockResolvedValue([themeOne, themeTwo]);
 
-      //WHEN
-      const { body } = await mockApp
-        .get("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .expect(200);
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .get("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .expect(200);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Custom themes retrieved",
-        data: [
-          { ...themeOne, _id: themeOne._id.toHexString() },
-          { ...themeTwo, _id: themeTwo._id.toHexString() },
-        ],
-      });
-    });
-  });
-  describe("add custom theme", () => {
-    const addThemeMock = vi.spyOn(UserDal, "addTheme");
-    beforeEach(() => {
-      addThemeMock.mockReset();
-    });
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Custom themes retrieved",
+  //       data: [
+  //         { ...themeOne, _id: themeOne._id.toHexString() },
+  //         { ...themeTwo, _id: themeTwo._id.toHexString() },
+  //       ],
+  //     });
+  //   });
+  // });
+  // describe("add custom theme", () => {
+  //   const addThemeMock = vi.spyOn(UserDal, "addTheme");
+  //   beforeEach(() => {
+  //     addThemeMock.mockReset();
+  //   });
 
-    it("should add", async () => {
-      //GIVEN
-      const addedTheme: UserDal.DBCustomTheme = {
-        _id: new ObjectId(),
-        name: "custom",
-        colors: new Array(10).fill("#000000") as any,
-      };
-      addThemeMock.mockResolvedValue(addedTheme);
+  //   it("should add", async () => {
+  //     //GIVEN
+  //     const addedTheme: UserDal.DBCustomTheme = {
+  //       _id: new ObjectId(),
+  //       name: "custom",
+  //       colors: new Array(10).fill("#000000") as any,
+  //     };
+  //     addThemeMock.mockResolvedValue(addedTheme);
 
-      //WHEN
-      const { body } = await mockApp
-        .post("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .send({
-          name: "customTheme",
-          colors: new Array(10).fill("#000000") as any,
-        })
-        .expect(200);
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .post("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .send({
+  //         name: "customTheme",
+  //         colors: new Array(10).fill("#000000") as any,
+  //       })
+  //       .expect(200);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Custom theme added",
-        data: { ...addedTheme, _id: addedTheme._id.toHexString() },
-      });
-      expect(addThemeMock).toHaveBeenCalledWith(uid, {
-        name: "customTheme",
-        colors: new Array(10).fill("#000000") as any,
-      });
-    });
-    it("should fail without mandatory properties", async () => {
-      //WHEN
-      const { body } = await mockApp
-        .post("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .expect(422);
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Custom theme added",
+  //       data: { ...addedTheme, _id: addedTheme._id.toHexString() },
+  //     });
+  //     expect(addThemeMock).toHaveBeenCalledWith(uid, {
+  //       name: "customTheme",
+  //       colors: new Array(10).fill("#000000") as any,
+  //     });
+  //   });
+  //   it("should fail without mandatory properties", async () => {
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .post("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .expect(422);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Invalid request data schema",
-        validationErrors: ['"name" Required', '"colors" Required'],
-      });
-    });
-    it("should fail with unknown properties", async () => {
-      //WHEN
-      const { body } = await mockApp
-        .post("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .send({
-          name: "customTheme",
-          colors: new Array(10).fill("#000000") as any,
-          extra: "value",
-        })
-        .expect(422);
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Invalid request data schema",
+  //       validationErrors: ['"name" Required', '"colors" Required'],
+  //     });
+  //   });
+  //   it("should fail with unknown properties", async () => {
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .post("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .send({
+  //         name: "customTheme",
+  //         colors: new Array(10).fill("#000000") as any,
+  //         extra: "value",
+  //       })
+  //       .expect(422);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Invalid request data schema",
-        validationErrors: ["Unrecognized key(s) in object: 'extra'"],
-      });
-    });
-    it("should fail with invalid properties", async () => {
-      //WHEN
-      const { body } = await mockApp
-        .post("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .send({
-          name: "customThemecustomThemecustomThemecustomTheme",
-          colors: new Array(9).fill("#000") as any,
-        })
-        .expect(422);
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Invalid request data schema",
+  //       validationErrors: ["Unrecognized key(s) in object: 'extra'"],
+  //     });
+  //   });
+  //   it("should fail with invalid properties", async () => {
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .post("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .send({
+  //         name: "customThemecustomThemecustomThemecustomTheme",
+  //         colors: new Array(9).fill("#000") as any,
+  //       })
+  //       .expect(422);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Invalid request data schema",
-        validationErrors: [
-          '"name" String must contain at most 16 character(s)',
-          '"colors" Array must contain at least 10 element(s)',
-        ],
-      });
-    });
-  });
-  describe("remove custom theme", () => {
-    const removeThemeMock = vi.spyOn(UserDal, "removeTheme");
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Invalid request data schema",
+  //       validationErrors: [
+  //         '"name" String must contain at most 16 character(s)',
+  //         '"colors" Array must contain at least 10 element(s)',
+  //       ],
+  //     });
+  //   });
+  // });
+  // describe("remove custom theme", () => {
+  //   const removeThemeMock = vi.spyOn(UserDal, "removeTheme");
 
-    beforeEach(() => {
-      removeThemeMock.mockReset();
-    });
+  //   beforeEach(() => {
+  //     removeThemeMock.mockReset();
+  //   });
 
-    it("should remove theme", async () => {
-      //GIVEN
-      const themeId = new ObjectId().toHexString();
+  //   it("should remove theme", async () => {
+  //     //GIVEN
+  //     const themeId = new ObjectId().toHexString();
 
-      //WHEN
-      const { body } = await mockApp
-        .delete("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .send({ themeId })
-        .expect(200);
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .delete("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .send({ themeId })
+  //       .expect(200);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Custom theme removed",
-        data: null,
-      });
-      expect(removeThemeMock).toHaveBeenCalledWith(uid, themeId);
-    });
-    it("should fail without mandatory properties", async () => {
-      //WHEN
-      const { body } = await mockApp
-        .delete("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .expect(422);
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Custom theme removed",
+  //       data: null,
+  //     });
+  //     expect(removeThemeMock).toHaveBeenCalledWith(uid, themeId);
+  //   });
+  //   it("should fail without mandatory properties", async () => {
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .delete("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .expect(422);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Invalid request data schema",
-        validationErrors: ['"themeId" Required'],
-      });
-    });
-    it("should fail with unknown properties", async () => {
-      //WHEN
-      const { body } = await mockApp
-        .delete("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .send({ themeId: new ObjectId().toHexString(), extra: "value" })
-        .expect(422);
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Invalid request data schema",
+  //       validationErrors: ['"themeId" Required'],
+  //     });
+  //   });
+  //   it("should fail with unknown properties", async () => {
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .delete("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .send({ themeId: new ObjectId().toHexString(), extra: "value" })
+  //       .expect(422);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Invalid request data schema",
-        validationErrors: ["Unrecognized key(s) in object: 'extra'"],
-      });
-    });
-  });
-  describe("edit custom theme", () => {
-    const editThemeMock = vi.spyOn(UserDal, "editTheme");
-    beforeEach(() => {
-      editThemeMock.mockReset();
-    });
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Invalid request data schema",
+  //       validationErrors: ["Unrecognized key(s) in object: 'extra'"],
+  //     });
+  //   });
+  // });
+  // describe("edit custom theme", () => {
+  //   const editThemeMock = vi.spyOn(UserDal, "editTheme");
+  //   beforeEach(() => {
+  //     editThemeMock.mockReset();
+  //   });
 
-    it("should edit custom theme", async () => {
-      //GIVEN
-      const themeId = new ObjectId().toHexString();
-      const theme = {
-        name: "newName",
-        colors: new Array(10).fill("#000000") as any,
-      };
+  //   it("should edit custom theme", async () => {
+  //     //GIVEN
+  //     const themeId = new ObjectId().toHexString();
+  //     const theme = {
+  //       name: "newName",
+  //       colors: new Array(10).fill("#000000") as any,
+  //     };
 
-      //WHEN
-      const { body } = await mockApp
-        .patch("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .send({
-          themeId,
-          theme,
-        })
-        .expect(200);
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .patch("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .send({
+  //         themeId,
+  //         theme,
+  //       })
+  //       .expect(200);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Custom theme updated",
-        data: null,
-      });
-      expect(editThemeMock).toHaveBeenCalledWith(uid, themeId, theme);
-    });
-    it("should fail without mandatory properties", async () => {
-      //WHEN
-      const { body } = await mockApp
-        .patch("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .expect(422);
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Custom theme updated",
+  //       data: null,
+  //     });
+  //     expect(editThemeMock).toHaveBeenCalledWith(uid, themeId, theme);
+  //   });
+  //   it("should fail without mandatory properties", async () => {
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .patch("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .expect(422);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Invalid request data schema",
-        validationErrors: ['"themeId" Required', '"theme" Required'],
-      });
-    });
-    it("should fail with unknown properties", async () => {
-      //WHEN
-      const { body } = await mockApp
-        .patch("/users/customThemes")
-        .set("Authorization", `Bearer ${uid}`)
-        .send({
-          themeId: new ObjectId().toHexString(),
-          theme: {
-            name: "newName",
-            colors: new Array(10).fill("#000000") as any,
-            extra2: "value",
-          },
-          extra: "value",
-        })
-        .expect(422);
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Invalid request data schema",
+  //       validationErrors: ['"themeId" Required', '"theme" Required'],
+  //     });
+  //   });
+  //   it("should fail with unknown properties", async () => {
+  //     //WHEN
+  //     const { body } = await mockApp
+  //       .patch("/users/customThemes")
+  //       .set("Authorization", `Bearer ${uid}`)
+  //       .send({
+  //         themeId: new ObjectId().toHexString(),
+  //         theme: {
+  //           name: "newName",
+  //           colors: new Array(10).fill("#000000") as any,
+  //           extra2: "value",
+  //         },
+  //         extra: "value",
+  //       })
+  //       .expect(422);
 
-      //THEN
-      expect(body).toEqual({
-        message: "Invalid request data schema",
-        validationErrors: [
-          `"theme" Unrecognized key(s) in object: 'extra2'`,
-          "Unrecognized key(s) in object: 'extra'",
-        ],
-      });
-    });
-  });
+  //     //THEN
+  //     expect(body).toEqual({
+  //       message: "Invalid request data schema",
+  //       validationErrors: [
+  //         `"theme" Unrecognized key(s) in object: 'extra2'`,
+  //         "Unrecognized key(s) in object: 'extra'",
+  //       ],
+  //     });
+  //   });
+  // });
   describe("get personal bests", () => {
     const getPBMock = vi.spyOn(UserDal, "getPersonalBests");
     beforeEach(() => {

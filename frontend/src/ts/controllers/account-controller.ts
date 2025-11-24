@@ -231,7 +231,7 @@ async function readyFunction(
     navigate();
   }
 
-  URLHandler.loadCustomThemeFromUrl(search);
+  // URLHandler.loadCustomThemeFromUrl(search);
   URLHandler.loadTestSettingsFromUrl(search);
   URLHandler.loadChallengeFromUrl(search);
   void URLHandler.linkDiscord(hash);
