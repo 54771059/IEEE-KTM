@@ -289,6 +289,7 @@ select:-webkit-autofill:focus {
   border: none;
   background: var(--sub-alt-color);
   color: var(--text-color);
+  z-index: 1000;
   .ss-search {
     padding: 0.5em;
     border-top: 0.1em solid var(--bg-color);

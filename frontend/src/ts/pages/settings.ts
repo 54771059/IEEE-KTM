@@ -460,13 +460,18 @@ async function fillSettingsPage(): Promise<void> {
     return;
   }
   // Language Selection Combobox
-  new SlimSelect({
-    select: ".pageSettings .section[data-config-name='language'] select",
-    data: getLanguageDropdownData((language) => language === Config.language),
-    settings: {
-      searchPlaceholder: "search",
-    },
-  });
+  const languageSelect = $(
+    ".pageSettings .section[data-config-name='language'] select"
+  );
+  if (languageSelect.length > 0) {
+    new SlimSelect({
+      select: languageSelect[0] as HTMLSelectElement,
+      data: getLanguageDropdownData((language) => language === Config.language),
+      settings: {
+        searchPlaceholder: "search",
+      },
+    });
+  }
 
   const layoutToOption: (layout: LayoutName) => OptionOptional = (layout) => ({
     value: layout,
