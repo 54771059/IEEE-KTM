@@ -17,6 +17,7 @@ export function callController<
   handler: MonkeyHandler<TQuery, TBody, TParams, TResponse>
 ): (all: TypeSafeTsRestRequest<TRoute, TQuery, TBody, TParams>) => Promise<{
   status: TStatus;
+  // test
   body: MonkeyResponse<TResponse>;
 }> {
   return async (all) => {
