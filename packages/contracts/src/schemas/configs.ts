@@ -49,15 +49,15 @@ export type LiveSpeedAccBurstStyle = z.infer<
   typeof LiveSpeedAccBurstStyleSchema
 >;
 
-export const RandomThemeSchema = z.enum([
-  "off",
-  "on",
-  "fav",
-  "light",
-  "dark",
-  "custom",
-]);
-export type RandomTheme = z.infer<typeof RandomThemeSchema>;
+// export const RandomThemeSchema = z.enum([
+//   "off",
+//   "on",
+//   "fav",
+//   "light",
+//   "dark",
+//   "custom",
+// ]);
+// export type RandomTheme = z.infer<typeof RandomThemeSchema>;
 
 export const TimerColorSchema = z.enum(["black", "sub", "text", "main"]);
 export type TimerColor = z.infer<typeof TimerColorSchema>;
@@ -350,9 +350,9 @@ export const ConfigSchema = z
     themeLight: ThemeNameSchema,
     themeDark: ThemeNameSchema,
     autoSwitchTheme: z.boolean(),
-    customTheme: z.boolean(),
+    // customTheme: z.boolean(),
     //customThemeId: token().nonnegative().max(24),
-    customThemeColors: CustomThemeColorsSchema,
+    // customThemeColors: CustomThemeColorsSchema,
     favThemes: FavThemesSchema,
     showKeyTips: z.boolean(),
     smoothCaret: SmoothCaretSchema,
@@ -382,7 +382,7 @@ export const ConfigSchema = z
     liveAccStyle: LiveSpeedAccBurstStyleSchema,
     liveBurstStyle: LiveSpeedAccBurstStyleSchema,
     colorfulMode: z.boolean(),
-    randomTheme: RandomThemeSchema,
+    // randomTheme: RandomThemeSchema,
     timerColor: TimerColorSchema,
     timerOpacity: TimerOpacitySchema,
     stopOnError: StopOnErrorSchema,
@@ -466,8 +466,8 @@ export const ConfigGroupsLiteral = {
   themeLight: "theme",
   themeDark: "theme",
   autoSwitchTheme: "theme",
-  customTheme: "theme",
-  customThemeColors: "theme",
+  // customTheme: "theme",
+  // customThemeColors: "theme",
   favThemes: "theme",
   showKeyTips: "hideElements",
   smoothCaret: "caret",
@@ -497,7 +497,7 @@ export const ConfigGroupsLiteral = {
   liveAccStyle: "appearance",
   liveBurstStyle: "appearance",
   colorfulMode: "theme",
-  randomTheme: "theme",
+  // randomTheme: "theme",
   timerColor: "appearance",
   timerOpacity: "appearance",
   stopOnError: "input",

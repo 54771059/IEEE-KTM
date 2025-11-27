@@ -17,7 +17,7 @@ import * as AltTracker from "./alt-tracker";
 import * as Focus from "./focus";
 import * as Funbox from "./funbox/funbox";
 import * as Keymap from "../elements/keymap";
-import * as ThemeController from "../controllers/theme-controller";
+// import * as ThemeController from "../controllers/theme-controller";
 import * as ResultWordHighlight from "../elements/result-word-highlight";
 import * as PaceCaret from "./pace-caret";
 import * as Caret from "./caret";
@@ -292,12 +292,12 @@ export function restart(options = {} as RestartOptions): void {
   TestUI.reset();
   CompositionState.setComposing(false);
 
-  if (TestUI.resultVisible) {
-    if (Config.randomTheme !== "off") {
-      void ThemeController.randomizeTheme();
-    }
-    void XPBar.skipBreakdown();
-  }
+  // if (TestUI.resultVisible) {
+  //   if (Config.randomTheme !== "off") {
+  //     void ThemeController.randomizeTheme();
+  //   }
+  //   void XPBar.skipBreakdown();
+  // }
 
   if (!ConnectionState.get()) {
     ConnectionState.showOfflineBanner();

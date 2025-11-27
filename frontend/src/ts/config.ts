@@ -1427,15 +1427,15 @@ export function setAutoSwitchTheme(
   return true;
 }
 
-export function setCustomTheme(boolean: boolean, nosave?: boolean): boolean {
-  if (!isConfigValueValidBoolean("custom theme", boolean)) return false;
+// export function setCustomTheme(boolean: boolean, nosave?: boolean): boolean {
+//   if (!isConfigValueValidBoolean("custom theme", boolean)) return false;
 
-  config.customTheme = boolean;
-  saveToLocalStorage("customTheme", nosave);
-  ConfigEvent.dispatch("customTheme", config.customTheme);
+//   config.customTheme = boolean;
+//   saveToLocalStorage("customTheme", nosave);
+//   ConfigEvent.dispatch("customTheme", config.customTheme);
 
-  return true;
-}
+//   return true;
+// }
 
 export function setTheme(
   name: ConfigSchemas.ThemeName,
@@ -1445,7 +1445,7 @@ export function setTheme(
     return false;
 
   config.theme = name;
-  if (config.customTheme) setCustomTheme(false);
+  // if (config.customTheme) setCustomTheme(false);
   saveToLocalStorage("theme", nosave);
   ConfigEvent.dispatch("theme", config.theme);
 
@@ -1482,68 +1482,53 @@ export function setThemeDark(
 
 function setThemes(
   theme: ConfigSchemas.ThemeName,
-  customState: boolean,
-  customThemeColors: ConfigSchemas.CustomThemeColors,
-  autoSwitchTheme: boolean,
+  // customState: boolean,
+  // customThemeColors: ConfigSchemas.CustomThemeColors,
+  // autoSwitchTheme: boolean,
   nosave?: boolean
 ): boolean {
   if (!isConfigValueValid("themes", theme, ConfigSchemas.ThemeNameSchema))
     return false;
 
-  //@ts-expect-error config used to have 9
-  if (customThemeColors.length === 9) {
-    //color missing
-    if (customState) {
-      Notifications.add(
-        "Missing sub alt color. Please edit it in the custom theme settings and save your changes.",
-        0,
-        {
-          duration: 7,
-        }
-      );
-    }
-    customThemeColors.splice(4, 0, "#000000");
-  }
-
-  config.customThemeColors = customThemeColors;
+  // config.customThemeColors = customThemeColors;
   config.theme = theme;
-  config.customTheme = customState;
-  config.autoSwitchTheme = autoSwitchTheme;
+  // config.customTheme = customState;
+  // config.autoSwitchTheme = autoSwitchTheme;
   saveToLocalStorage("theme", nosave);
-  ConfigEvent.dispatch("setThemes", customState);
+  // ConfigEvent.dispatch("setThemes", customState);
 
   return true;
 }
 
-export function setRandomTheme(
-  val: ConfigSchemas.RandomTheme,
-  nosave?: boolean
-): boolean {
-  if (
-    !isConfigValueValid("random theme", val, ConfigSchemas.RandomThemeSchema)
-  ) {
-    return false;
-  }
+// export function setRandomTheme(
+//   val: ConfigSchemas.RandomTheme,
+//   nosave?: boolean
+// ): boolean {
+//   if (
+//     !isConfigValueValid("random theme", val, ConfigSchemas.RandomThemeSchema)
+//   ) {
+//     return false;
+//   }
 
-  if (val === "custom") {
-    if (!isAuthenticated()) {
-      config.randomTheme = val;
-      return false;
-    }
-    if (!DB.getSnapshot()) return true;
-    if (DB.getSnapshot()?.customThemes?.length === 0) {
-      Notifications.add("You need to create a custom theme first", 0);
-      config.randomTheme = "off";
-      return false;
-    }
-  }
+//   if (val === "custom") {
+//     if (!isAuthenticated()) {
+//       config.randomTheme = val;
+//       return false;
+//     }
+//     if (!DB.getSnapshot()) return true;
+//     if (DB.getSnapshot()?.customThemes?.length === 0) {
+//       Notifications.add("You need to create a custom theme first", 0);
+//       config.randomTheme = "off";
+//       return false;
+//     }
+//   }
 
-  config.randomTheme = val;
-  saveToLocalStorage("randomTheme", nosave);
-  ConfigEvent.dispatch("randomTheme", config.randomTheme);
+//   config.randomTheme = val;
+//   saveToLocalStorage("randomTheme", nosave);
+//   ConfigEvent.dispatch("randomTheme", config.randomTheme);
 
-  return true;
-}
+//   return true;
+// }
 
 export function setBritishEnglish(val: boolean, nosave?: boolean): boolean {
   if (isConfigChangeBlocked()) return false;
@@ -1575,44 +1560,44 @@ export function setLazyMode(val: boolean, nosave?: boolean): boolean {
   return true;
 }
 
-export function setCustomThemeColors(
-  colors: ConfigSchemas.CustomThemeColors,
-  nosave?: boolean
-): boolean {
-  // migrate existing configs missing sub alt color
-  // @ts-expect-error legacy configs
-  if (colors.length === 9) {
-    //color missing
-    Notifications.add(
-      "Missing sub alt color. Please edit it in the custom theme settings and save your changes.",
-      0,
-      {
-        duration: 7,
-      }
-    );
-    colors.splice(4, 0, "#000000");
-  }
+// export function setCustomThemeColors(
+//   colors: ConfigSchemas.CustomThemeColors,
+//   nosave?: boolean
+// ): boolean {
+//   // migrate existing configs missing sub alt color
+//   // @ts-expect-error legacy configs
+//   if (colors.length === 9) {
+//     //color missing
+//     Notifications.add(
+//       "Missing sub alt color. Please edit it in the custom theme settings and save your changes.",
+//       0,
+//       {
+//         duration: 7,
+//       }
+//     );
+//     colors.splice(4, 0, "#000000");
+//   }
 
-  if (
-    !isConfigValueValid(
-      "custom theme colors",
-      colors,
-      ConfigSchemas.CustomThemeColorsSchema
-    )
-  ) {
-    return false;
-  }
+//   if (
+//     !isConfigValueValid(
+//       "custom theme colors",
+//       colors,
+//       ConfigSchemas.CustomThemeColorsSchema
+//     )
+//   ) {
+//     return false;
+//   }
 
-  if (colors !== undefined) {
-    config.customThemeColors = colors;
-    // ThemeController.set("custom");
-    // applyCustomThemeColors();
-  }
-  saveToLocalStorage("customThemeColors", nosave);
-  ConfigEvent.dispatch("customThemeColors", config.customThemeColors, nosave);
+//   if (colors !== undefined) {
+//     config.customThemeColors = colors;
+//     // ThemeController.set("custom");
+//     // applyCustomThemeColors();
+//   }
+//   saveToLocalStorage("customThemeColors", nosave);
+//   ConfigEvent.dispatch("customThemeColors", config.customThemeColors, nosave);
 
-  return true;
-}
+//   return true;
+// }
 
 export function setLanguage(language: Language, nosave?: boolean): boolean {
   if (isConfigChangeBlocked()) return false;
@@ -2048,10 +2033,10 @@ export async function apply(
     setThemeDark(configObj.themeDark, true);
     setThemes(
       configObj.theme,
-      configObj.customTheme,
-      configObj.customThemeColors,
-      configObj.autoSwitchTheme,
-      true
+      // configObj.customTheme,
+      // configObj.customThemeColors,
+      configObj.autoSwitchTheme
+      // true
     );
     setCustomLayoutfluid(configObj.customLayoutfluid, true);
     setCustomPolyglot(configObj.customPolyglot, true);
@@ -2103,7 +2088,7 @@ export async function apply(
     setStopOnError(configObj.stopOnError, true);
     setFavThemes(configObj.favThemes, true);
     setFunbox(configObj.funbox, true);
-    setRandomTheme(configObj.randomTheme, true);
+    // setRandomTheme(configObj.randomTheme, true);
     setShowAllLines(configObj.showAllLines, true);
     setShowOutOfFocusWarning(configObj.showOutOfFocusWarning, true);
     setPaceCaret(configObj.paceCaret, true);

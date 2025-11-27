@@ -16,7 +16,7 @@ import { UTCDate } from "@date-fns/utc";
 import {
   AllRewards,
   Badge,
-  CustomTheme,
+  // CustomTheme,
   MonkeyMail,
   UserInventory,
   UserProfileDetails,
@@ -53,7 +53,7 @@ export type DBUser = Omit<
   resultFilterPresets?: WithObjectId<ResultFilters>[];
   tags?: DBUserTag[];
   lbPersonalBests?: LbPersonalBests;
-  customThemes?: WithObjectId<CustomTheme>[];
+  // customThemes?: WithObjectId<CustomTheme>[];
   autoBanTimestamps?: number[];
   inbox?: MonkeyMail[];
   ips?: string[];
@@ -690,74 +690,74 @@ export async function incrementTestActivity(
   );
 }
 
-export async function addTheme(
-  uid: string,
-  { name, colors }: Omit<CustomTheme, "_id">
-): Promise<{ _id: ObjectId; name: string }> {
-  const _id = new ObjectId();
+// export async function addTheme(
+//   uid: string,
+//   { name, colors }: Omit<CustomTheme, "_id">
+// ): Promise<{ _id: ObjectId; name: string }> {
+//   const _id = new ObjectId();
 
-  await updateUser(
-    { uid, "customThemes.19": { $exists: false } },
-    {
-      $push: {
-        customThemes: {
-          _id,
-          name: name,
-          colors: colors,
-        },
-      },
-    },
-    {
-      statusCode: 409,
-      message: "Maximum number of custom themes reached",
-      stack: "add theme",
-    }
-  );
+//   await updateUser(
+//     { uid, "customThemes.19": { $exists: false } },
+//     {
+//       $push: {
+//         customThemes: {
+//           _id,
+//           name: name,
+//           colors: colors,
+//         },
+//       },
+//     },
+//     {
+//       statusCode: 409,
+//       message: "Maximum number of custom themes reached",
+//       stack: "add theme",
+//     }
+//   );
 
-  return {
-    _id,
-    name,
-  };
-}
+//   return {
+//     _id,
+//     name,
+//   };
+// }
 
-export async function removeTheme(uid: string, id: string): Promise<void> {
-  const themeId = new ObjectId(id);
-  await updateUser(
-    { uid, "customThemes._id": themeId },
-    { $pull: { customThemes: { _id: themeId } } },
-    {
-      statusCode: 404,
-      message: "Custom theme not found",
-      stack: "remove theme",
-    }
-  );
-}
+// export async function removeTheme(uid: string, id: string): Promise<void> {
+//   const themeId = new ObjectId(id);
+//   await updateUser(
+//     { uid, "customThemes._id": themeId },
+//     { $pull: { customThemes: { _id: themeId } } },
+//     {
+//       statusCode: 404,
+//       message: "Custom theme not found",
+//       stack: "remove theme",
+//     }
+//   );
+// }
 
-export async function editTheme(
-  uid: string,
-  id: string,
-  { name, colors }: Omit<CustomTheme, "_id">
-): Promise<void> {
-  const themeId = new ObjectId(id);
+// export async function editTheme(
+//   uid: string,
+//   id: string,
+//   { name, colors }: Omit<CustomTheme, "_id">
+// ): Promise<void> {
+//   const themeId = new ObjectId(id);
 
-  await updateUser(
-    { uid, "customThemes._id": themeId },
-    {
-      $set: {
-        "customThemes.$.name": name,
-        "customThemes.$.colors": colors,
-      },
-    },
-    { statusCode: 404, message: "Custom theme not found", stack: "edit theme" }
-  );
-}
+//   await updateUser(
+//     { uid, "customThemes._id": themeId },
+//     {
+//       $set: {
+//         "customThemes.$.name": name,
+//         "customThemes.$.colors": colors,
+//       },
+//     },
+//     { statusCode: 404, message: "Custom theme not found", stack: "edit theme" }
+//   );
+// }
 
-export type DBCustomTheme = WithObjectId<CustomTheme>;
+// export type DBCustomTheme = WithObjectId<CustomTheme>;
 
-export async function getThemes(uid: string): Promise<DBCustomTheme[]> {
-  const user = await getPartialUser(uid, "get themes", ["customThemes"]);
-  return user.customThemes ?? [];
-}
+// export async function getThemes(uid: string): Promise<DBCustomTheme[]> {
+//   const user = await getPartialUser(uid, "get themes", ["customThemes"]);
+//   return user.customThemes ?? [];
+// }
 
 export async function getPersonalBests(
   uid: string,

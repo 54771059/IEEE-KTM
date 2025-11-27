@@ -12,7 +12,7 @@ import {
 } from "./elements/test-activity-calendar";
 import * as Loader from "./elements/loader";
 
-import { Badge, CustomTheme } from "@monkeytype/contracts/schemas/users";
+import { Badge } from "@monkeytype/contracts/schemas/users";
 import { Config, Difficulty } from "@monkeytype/contracts/schemas/configs";
 import {
   Mode,
@@ -340,111 +340,111 @@ export async function getUserResults(offset?: number): Promise<boolean> {
   return true;
 }
 
-function _getCustomThemeById(themeID: string): CustomTheme | undefined {
-  return dbSnapshot?.customThemes?.find((t) => t._id === themeID);
-}
+// function _getCustomThemeById(themeID: string): CustomTheme | undefined {
+//   return dbSnapshot?.customThemes?.find((t) => t._id === themeID);
+// }
 
-export async function addCustomTheme(
-  theme: Omit<CustomTheme, "_id">
-): Promise<boolean> {
-  if (!dbSnapshot) return false;
+// export async function addCustomTheme(
+//   theme: Omit<CustomTheme, "_id">
+// ): Promise<boolean> {
+//   if (!dbSnapshot) return false;
 
-  if (dbSnapshot.customThemes === undefined) {
-    dbSnapshot.customThemes = [];
-  }
+//   if (dbSnapshot.customThemes === undefined) {
+//     dbSnapshot.customThemes = [];
+//   }
 
-  if (dbSnapshot.customThemes.length >= 20) {
-    Notifications.add("Too many custom themes!", 0);
-    return false;
-  }
+//   if (dbSnapshot.customThemes.length >= 20) {
+//     Notifications.add("Too many custom themes!", 0);
+//     return false;
+//   }
 
-  const response = await Ape.users.addCustomTheme({ body: { ...theme } });
-  if (response.status !== 200) {
-    Notifications.add(
-      "Error adding custom theme: " + response.body.message,
-      -1
-    );
-    return false;
-  }
+//   const response = await Ape.users.addCustomTheme({ body: { ...theme } });
+//   if (response.status !== 200) {
+//     Notifications.add(
+//       "Error adding custom theme: " + response.body.message,
+//       -1
+//     );
+//     return false;
+//   }
 
-  if (response.body.data === null) {
-    Notifications.add("Error adding custom theme: No data returned", -1);
-    return false;
-  }
+//   if (response.body.data === null) {
+//     Notifications.add("Error adding custom theme: No data returned", -1);
+//     return false;
+//   }
 
-  const newCustomTheme: CustomTheme = {
-    ...theme,
-    _id: response.body.data._id,
-  };
+//   const newCustomTheme: CustomTheme = {
+//     ...theme,
+//     _id: response.body.data._id,
+//   };
 
-  dbSnapshot.customThemes.push(newCustomTheme);
-  return true;
-}
+//   dbSnapshot.customThemes.push(newCustomTheme);
+//   return true;
+// }
 
-export async function editCustomTheme(
-  themeId: string,
-  newTheme: Omit<CustomTheme, "_id">
-): Promise<boolean> {
-  if (!isAuthenticated()) return false;
-  if (!dbSnapshot) return false;
+// export async function editCustomTheme(
+//   themeId: string,
+//   newTheme: Omit<CustomTheme, "_id">
+// ): Promise<boolean> {
+//   if (!isAuthenticated()) return false;
+//   if (!dbSnapshot) return false;
 
-  if (dbSnapshot.customThemes === undefined) {
-    dbSnapshot.customThemes = [];
-  }
+//   if (dbSnapshot.customThemes === undefined) {
+//     dbSnapshot.customThemes = [];
+//   }
 
-  const customTheme = dbSnapshot.customThemes?.find((t) => t._id === themeId);
-  if (!customTheme) {
-    Notifications.add(
-      "Editing failed: Custom theme with id: " + themeId + " does not exist",
-      -1
-    );
-    return false;
-  }
+//   const customTheme = dbSnapshot.customThemes?.find((t) => t._id === themeId);
+//   if (!customTheme) {
+//     Notifications.add(
+//       "Editing failed: Custom theme with id: " + themeId + " does not exist",
+//       -1
+//     );
+//     return false;
+//   }
 
-  const response = await Ape.users.editCustomTheme({
-    body: { themeId, theme: newTheme },
-  });
-  if (response.status !== 200) {
-    Notifications.add(
-      "Error editing custom theme: " + response.body.message,
-      -1
-    );
-    return false;
-  }
+//   const response = await Ape.users.editCustomTheme({
+//     body: { themeId, theme: newTheme },
+//   });
+//   if (response.status !== 200) {
+//     Notifications.add(
+//       "Error editing custom theme: " + response.body.message,
+//       -1
+//     );
+//     return false;
+//   }
 
-  const newCustomTheme: CustomTheme = {
-    ...newTheme,
-    _id: themeId,
-  };
+//   const newCustomTheme: CustomTheme = {
+//     ...newTheme,
+//     _id: themeId,
+//   };
 
-  dbSnapshot.customThemes[dbSnapshot.customThemes.indexOf(customTheme)] =
-    newCustomTheme;
+//   dbSnapshot.customThemes[dbSnapshot.customThemes.indexOf(customTheme)] =
+//     newCustomTheme;
 
-  return true;
-}
+//   return true;
+// }
 
-export async function deleteCustomTheme(themeId: string): Promise<boolean> {
-  if (!isAuthenticated()) return false;
-  if (!dbSnapshot) return false;
+// export async function deleteCustomTheme(themeId: string): Promise<boolean> {
+//   if (!isAuthenticated()) return false;
+//   if (!dbSnapshot) return false;
 
-  const customTheme = dbSnapshot.customThemes?.find((t) => t._id === themeId);
-  if (!customTheme) return false;
+//   const customTheme = dbSnapshot.customThemes?.find((t) => t._id === themeId);
+//   if (!customTheme) return false;
 
-  const response = await Ape.users.deleteCustomTheme({ body: { themeId } });
-  if (response.status !== 200) {
-    Notifications.add(
-      "Error deleting custom theme: " + response.body.message,
-      -1
-    );
-    return false;
-  }
+//   const response = await Ape.users.deleteCustomTheme({ body: { themeId } });
+//   if (response.status !== 200) {
+//     Notifications.add(
+//       "Error deleting custom theme: " + response.body.message,
+//       -1
+//     );
+//     return false;
+//   }
 
-  dbSnapshot.customThemes = dbSnapshot.customThemes?.filter(
-    (t) => t._id !== themeId
-  );
+//   dbSnapshot.customThemes = dbSnapshot.customThemes?.filter(
+//     (t) => t._id !== themeId
+//   );
 
-  return true;
-}
+//   return true;
+// }
 
 export async function getUserAverage10<M extends Mode>(
   mode: M,

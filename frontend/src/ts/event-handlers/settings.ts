@@ -1,4 +1,4 @@
-import * as ShareCustomThemeModal from "../modals/share-custom-theme";
+// import * as ShareCustomThemeModal from "../modals/share-custom-theme";
 // import * as CookiesModal from "../modals/cookies";
 import * as EditPresetPopup from "../modals/edit-preset";
 import * as EditTagPopup from "../modals/edit-tag";
@@ -7,11 +7,11 @@ import * as Notifications from "../elements/notifications";
 
 const settingsPage = document.querySelector("#pageSettings");
 
-settingsPage
-  ?.querySelector("#shareCustomThemeButton")
-  ?.addEventListener("click", () => {
-    ShareCustomThemeModal.show();
-  });
+// settingsPage
+//   ?.querySelector("#shareCustomThemeButton")
+//   ?.addEventListener("click", () => {
+//     ShareCustomThemeModal.show();
+//   });
 
 // settingsPage
 //   ?.querySelector(".section.updateCookiePreferences .buttons button")

@@ -135,7 +135,7 @@ export const CustomThemeSchema = z
     colors: CustomThemeColorsSchema,
   })
   .strict();
-export type CustomTheme = z.infer<typeof CustomThemeSchema>;
+// export type CustomTheme = z.infer<typeof CustomThemeSchema>;
 
 export const PremiumInfoSchema = z.object({
   startTimestamp: z.number().int().nonnegative(),

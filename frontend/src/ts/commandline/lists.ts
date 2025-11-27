@@ -39,8 +39,8 @@ import SoundOnClickCommands from "./lists/sound-on-click";
 import MinWpmCommands from "./lists/min-wpm";
 import MinAccCommands from "./lists/min-acc";
 import MinBurstCommands from "./lists/min-burst";
-import CustomThemeCommands from "./lists/custom-theme";
-import RandomThemeCommands from "./lists/random-theme";
+// import CustomThemeCommands from "./lists/custom-theme";
+// import RandomThemeCommands from "./lists/random-theme";
 import DifficultyCommands from "./lists/difficulty";
 import PaceCaretStyleCommands from "./lists/pace-caret-style";
 import PaceCaretModeCommands from "./lists/pace-caret";
@@ -73,7 +73,7 @@ import AddOrRemoveThemeToFavorite from "./lists/add-or-remove-theme-to-favorites
 import CodeUnindentOnBackspace from "./lists/code-unindent-on-backspace";
 
 import TagsCommands from "./lists/tags";
-import CustomThemesListCommands from "./lists/custom-themes-list";
+// import CustomThemesListCommands from "./lists/custom-themes-list";
 import PresetsCommands from "./lists/presets";
 import LayoutsCommands from "./lists/layouts";
 import FunboxCommands from "./lists/funbox";
@@ -90,7 +90,7 @@ import KeymapLayoutsCommands from "./lists/keymap-layouts";
 import Config, * as UpdateConfig from "../config";
 import * as Misc from "../utils/misc";
 import * as JSONData from "../utils/json-data";
-import { randomizeTheme } from "../controllers/theme-controller";
+// import { randomizeTheme } from "../controllers/theme-controller";
 import * as CustomTextPopup from "../modals/custom-text";
 import * as Notifications from "../elements/notifications";
 import * as VideoAdPopup from "../popups/video-ad-popup";
@@ -278,8 +278,8 @@ export const commands: CommandsSubgroup = {
 
     //theme
     ...ThemesCommands,
-    ...CustomThemeCommands,
-    ...CustomThemesListCommands,
+    // ...CustomThemeCommands,
+    // ...CustomThemesListCommands,
     ...FlipTestColorsCommands,
     ...ColorfulModeCommands,
     ...AddOrRemoveThemeToFavorite,
@@ -305,16 +305,16 @@ export const commands: CommandsSubgroup = {
     // },
     // ...CustomBackgroundSizeCommands,
     // ...CustomBackgroundFilterCommands,
-    ...RandomThemeCommands,
-    {
-      id: "randomizeTheme",
-      display: "Next random theme",
-      icon: "fa-random",
-      exec: async (): Promise<void> => randomizeTheme(),
-      available: (): boolean => {
-        return Config.randomTheme !== "off";
-      },
-    },
+    // ...RandomThemeCommands,
+    // {
+    //   id: "randomizeTheme",
+    //   display: "Next random theme",
+    //   icon: "fa-random",
+    //   exec: async (): Promise<void> => randomizeTheme(),
+    //   available: (): boolean => {
+    //     return Config.randomTheme !== "off";
+    //   },
+    // },
 
     //showhide elements
     ...KeyTipsCommands,
@@ -454,7 +454,7 @@ export const commands: CommandsSubgroup = {
 const lists = {
   keymapLayouts: KeymapLayoutsCommands[0]?.subgroup,
   // enableAds: EnableAdsCommands[0]?.subgroup,
-  customThemesList: CustomThemesListCommands[0]?.subgroup,
+  // customThemesList: CustomThemesListCommands[0]?.subgroup,
   themes: ThemesCommands[0]?.subgroup,
   loadChallenge: LoadChallengeCommands[0]?.subgroup,
   languages: LanguagesCommands[0]?.subgroup,

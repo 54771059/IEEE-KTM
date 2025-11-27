@@ -21,8 +21,8 @@ import {
   // CustomBackgroundFilterSchema,
   // CustomBackgroundSize,
   // CustomBackgroundSizeSchema,
-  CustomThemeColors,
-  CustomThemeColorsSchema,
+  // CustomThemeColors,
+  // CustomThemeColorsSchema,
   FunboxSchema,
   FunboxName,
 } from "@monkeytype/contracts/schemas/configs";
@@ -73,65 +73,65 @@ export async function linkDiscord(hashOverride: string): Promise<void> {
   }
 }
 
-const customThemeUrlDataSchema = z.object({
-  c: CustomThemeColorsSchema,
-  i: z.string().optional(),
-  // s: CustomBackgroundSizeSchema.optional(),
-  // f: CustomBackgroundFilterSchema.optional(),
-});
+// const customThemeUrlDataSchema = z.object({
+//   c: CustomThemeColorsSchema,
+//   i: z.string().optional(),
+//   // s: CustomBackgroundSizeSchema.optional(),
+//   // f: CustomBackgroundFilterSchema.optional(),
+// });
 
-export function loadCustomThemeFromUrl(getOverride?: string): void {
-  const getValue = Misc.findGetParameter("customTheme", getOverride);
-  if (getValue === null) return;
+// export function loadCustomThemeFromUrl(getOverride?: string): void {
+//   const getValue = Misc.findGetParameter("customTheme", getOverride);
+//   if (getValue === null) return;
 
-  const { data: decoded, error } = tryCatchSync(() =>
-    parseJsonWithSchema(atob(getValue), customThemeUrlDataSchema)
-  );
-  if (error) {
-    console.log("Custom theme URL decoding failed", error);
-    Notifications.add("Failed to load theme from URL: " + error.message, 0);
-    return;
-  }
+//   const { data: decoded, error } = tryCatchSync(() =>
+//     parseJsonWithSchema(atob(getValue), customThemeUrlDataSchema)
+//   );
+//   if (error) {
+//     console.log("Custom theme URL decoding failed", error);
+//     Notifications.add("Failed to load theme from URL: " + error.message, 0);
+//     return;
+//   }
 
-  let colorArray: CustomThemeColors | undefined;
-  // let image: string | undefined;
-  // let size: undefined;
-  // let filter: undefined;
-  if (Array.isArray(decoded.c) && decoded.c.length === 10) {
-    colorArray = decoded.c;
-    // image = decoded.i;
-    // size = decoded.s;
-    // filter = decoded.f;
-  } else if (Array.isArray(decoded) && decoded.length === 10) {
-    // This is for backward compatibility with old format
-    colorArray = decoded as unknown as CustomThemeColors;
-  }
+//   let colorArray: CustomThemeColors | undefined;
+//   // let image: string | undefined;
+//   // let size: undefined;
+//   // let filter: undefined;
+//   if (Array.isArray(decoded.c) && decoded.c.length === 10) {
+//     colorArray = decoded.c;
+//     // image = decoded.i;
+//     // size = decoded.s;
+//     // filter = decoded.f;
+//   } else if (Array.isArray(decoded) && decoded.length === 10) {
+//     // This is for backward compatibility with old format
+//     colorArray = decoded as unknown as CustomThemeColors;
+//   }
 
-  if (colorArray === undefined || colorArray.length !== 10) {
-    Notifications.add("Failed to load theme from URL: no colors found", 0);
-    return;
-  }
+//   if (colorArray === undefined || colorArray.length !== 10) {
+//     Notifications.add("Failed to load theme from URL: no colors found", 0);
+//     return;
+//   }
 
-  const oldCustomTheme = Config.customTheme;
-  const oldCustomThemeColors = Config.customThemeColors;
-  try {
-    UpdateConfig.setCustomThemeColors(colorArray);
-    Notifications.add("Custom theme applied", 1);
+//   const oldCustomTheme = Config.customTheme;
+//   const oldCustomThemeColors = Config.customThemeColors;
+//   try {
+//     UpdateConfig.setCustomThemeColors(colorArray);
+//     Notifications.add("Custom theme applied", 1);
 
-    // if (image !== undefined && size !== undefined && filter !== undefined) {
-    //   UpdateConfig.setCustomBackground(image);
-    //   UpdateConfig.setCustomBackgroundSize(size);
-    //   UpdateConfig.setCustomBackgroundFilter(filter);
-    // }
+//     // if (image !== undefined && size !== undefined && filter !== undefined) {
+//     //   UpdateConfig.setCustomBackground(image);
+//     //   UpdateConfig.setCustomBackgroundSize(size);
+//     //   UpdateConfig.setCustomBackgroundFilter(filter);
+//     // }
 
-    if (!Config.customTheme) UpdateConfig.setCustomTheme(true);
-  } catch (e) {
-    Notifications.add("Something went wrong. Reverting to previous state.", 0);
-    console.error(e);
-    UpdateConfig.setCustomTheme(oldCustomTheme);
-    UpdateConfig.setCustomThemeColors(oldCustomThemeColors);
-  }
-}
+//     if (!Config.customTheme) UpdateConfig.setCustomTheme(true);
+//   } catch (e) {
+//     Notifications.add("Something went wrong. Reverting to previous state.", 0);
+//     console.error(e);
+//     UpdateConfig.setCustomTheme(oldCustomTheme);
+//     UpdateConfig.setCustomThemeColors(oldCustomThemeColors);
+//   }
+// }
 
 const TestSettingsSchema = z.tuple([
   ModeSchema.nullable(),

@@ -10,14 +10,14 @@ const commands: Command[] = [
     icon: "fa-star",
     available: (): boolean => {
       return (
-        !Config.customTheme &&
+        // !Config.customTheme &&
         !Config.favThemes.includes((randomTheme as ThemeName) ?? Config.theme)
       );
     },
     exec: (): void => {
-      const { theme, favThemes, customTheme } = Config;
+      const { theme, favThemes } = Config;
       const themeToUpdate = randomTheme ?? theme;
-      if (!customTheme && !favThemes.includes(themeToUpdate as ThemeName)) {
+      if (!favThemes.includes(themeToUpdate as ThemeName)) {
         UpdateConfig.setFavThemes([...favThemes, themeToUpdate as ThemeName]);
       }
     },
@@ -28,15 +28,14 @@ const commands: Command[] = [
     icon: "fa-star",
     iconType: "regular",
     available: (): boolean => {
-      return (
-        !Config.customTheme &&
-        Config.favThemes.includes((randomTheme as ThemeName) ?? Config.theme)
+      return Config.favThemes.includes(
+        (randomTheme as ThemeName) ?? Config.theme
       );
     },
     exec: (): void => {
-      const { theme, favThemes, customTheme } = Config;
+      const { theme, favThemes } = Config;
       const themeToUpdate = (randomTheme as ThemeName) ?? theme;
-      if (!customTheme && favThemes.includes(themeToUpdate)) {
+      if (favThemes.includes(themeToUpdate)) {
         UpdateConfig.setFavThemes([
           ...favThemes.filter((t) => t !== themeToUpdate),
         ]);

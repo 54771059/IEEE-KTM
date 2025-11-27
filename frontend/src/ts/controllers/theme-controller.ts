@@ -1,21 +1,21 @@
 import * as ThemeColors from "../elements/theme-colors";
 import * as ChartController from "./chart-controller";
 import * as Misc from "../utils/misc";
-import * as Arrays from "../utils/arrays";
-import { isColorDark, isColorLight } from "../utils/colors";
-import Config, { setAutoSwitchTheme, setCustomTheme } from "../config";
+// import * as Arrays from "../utils/arrays";
+import { isColorDark } from "../utils/colors";
+import Config, { setAutoSwitchTheme } from "../config";
 // import * as BackgroundFilter from "../elements/custom-background-filter";
 import * as ConfigEvent from "../observables/config-event";
-import * as DB from "../db";
+// import * as DB from "../db";
 import * as Notifications from "../elements/notifications";
 import * as Loader from "../elements/loader";
 import { debounce } from "throttle-debounce";
 import { ThemeName } from "@monkeytype/contracts/schemas/configs";
-import { ThemesList } from "../constants/themes";
+// import { ThemesList } from "../constants/themes";
 
 export let randomTheme: ThemeName | string | null = null;
 let isPreviewingTheme = false;
-let randomThemeIndex = 0;
+// let randomThemeIndex = 0;
 
 export const colorVars = [
   "--bg-color",
@@ -59,12 +59,12 @@ async function updateFavicon(): Promise<void> {
   }, 125);
 }
 
-function clearCustomTheme(): void {
-  console.debug("Theme controller clearing custom theme");
-  for (const e of colorVars) {
-    document.documentElement.style.setProperty(e, "");
-  }
-}
+// function clearCustomTheme(): void {
+//   console.debug("Theme controller clearing custom theme");
+//   for (const e of colorVars) {
+//     document.documentElement.style.setProperty(e, "");
+//   }
+// }
 
 let loadStyleLoaderTimeouts: NodeJS.Timeout[] = [];
 
@@ -116,11 +116,7 @@ export async function loadStyle(name: string): Promise<void> {
       $("#keymap .keymapKey").stop(true, true).removeAttr("style");
       resolve();
     };
-    if (name === "custom") {
-      link.href = `/themes/serika_dark.css`;
-    } else {
-      link.href = `/themes/${name}.css`;
-    }
+    link.href = `/themes/${name}.css`;
 
     if (headScript === null) {
       console.debug("Theme controller appending link to the head", link);
@@ -153,9 +149,9 @@ async function apply(
     customColorsOverride,
     isPreview
   );
-  if (!Config.customTheme) {
-    clearCustomTheme();
-  }
+  // if (!Config.customTheme) {
+  //   clearCustomTheme();
+  // }
   const name = customColorsOverride ? "custom" : themeName;
 
   ThemeColors.reset();
@@ -165,14 +161,14 @@ async function apply(
   await loadStyle(name);
   ThemeColors.update();
 
-  if ((Config.customTheme && !isPreview) || customColorsOverride) {
-    const colors = customColorsOverride ?? Config.customThemeColors;
+  // if ((Config.customTheme && !isPreview) || customColorsOverride) {
+  //   const colors = customColorsOverride ?? Config.customThemeColors;
 
-    for (let i = 0; i < colorVars.length; i++) {
-      const colorVar = colorVars[i] as string;
-      document.documentElement.style.setProperty(colorVar, colors[i] as string);
-    }
-  }
+  //   for (let i = 0; i < colorVars.length; i++) {
+  //     const colorVar = colorVars[i] as string;
+  //     document.documentElement.style.setProperty(colorVar, colors[i] as string);
+  //   }
+  // }
 
   // if (!isPreview) {
   const colors = await ThemeColors.getAll();
@@ -182,7 +178,6 @@ async function apply(
   $("#metaThemeColor").attr("content", colors.bg);
   // }
   updateFooterIndicator(isPreview ? themeName : undefined);
-
   if (isColorDark(await ThemeColors.get("bg"))) {
     $("body").addClass("darkMode");
   } else {
@@ -208,18 +203,18 @@ function updateFooterIndicator(nameOverride?: string): void {
   //text
   let str: string = Config.theme;
   if (randomTheme !== null) str = randomTheme;
-  if (Config.customTheme) str = "custom";
+  // if (Config.customTheme) str = "custom";
   if (nameOverride !== undefined && nameOverride !== "") str = nameOverride;
   str = str.replace(/_/g, " ");
   text.innerText = str;
 
   //fav icon
-  const isCustom = Config.customTheme;
+  // const isCustom = Config.customTheme;
   // hide the favorite icon completely for custom themes
-  if (isCustom) {
-    favIcon.style.display = "none";
-    return;
-  }
+  // if (isCustom) {
+  //   favIcon.style.display = "none";
+  //   return;
+  // }
   favIcon.style.display = "";
   const currentTheme = nameOverride ?? randomTheme ?? Config.theme;
   const isFavorite =
@@ -280,8 +275,6 @@ export async function clearPreview(applyTheme = true): Promise<void> {
     if (applyTheme) {
       if (randomTheme !== null) {
         await apply(randomTheme);
-      } else if (Config.customTheme) {
-        await apply("custom");
       } else {
         await apply(Config.theme);
       }
@@ -289,77 +282,73 @@ export async function clearPreview(applyTheme = true): Promise<void> {
   }
 }
 
-let themesList: (ThemeName | string)[] = [];
+// let themesList: (ThemeName | string)[] = [];
 
-async function changeThemeList(): Promise<void> {
-  const themes = ThemesList;
-  if (Config.randomTheme === "fav" && Config.favThemes.length > 0) {
-    themesList = Config.favThemes;
-  } else if (Config.randomTheme === "light") {
-    themesList = themes
-      .filter((t) => isColorLight(t.bgColor))
-      .map((t) => t.name);
-  } else if (Config.randomTheme === "dark") {
-    themesList = themes
-      .filter((t) => isColorDark(t.bgColor))
-      .map((t) => t.name);
-  } else if (Config.randomTheme === "on") {
-    themesList = themes.map((t) => {
-      return t.name;
-    });
-  } else if (Config.randomTheme === "custom" && DB.getSnapshot()) {
-    themesList = DB.getSnapshot()?.customThemes?.map((ct) => ct._id) ?? [];
-  }
-  Arrays.shuffle(themesList);
-  randomThemeIndex = 0;
-}
+// async function changeThemeList(): Promise<void> {
+//   const themes = ThemesList;
+//   if (Config.randomTheme === "fav" && Config.favThemes.length > 0) {
+//     themesList = Config.favThemes;
+//   } else if (Config.randomTheme === "light") {
+//     themesList = themes
+//       .filter((t) => isColorLight(t.bgColor))
+//       .map((t) => t.name);
+//   } else if (Config.randomTheme === "dark") {
+//     themesList = themes
+//       .filter((t) => isColorDark(t.bgColor))
+//       .map((t) => t.name);
+//   } else if (Config.randomTheme === "on") {
+//     themesList = themes.map((t) => {
+//       return t.name;
+//     });
+//   } else if (Config.randomTheme === "custom" && DB.getSnapshot()) {
+//     themesList = DB.getSnapshot()?.customThemes?.map((ct) => ct._id) ?? [];
+//   }
+//   Arrays.shuffle(themesList);
+//   randomThemeIndex = 0;
+// }
 
-export async function randomizeTheme(): Promise<void> {
-  if (themesList.length === 0) {
-    await changeThemeList();
-    if (themesList.length === 0) return;
-  }
-  randomTheme = themesList[randomThemeIndex] as string;
-  randomThemeIndex++;
+// export async function randomizeTheme(): Promise<void> {
+//   if (themesList.length === 0) {
+//     await changeThemeList();
+//     if (themesList.length === 0) return;
+//   }
+//   randomTheme = themesList[randomThemeIndex] as string;
+//   randomThemeIndex++;
 
-  if (randomThemeIndex >= themesList.length) {
-    Arrays.shuffle(themesList);
-    randomThemeIndex = 0;
-  }
+//   if (randomThemeIndex >= themesList.length) {
+//     Arrays.shuffle(themesList);
+//     randomThemeIndex = 0;
+//   }
 
-  let colorsOverride: string[] | undefined;
+//   let colorsOverride: string[] | undefined;
 
-  if (Config.randomTheme === "custom") {
-    const theme = DB.getSnapshot()?.customThemes?.find(
-      (ct) => ct._id === randomTheme
-    );
-    colorsOverride = theme?.colors;
-    randomTheme = "custom";
-  }
+//   if (Config.randomTheme === "custom") {
+//     const theme = DB.getSnapshot()?.customThemes?.find(
+//       (ct) => ct._id === randomTheme
+//     );
+//     colorsOverride = theme?.colors;
+//     randomTheme = "custom";
+//   }
 
-  setCustomTheme(false, true);
-  await apply(randomTheme, colorsOverride);
+//   // setCustomTheme(false, true);
+//   await apply(randomTheme, colorsOverride);
 
-  if (randomThemeIndex >= themesList.length) {
-    let name = randomTheme.replace(/_/g, " ");
-    if (Config.randomTheme === "custom") {
-      name = (
-        DB.getSnapshot()?.customThemes?.find((ct) => ct._id === randomTheme)
-          ?.name ?? "custom"
-      ).replace(/_/g, " ");
-    }
-    Notifications.add(name, 0);
-  }
-}
+//   if (randomThemeIndex >= themesList.length) {
+//     let name = randomTheme.replace(/_/g, " ");
+//     if (Config.randomTheme === "custom") {
+//       name = (
+//         DB.getSnapshot()?.customThemes?.find((ct) => ct._id === randomTheme)
+//           ?.name ?? "custom"
+//       ).replace(/_/g, " ");
+//     }
+//     Notifications.add(name, 0);
+//   }
+// }
 
 async function clearRandom(): Promise<void> {
   if (randomTheme === null) return;
   randomTheme = null;
-  if (Config.customTheme) {
-    await apply("custom");
-  } else {
-    await apply(Config.theme);
-  }
+  await apply(Config.theme);
 }
 
 // function applyCustomBackgroundSize(): void {
@@ -407,7 +396,7 @@ async function clearRandom(): Promise<void> {
 window
   .matchMedia?.("(prefers-color-scheme: dark)")
   ?.addEventListener?.("change", (event) => {
-    if (!Config.autoSwitchTheme || Config.customTheme) return;
+    if (!Config.autoSwitchTheme) return;
     if (event.matches) {
       void set(Config.themeDark, true);
     } else {
@@ -416,15 +405,15 @@ window
   });
 
 ConfigEvent.subscribe(async (eventKey, eventValue, nosave) => {
-  if (eventKey === "randomTheme") {
-    void changeThemeList();
-  }
-  if (eventKey === "customTheme") {
-    (eventValue as boolean) ? await set("custom") : await set(Config.theme);
-  }
-  if (eventKey === "customThemeColors") {
-    nosave ? preview("custom") : await set("custom");
-  }
+  // if (eventKey === "randomTheme") {
+  //   void changeThemeList();
+  // }
+  // if (eventKey === "customTheme") {
+  //   (eventValue as boolean) ? await set("custom") : await set(Config.theme);
+  // }
+  // if (eventKey === "customThemeColors") {
+  //   nosave ? preview("custom") : await set("custom");
+  // }
   if (eventKey === "theme") {
     await clearRandom();
     await clearPreview(false);
@@ -447,7 +436,7 @@ ConfigEvent.subscribe(async (eventKey, eventValue, nosave) => {
       }
     }
   }
-  if (eventKey === "randomTheme" && eventValue === "off") await clearRandom();
+  if (eventValue === "off") await clearRandom();
   // if (eventKey === "customBackground") applyCustomBackground();
   // if (eventKey === "customBackgroundSize") applyCustomBackgroundSize();
   if (eventKey === "autoSwitchTheme") {
@@ -481,8 +470,8 @@ ConfigEvent.subscribe(async (eventKey, eventValue, nosave) => {
   if (
     [
       "theme",
-      "customTheme",
-      "customThemeColors",
+      // "customTheme",
+      // "customThemeColors",
       "randomTheme",
       "favThemes",
     ].includes(eventKey)

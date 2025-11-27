@@ -4,7 +4,7 @@ import * as DB from "../db";
 import * as UpdateConfig from "../config";
 import * as Notifications from "../elements/notifications";
 import * as Settings from "../pages/settings";
-import * as ThemePicker from "../elements/settings/theme-picker";
+// import * as ThemePicker from "../elements/settings/theme-picker";
 import * as CustomText from "../test/custom-text";
 import * as AccountButton from "../elements/account-button";
 import { FirebaseError } from "firebase/app";
@@ -24,14 +24,14 @@ import {
   reloadAfter,
 } from "../utils/misc";
 import * as CustomTextState from "../states/custom-text-name";
-import * as ThemeController from "../controllers/theme-controller";
-import { CustomThemeColors } from "@monkeytype/contracts/schemas/configs";
+// import * as ThemeController from "../controllers/theme-controller";
+// import { CustomThemeColors } from "@monkeytype/contracts/schemas/configs";
 import * as AccountSettings from "../pages/account-settings";
 import {
   ExecReturn,
   PasswordInput,
   SimpleModal,
-  TextInput,
+  // TextInput,
 } from "../utils/simple-modal";
 import { ShowOptions } from "../utils/animated-modal";
 import { GenerateDataRequest } from "@monkeytype/contracts/dev";
@@ -58,8 +58,8 @@ type PopupKey =
   | "deleteCustomText"
   | "deleteCustomTextLong"
   | "resetProgressCustomTextLong"
-  | "updateCustomTheme"
-  | "deleteCustomTheme"
+  // | "updateCustomTheme"
+  // | "deleteCustomTheme"
   | "devGenerateData"
   | "lbGoToPage";
 
@@ -83,8 +83,8 @@ const list: Record<PopupKey, SimpleModal | undefined> = {
   deleteCustomText: undefined,
   deleteCustomTextLong: undefined,
   resetProgressCustomTextLong: undefined,
-  updateCustomTheme: undefined,
-  deleteCustomTheme: undefined,
+  // updateCustomTheme: undefined,
+  // deleteCustomTheme: undefined,
   devGenerateData: undefined,
   lbGoToPage: undefined,
 };
@@ -1089,103 +1089,103 @@ list.resetProgressCustomTextLong = new SimpleModal({
   },
 });
 
-list.updateCustomTheme = new SimpleModal({
-  id: "updateCustomTheme",
-  title: "Update custom theme",
-  inputs: [
-    {
-      type: "text",
-      placeholder: "name",
-      initVal: "",
-    },
-    {
-      type: "checkbox",
-      initVal: false,
-      label: "Update custom theme to current colors",
-      optional: true,
-    },
-  ],
-  buttonText: "update",
-  onlineOnly: true,
-  execFn: async (_thisPopup, name, updateColors): Promise<ExecReturn> => {
-    const snapshot = DB.getSnapshot();
-    if (!snapshot) {
-      return {
-        status: -1,
-        message: "Failed to update custom theme: no snapshot",
-      };
-    }
+// list.updateCustomTheme = new SimpleModal({
+//   id: "updateCustomTheme",
+//   title: "Update custom theme",
+//   inputs: [
+//     {
+//       type: "text",
+//       placeholder: "name",
+//       initVal: "",
+//     },
+//     {
+//       type: "checkbox",
+//       initVal: false,
+//       label: "Update custom theme to current colors",
+//       optional: true,
+//     },
+//   ],
+//   buttonText: "update",
+//   onlineOnly: true,
+//   execFn: async (_thisPopup, name, updateColors): Promise<ExecReturn> => {
+//     const snapshot = DB.getSnapshot();
+//     if (!snapshot) {
+//       return {
+//         status: -1,
+//         message: "Failed to update custom theme: no snapshot",
+//       };
+//     }
 
-    const customTheme = snapshot.customThemes?.find(
-      (t) => t._id === _thisPopup.parameters[0]
-    );
-    if (customTheme === undefined) {
-      return {
-        status: -1,
-        message: "Failed to update custom theme: theme not found",
-      };
-    }
+//     const customTheme = snapshot.customThemes?.find(
+//       (t) => t._id === _thisPopup.parameters[0]
+//     );
+//     if (customTheme === undefined) {
+//       return {
+//         status: -1,
+//         message: "Failed to update custom theme: theme not found",
+//       };
+//     }
 
-    let newColors: string[] = [];
-    if (updateColors === "true") {
-      for (const color of ThemeController.colorVars) {
-        newColors.push(
-          $(
-            `.pageSettings .customTheme .customThemeEdit #${color}[type='color']`
-          ).attr("value") as string
-        );
-      }
-    } else {
-      newColors = customTheme.colors;
-    }
+//     let newColors: string[] = [];
+//     if (updateColors === "true") {
+//       for (const color of ThemeController.colorVars) {
+//         newColors.push(
+//           $(
+//             `.pageSettings .customTheme .customThemeEdit #${color}[type='color']`
+//           ).attr("value") as string
+//         );
+//       }
+//     } else {
+//       newColors = customTheme.colors;
+//     }
 
-    const newTheme = {
-      name: name.replaceAll(" ", "_"),
-      colors: newColors as CustomThemeColors,
-    };
-    const validation = await DB.editCustomTheme(customTheme._id, newTheme);
-    if (!validation) {
-      return {
-        status: -1,
-        message: "Failed to update custom theme",
-      };
-    }
-    UpdateConfig.setCustomThemeColors(newColors as CustomThemeColors);
-    void ThemePicker.refreshCustomButtons();
+//     const newTheme = {
+//       name: name.replaceAll(" ", "_"),
+//       colors: newColors as CustomThemeColors,
+//     };
+//     const validation = await DB.editCustomTheme(customTheme._id, newTheme);
+//     if (!validation) {
+//       return {
+//         status: -1,
+//         message: "Failed to update custom theme",
+//       };
+//     }
+//     UpdateConfig.setCustomThemeColors(newColors as CustomThemeColors);
+//     void ThemePicker.refreshCustomButtons();
 
-    return {
-      status: 1,
-      message: "Custom theme updated",
-    };
-  },
-  beforeInitFn: (_thisPopup): void => {
-    const snapshot = DB.getSnapshot();
-    if (!snapshot) return;
+//     return {
+//       status: 1,
+//       message: "Custom theme updated",
+//     };
+//   },
+//   beforeInitFn: (_thisPopup): void => {
+//     const snapshot = DB.getSnapshot();
+//     if (!snapshot) return;
 
-    const customTheme = snapshot.customThemes?.find(
-      (t) => t._id === _thisPopup.parameters[0]
-    );
-    if (!customTheme) return;
-    (_thisPopup.inputs[0] as TextInput).initVal = customTheme.name;
-  },
-});
+//     const customTheme = snapshot.customThemes?.find(
+//       (t) => t._id === _thisPopup.parameters[0]
+//     );
+//     if (!customTheme) return;
+//     (_thisPopup.inputs[0] as TextInput).initVal = customTheme.name;
+//   },
+// });
 
-list.deleteCustomTheme = new SimpleModal({
-  id: "deleteCustomTheme",
-  title: "Delete custom theme",
-  text: "Are you sure?",
-  buttonText: "delete",
-  onlineOnly: true,
-  execFn: async (_thisPopup): Promise<ExecReturn> => {
-    await DB.deleteCustomTheme(_thisPopup.parameters[0] as string);
-    void ThemePicker.refreshCustomButtons();
+// list.deleteCustomTheme = new SimpleModal({
+//   id: "deleteCustomTheme",
+//   title: "Delete custom theme",
+//   text: "Are you sure?",
+//   buttonText: "delete",
+//   onlineOnly: true,
+//   execFn: async (_thisPopup): Promise<ExecReturn> => {
+//     // await DB.deleteCustomTheme(_thisPopup.parameters[0] as string);
+//     // void ThemePicker.refreshCustomButtons();
 
-    return {
-      status: 1,
-      message: "Custom theme deleted",
-    };
-  },
-});
+//     return {
+//       status: 1,
+//       message: "Custom theme deleted",
+//     };
+//   },
+// });
 
 list.devGenerateData = new SimpleModal({
   id: "devGenerateData",
@@ -1381,27 +1381,28 @@ $(".pageAccountSettings").on("click", "#optOutOfLeaderboardsButton", () => {
   showPopup("optOutOfLeaderboards");
 });
 
-$(".pageSettings").on(
-  "click",
-  ".section.themes .customTheme .delButton",
-  (e) => {
-    const $parentElement = $(e.currentTarget).parent(".customTheme.button");
-    const customThemeId = $parentElement.attr("customThemeId") as string;
-    showPopup("deleteCustomTheme", [customThemeId]);
-  }
-);
+// $(".pageSettings").on(
+//   "click",
+//   //.customTheme
+//   ".section.themes  .delButton",
+//   (e) => { //.customTheme
+//     const $parentElement = $(e.currentTarget).parent(".button");
+//     // const customThemeId = $parentElement.attr("customThemeId") as string;
+//     // showPopup("deleteCustomTheme", [customThemeId]);
+//   }
+// );
 
-$(".pageSettings").on(
-  "click",
-  ".section.themes .customTheme .editButton",
-  (e) => {
-    const $parentElement = $(e.currentTarget).parent(".customTheme.button");
-    const customThemeId = $parentElement.attr("customThemeId") as string;
-    showPopup("updateCustomTheme", [customThemeId], {
-      focusFirstInput: "focusAndSelect",
-    });
-  }
-);
+// $(".pageSettings").on(
+//   "click", //.customTheme
+//   ".section.themes  .editButton",
+//   (e) => { //.customTheme
+//     const $parentElement = $(e.currentTarget).parent(".button");
+//     // const customThemeId = $parentElement.attr("customThemeId") as string;
+//     // showPopup("updateCustomTheme", [customThemeId], {
+//     //   focusFirstInput: "focusAndSelect",
+//     // });
+//   }
+// );
 
 $(".pageSettings").on(
   "click",
