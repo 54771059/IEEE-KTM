@@ -65,18 +65,18 @@ export default s.router(usersContract, {
   deleteTagPersonalBest: {
     handler: async (r) => callController(UserController.clearTagPb)(r),
   },
-  getCustomThemes: {
-    handler: async (r) => callController(UserController.getCustomThemes)(r),
-  },
-  addCustomTheme: {
-    handler: async (r) => callController(UserController.addCustomTheme)(r),
-  },
-  deleteCustomTheme: {
-    handler: async (r) => callController(UserController.removeCustomTheme)(r),
-  },
-  editCustomTheme: {
-    handler: async (r) => callController(UserController.editCustomTheme)(r),
-  },
+  // getCustomThemes: {
+  //   handler: async (r) => callController(UserController.getCustomThemes)(r),
+  // },
+  // addCustomTheme: {
+  //   handler: async (r) => callController(UserController.addCustomTheme)(r),
+  // },
+  // deleteCustomTheme: {
+  //   handler: async (r) => callController(UserController.removeCustomTheme)(r),
+  // },
+  // editCustomTheme: {
+  //   handler: async (r) => callController(UserController.editCustomTheme)(r),
+  // },
   getDiscordOAuth: {
     handler: async (r) => callController(UserController.getOauthLink)(r),
   },

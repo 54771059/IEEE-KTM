@@ -68,7 +68,7 @@ async function submitContactForm(
     "select[name='contactType']"
   ) as HTMLSelectElement;
   const contactType =
-    select?.getSelected()[0]?.value || contactTypeSelect?.value || "";
+    select?.getSelected()[0] || contactTypeSelect?.value || "";
   const message = (formData.get("message") as string)?.trim() || "";
 
   // Validate all fields and show indicators

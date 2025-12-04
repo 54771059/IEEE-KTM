@@ -1,4 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable import/no-unresolved */
 import { MonkeyRequest } from "../types";
 import { MonkeyResponse } from "../../utils/monkey-response";
 import MonkeyError from "../../utils/error";
@@ -8,13 +12,18 @@ import {
 } from "@monkeytype/contracts/contact";
 import { Resend } from "resend";
 
-// Initialize Resend client
-const resendApiKey = process.env["RESEND_API_KEY"];
-// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-if (!resendApiKey || resendApiKey.trim() === "") {
-  throw new Error("RESEND_API_KEY is not set");
+// Resend client initialized lazily
+let resend: Resend | null = null;
+
+function getResendClient(): Resend {
+  if (resend) return resend;
+  const resendApiKey = process.env["RESEND_API_KEY"];
+  if (!resendApiKey || resendApiKey.trim() === "") {
+    throw new MonkeyError(500, "RESEND_API_KEY is not configured");
+  }
+  resend = new Resend(resendApiKey);
+  return resend;
 }
-const resend = new Resend(resendApiKey);
 
 export async function sendContactMessage(
   req: MonkeyRequest<undefined, SendContactRequest>
@@ -65,7 +74,7 @@ export async function sendContactMessage(
 `;
 
   try {
-    const sendResult = await resend.emails.send({
+    const sendResult = await getResendClient().emails.send({
       from: `IEEE Contact Form <${fromEmail}>`,
       to: receiverEmail,
       subject: `${subjectPrefix} New Contact Form Submission`,

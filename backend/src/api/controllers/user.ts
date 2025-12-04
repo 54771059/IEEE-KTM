@@ -43,8 +43,8 @@ import {
 import { addImportantLog, addLog, deleteUserLogs } from "../../dal/logs";
 import { sendForgotPasswordEmail as authSendForgotPasswordEmail } from "../../utils/auth";
 import {
-  AddCustomThemeRequest,
-  AddCustomThemeResponse,
+  // AddCustomThemeRequest,
+  // AddCustomThemeResponse,
   AddFavoriteQuoteRequest,
   AddResultFilterPresetRequest,
   AddResultFilterPresetResponse,
@@ -52,12 +52,12 @@ import {
   AddTagResponse,
   CheckNamePathParameters,
   CreateUserRequest,
-  DeleteCustomThemeRequest,
-  EditCustomThemeRequst,
+  // DeleteCustomThemeRequest,
+  // EditCustomThemeRequst,
   EditTagRequest,
   ForgotPasswordEmailRequest,
   GetCurrentTestActivityResponse,
-  GetCustomThemesResponse,
+  // GetCustomThemesResponse,
   GetDiscordOauthLinkResponse,
   GetFavoriteQuotesResponse,
   GetPersonalBestsQuery,
@@ -600,16 +600,16 @@ export async function getUser(req: MonkeyRequest): Promise<GetUserResponse> {
   const tags = (relevantUserInfo.tags ?? []).map((it) => replaceObjectId(it));
   delete relevantUserInfo.tags;
 
-  const customThemes = (relevantUserInfo.customThemes ?? []).map((it) =>
-    replaceObjectId(it)
-  );
-  delete relevantUserInfo.customThemes;
+  // const customThemes = (relevantUserInfo.customThemes ?? []).map((it) =>
+  //   replaceObjectId(it)
+  // );
+  // delete relevantUserInfo.customThemes;
 
   const userData: User = {
     ...relevantUserInfo,
     resultFilterPresets,
     tags,
-    customThemes,
+    customThemes: [],
     isPremium,
     allTimeLbs,
     testActivity,
@@ -808,45 +808,45 @@ export async function updateLbMemory(
   return new MonkeyResponse("Leaderboard memory updated", null);
 }
 
-export async function getCustomThemes(
-  req: MonkeyRequest
-): Promise<GetCustomThemesResponse> {
-  const { uid } = req.ctx.decodedToken;
-  const customThemes = await UserDAL.getThemes(uid);
-  return new MonkeyResponse(
-    "Custom themes retrieved",
-    replaceObjectIds(customThemes)
-  );
-}
+// export async function getCustomThemes(
+//   req: MonkeyRequest
+// ): Promise<GetCustomThemesResponse> {
+//   const { uid } = req.ctx.decodedToken;
+//   const customThemes = await UserDAL.getThemes(uid);
+//   return new MonkeyResponse(
+//     "Custom themes retrieved",
+//     replaceObjectIds(customThemes)
+//   );
+// }
 
-export async function addCustomTheme(
-  req: MonkeyRequest<undefined, AddCustomThemeRequest>
-): Promise<AddCustomThemeResponse> {
-  const { uid } = req.ctx.decodedToken;
-  const { name, colors } = req.body;
+// export async function addCustomTheme(
+//   req: MonkeyRequest<undefined, AddCustomThemeRequest>
+// ): Promise<AddCustomThemeResponse> {
+//   const { uid } = req.ctx.decodedToken;
+//   const { name, colors } = req.body;
 
-  const addedTheme = await UserDAL.addTheme(uid, { name, colors });
-  return new MonkeyResponse("Custom theme added", replaceObjectId(addedTheme));
-}
+//   const addedTheme = await UserDAL.addTheme(uid, { name, colors });
+//   return new MonkeyResponse("Custom theme added", replaceObjectId(addedTheme));
+// }
 
-export async function removeCustomTheme(
-  req: MonkeyRequest<undefined, DeleteCustomThemeRequest>
-): Promise<MonkeyResponse> {
-  const { uid } = req.ctx.decodedToken;
-  const { themeId } = req.body;
-  await UserDAL.removeTheme(uid, themeId);
-  return new MonkeyResponse("Custom theme removed", null);
-}
+// export async function removeCustomTheme(
+//   req: MonkeyRequest<undefined, DeleteCustomThemeRequest>
+// ): Promise<MonkeyResponse> {
+//   const { uid } = req.ctx.decodedToken;
+//   const { themeId } = req.body;
+//   await UserDAL.removeTheme(uid, themeId);
+//   return new MonkeyResponse("Custom theme removed", null);
+// }
 
-export async function editCustomTheme(
-  req: MonkeyRequest<undefined, EditCustomThemeRequst>
-): Promise<MonkeyResponse> {
-  const { uid } = req.ctx.decodedToken;
-  const { themeId, theme } = req.body;
+// export async function editCustomTheme(
+//   req: MonkeyRequest<undefined, EditCustomThemeRequst>
+// ): Promise<MonkeyResponse> {
+//   const { uid } = req.ctx.decodedToken;
+//   const { themeId, theme } = req.body;
 
-  await UserDAL.editTheme(uid, themeId, theme);
-  return new MonkeyResponse("Custom theme updated", null);
-}
+//   await UserDAL.editTheme(uid, themeId, theme);
+//   return new MonkeyResponse("Custom theme updated", null);
+// }
 
 export async function getPersonalBests(
   req: MonkeyRequest<GetPersonalBestsQuery>
